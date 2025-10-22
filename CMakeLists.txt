@@ -307,7 +307,7 @@ ENDIF()
 
 
 
-
+message(STATUS "osg...UNIX=${UNIX};;ANDROID=${ANDROID}")
 
 IF(UNIX AND NOT ANDROID)
     # Not sure what this will do on Cygwin and Msys
@@ -771,6 +771,8 @@ IF(ANDROID AND OSG_FIND_3RD_PARTY_DEPS)
 ELSE()
 # Common to all platforms except android:
     FIND_PACKAGE(Freetype)
+    message(STATUS "og...01.FREETYPE_FOUND=${FREETYPE_FOUND};;Freetype_FOUND=${Freetype_FOUND}")
+    set(FREETYPE_FOUND ${Freetype_FOUND})
     FIND_PACKAGE(ilmbase)
     FIND_PACKAGE(Inventor)
     FIND_PACKAGE(Jasper)

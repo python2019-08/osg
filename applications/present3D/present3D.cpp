@@ -321,6 +321,9 @@ int main( int argc, char **argv )
         osgDB::readRefImageFile("devices.live");
         return 1;
     }
+	
+	
+    osgDB::readRefImageFile("/home/abner/abner2/zdev/nv/osgearth0x/data/osgdata340/Images/blueFlowers.png");// abner-added
 
     bool suppress_env_tags = false;
     if (arguments.read("--suppressEnvTags"))

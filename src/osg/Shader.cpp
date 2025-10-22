@@ -690,7 +690,7 @@ void Shader::PerContextShader::compileShader(osg::State& state)
                     versionLine = source.substr(start_of_line, end_of_line-start_of_line+1);
                     if (versionLine[versionLine.size()-1]!='\n') versionLine.push_back('\n');
 
-                    source.insert(start_of_line, "// following version spec has been automatically reassigned to start of source list: ");
+                    // source.insert(start_of_line, "// following version spec has been automatically reassigned to start of source list: \n");
 
                     break;
                 }
@@ -718,6 +718,15 @@ void Shader::PerContextShader::compileShader(osg::State& state)
             sourceText[0] = reinterpret_cast<const GLchar*>(versionLine.c_str());
             sourceText[1] = reinterpret_cast<const GLchar*>(_defineStr.c_str());
             sourceText[2] = reinterpret_cast<const GLchar*>(source.c_str());
+
+            std::string::size_type nFind_start=source.find("#version");
+            std::string::size_type nFind_end=source.find("\n",nFind_start);
+            int versionStrLen=(int)(nFind_end -nFind_start+1);
+            if (nFind_start != std::string::npos && (versionStrLen > 0) && (versionStrLen <32) )
+            {
+                source.replace(nFind_start, versionStrLen, versionStrLen, '\x20');
+            }
+
             _extensions->glShaderSource( _glShaderHandle, 3, sourceText, NULL );
 
             if (osg::getNotifyLevel()>=osg::INFO)
