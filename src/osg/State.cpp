@@ -1582,7 +1582,7 @@ bool State::convertVertexShaderSourceToOsgBuiltIns(std::string& source) const
 
     if ( extPos != std::string::npos )
     {
-        State_Utils::replaceAndInsertDeclaration(source, declPos, "precision highp float;", " ", "precision highp float;\n", "precision highp int;\n");
+        State_Utils::replaceAndInsertDeclaration(source, declPos, "precision highp float;", " ", "precision highp float;\n", "precision highp int");
 
     }
 
