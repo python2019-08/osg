@@ -32,7 +32,9 @@ class RefBlock : virtual public osg::Referenced, public OpenThreads::Block
     public:
 
         RefBlock():
-            osg::Referenced(true) {}
+            osg::Referenced(true) {
+
+        }
 
 };
 
@@ -42,7 +44,9 @@ class RefBlockCount : virtual public osg::Referenced, public OpenThreads::BlockC
 
         RefBlockCount(unsigned blockCount):
             osg::Referenced(true),
-            OpenThreads::BlockCount(blockCount) {}
+            OpenThreads::BlockCount(blockCount) {
+
+        }
 
 };
 
@@ -53,23 +57,34 @@ class Operation : virtual public Referenced
 
         Operation(const std::string& name, bool keep):
             _name(name),
-            _keep(keep) {}
+            _keep(keep) {
+        }
 
 
         /** Set the human readable name of the operation.*/
-        void setName(const std::string& name) { _name = name; }
+        void setName(const std::string& name) { 
+            _name = name; 
+        }
 
         /** Get the human readable name of the operation.*/
-        const std::string& getName() const { return _name; }
+        const std::string& getName() const { 
+            return _name; 
+        }
 
         /** Set whether the operation should be kept once its been applied.*/
-        void setKeep(bool keep) { _keep = keep; }
+        void setKeep(bool keep) { 
+            _keep = keep; 
+        }
 
         /** Get whether the operation should be kept once its been applied.*/
-        bool getKeep() const { return _keep; }
+        bool getKeep() const { 
+            return _keep; 
+        }
 
         /** if this operation is a barrier then release it.*/
-        virtual void release() {}
+        virtual void release() {
+
+        }
 
         /** Do the actual task of this operation.*/
         virtual void operator () (Object*) = 0;
@@ -77,9 +92,11 @@ class Operation : virtual public Referenced
 protected:
 
         Operation():
-            _keep(false) {}
+            _keep(false) {
+        }
 
-        virtual ~Operation() {}
+        virtual ~Operation() {
+        }
 
         std::string _name;
         bool        _keep;
@@ -128,7 +145,9 @@ class OSG_EXPORT OperationQueue : public Referenced
         typedef std::set<OperationThread*> OperationThreads;
 
         /** Get the set of OperationThreads that are sharing this OperationQueue. */
-        const OperationThreads& getOperationThreads() const { return _operationThreads; }
+        const OperationThreads& getOperationThreads() const { 
+            return _operationThreads; 
+        }
 
     protected:
 
@@ -155,21 +174,31 @@ class OSG_EXPORT OperationThread : public Referenced, public OpenThreads::Thread
     public:
         OperationThread();
 
-        void setParent(Object* parent) { _parent = parent; }
+        void setParent(Object* parent) { 
+            _parent = parent; 
+        }
 
-        Object* getParent() { return _parent.get(); }
+        Object* getParent() { 
+            return _parent.get(); 
+        }
 
-        const Object* getParent() const { return _parent.get(); }
+        const Object* getParent() const { 
+            return _parent.get(); 
+        }
 
 
         /** Set the OperationQueue. */
         void setOperationQueue(OperationQueue* opq);
 
         /** Get the OperationQueue. */
-        OperationQueue* getOperationQueue() { return _operationQueue.get(); }
+        OperationQueue* getOperationQueue() { 
+            return _operationQueue.get(); 
+        }
 
         /** Get the const OperationQueue. */
-        const OperationQueue* getOperationQueue() const { return _operationQueue.get(); }
+        const OperationQueue* getOperationQueue() const { 
+            return _operationQueue.get(); 
+        }
 
 
         /** Add operation to end of OperationQueue, this will be
@@ -187,14 +216,18 @@ class OSG_EXPORT OperationThread : public Referenced, public OpenThreads::Thread
 
 
         /** Get the operation currently being run.*/
-        osg::ref_ptr<Operation> getCurrentOperation() { return _currentOperation; }
+        osg::ref_ptr<Operation> getCurrentOperation() { 
+            return _currentOperation; 
+        }
 
         /** Run does the opertion thread run loop.*/
         virtual void run();
 
         void setDone(bool done);
 
-        bool getDone() const { return _done!=0; }
+        bool getDone() const { 
+            return _done!=0; 
+        }
 
         /** Cancel this graphics thread.*/
         virtual int cancel();

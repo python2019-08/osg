@@ -55,14 +55,24 @@ using namespace osg;
 using namespace osgDB;
 
 #if !defined(_WIN32) || defined(__CYGWIN__)
-static osg::ApplicationUsageProxy Registry_e0(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,"OSG_FILE_PATH <path>[:path]..","Paths for locating datafiles");
-static osg::ApplicationUsageProxy Registry_e1(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,"OSG_LIBRARY_PATH <path>[:path]..","Paths for locating libraries/ plugins");
+static osg::ApplicationUsageProxy Registry_e0(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,
+                            "OSG_FILE_PATH <path>[:path]..",
+                            "Paths for locating datafiles");
+static osg::ApplicationUsageProxy Registry_e1(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,
+                            "OSG_LIBRARY_PATH <path>[:path]..",
+                            "Paths for locating libraries/ plugins");
 #else
-static osg::ApplicationUsageProxy Registry_e0(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,"OSG_FILE_PATH <path>[;path]..","Paths for locating datafiles");
-static osg::ApplicationUsageProxy Registry_e1(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,"OSG_LIBRARY_PATH <path>[;path]..","Paths for locating libraries/ plugins");
+static osg::ApplicationUsageProxy Registry_e0(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,
+                            "OSG_FILE_PATH <path>[;path]..",
+                            "Paths for locating datafiles");
+static osg::ApplicationUsageProxy Registry_e1(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,
+                            "OSG_LIBRARY_PATH <path>[;path]..",
+                            "Paths for locating libraries/ plugins");
 #endif
 
-static osg::ApplicationUsageProxy Registry_e2(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,"OSG_BUILD_KDTREES on/off","Enable/disable the automatic building of KdTrees for each loaded Geometry.");
+static osg::ApplicationUsageProxy Registry_e2(osg::ApplicationUsage::ENVIRONMENTAL_VARIABLE,
+                            "OSG_BUILD_KDTREES on/off",
+                            "Enable/disable the automatic building of KdTrees for each loaded Geometry.");
 
 
 // from MimeTypes.cpp
@@ -72,15 +82,22 @@ extern const char* builtinMimeTypeExtMappings[];
 class Registry::AvailableReaderWriterIterator
 {
 public:
-    AvailableReaderWriterIterator(Registry::ReaderWriterList& rwList, OpenThreads::ReentrantMutex& pluginMutex):
+    AvailableReaderWriterIterator(Registry::ReaderWriterList& rwList, 
+                                OpenThreads::ReentrantMutex& pluginMutex):
         _rwList(rwList),
         _pluginMutex(pluginMutex) {}
 
 
-    ReaderWriter& operator * () { return *get(); }
-    ReaderWriter* operator -> () { return get(); }
+    ReaderWriter& operator * () { 
+        return *get(); 
+    }
+    ReaderWriter* operator -> () { 
+        return get(); 
+    }
 
-    bool valid() { return get()!=0; }
+    bool valid() { 
+        return get()!=0; 
+    }
 
     void operator ++()
     {
@@ -116,15 +133,25 @@ protected:
 class Registry::AvailableArchiveIterator
 {
 public:
-    AvailableArchiveIterator(Registry::ArchiveCache& archives, OpenThreads::ReentrantMutex& mutex):
+    AvailableArchiveIterator(Registry::ArchiveCache& archives, 
+                            OpenThreads::ReentrantMutex& mutex):
         _archives(archives),
-        _mutex(mutex) {}
+        _mutex(mutex) 
+    {
+
+    }
 
 
-    Archive& operator * () { return *get(); }
-    Archive* operator -> () { return get(); }
+    Archive& operator * () { 
+        return *get(); 
+    }
+    Archive* operator -> () { 
+        return get(); 
+    }
 
-    bool valid() { return get()!=0; }
+    bool valid() { 
+        return get()!=0; 
+    }
 
     void operator ++()
     {
@@ -231,8 +258,10 @@ Registry::Registry()
     if (kdtree_str)
     {
         bool switchOff = (strcmp(kdtree_str, "off")==0 || strcmp(kdtree_str, "OFF")==0 || strcmp(kdtree_str, "Off")==0 );
-        if (switchOff) _buildKdTreesHint = Options::DO_NOT_BUILD_KDTREES;
-        else _buildKdTreesHint = Options::BUILD_KDTREES;
+        if (switchOff) 
+            _buildKdTreesHint = Options::DO_NOT_BUILD_KDTREES;
+        else 
+            _buildKdTreesHint = Options::BUILD_KDTREES;
     }
 
     const char* ptr=0;
@@ -546,7 +575,11 @@ void Registry::setDataFilePathList(const std::string& paths)
     convertStringPathIntoFilePathList(paths,_dataFilePath);
 }
 
-void Registry::setLibraryFilePathList(const std::string& paths) { _libraryFilePath.clear(); convertStringPathIntoFilePathList(paths,_libraryFilePath); }
+void Registry::setLibraryFilePathList(const std::string& paths) 
+{ 
+    _libraryFilePath.clear(); 
+    convertStringPathIntoFilePathList(paths,_libraryFilePath); 
+}
 
 
 
@@ -608,7 +641,8 @@ void Registry::readCommandLine(osg::ArgumentParser& arguments)
 
 void Registry::addReaderWriter(ReaderWriter* rw)
 {
-    if (rw==0L) return;
+    if (rw==0L) 
+        return;
 
     // OSG_NOTIFY(INFO) << "osg::Registry::addReaderWriter("<<rw->className()<<")"<< std::endl;
 
@@ -621,7 +655,8 @@ void Registry::addReaderWriter(ReaderWriter* rw)
 
 void Registry::removeReaderWriter(ReaderWriter* rw)
 {
-    if (rw==0L) return;
+    if (rw==0L) 
+        return;
 
 //    OSG_NOTIFY(INFO) << "osg::Registry::removeReaderWriter();"<< std::endl;
 
@@ -673,7 +708,8 @@ ImageProcessor* Registry::getImageProcessorForExtension(const std::string& ext)
 
 void Registry::addImageProcessor(ImageProcessor* ip)
 {
-    if (ip==0L) return;
+    if (ip==0L) 
+        return;
 
     OSG_NOTIFY(NOTICE) << "osg::Registry::addImageProcessor("<<ip->className()<<")"<< std::endl;
 
@@ -686,7 +722,8 @@ void Registry::addImageProcessor(ImageProcessor* ip)
 
 void Registry::removeImageProcessor(ImageProcessor* ip)
 {
-    if (ip==0L) return;
+    if (ip==0L) 
+        return;
 
     OSG_NOTIFY(NOTICE) << "osg::Registry::removeImageProcessor();"<< std::endl;
 
@@ -735,8 +772,10 @@ bool Registry::readPluginAliasConfigurationFile( const std::string& file )
         ++lineNum;
         std::getline( ifs, raw );
         std::string ln = trim( raw );
-        if (ln.empty()) continue;
-        if (ln[0] == '#') continue;
+        if (ln.empty()) 
+            continue;
+        if (ln[0] == '#') 
+            continue;
 
         std::string::size_type spIdx = ln.find_first_of( " \t" );
         if (spIdx == ln.npos)
@@ -755,10 +794,12 @@ bool Registry::readPluginAliasConfigurationFile( const std::string& file )
 
 std::string Registry::trim( const std::string& str )
 {
-    if (!str.size()) return str;
+    if (!str.size()) 
+        return str;
     std::string::size_type first = str.find_first_not_of( " \t" );
     std::string::size_type last = str.find_last_not_of( "  \t\r\n" );
-    if ((first==str.npos) || (last==str.npos)) return std::string( "" );
+    if ((first==str.npos) || (last==str.npos)) 
+        return std::string( "" );
     return str.substr( first, last-first+1 );
 }
 
@@ -779,7 +820,8 @@ std::string Registry::createLibraryNameForExtension(const std::string& ext)
     }
 
     ExtensionAliasMap::iterator itr=_extAliasMap.find(lowercase_ext);
-    if (itr!=_extAliasMap.end() && ext != itr->second) return createLibraryNameForExtension(itr->second);
+    if (itr!=_extAliasMap.end() && ext != itr->second) 
+        return createLibraryNameForExtension(itr->second);
 
     std::string prepend = std::string("osgPlugins-")+std::string(osgGetVersion())+std::string("/");
 
@@ -817,7 +859,8 @@ Registry::LoadStatus Registry::loadLibrary(const std::string& fileName)
     OpenThreads::ScopedLock<OpenThreads::ReentrantMutex> lock(_pluginMutex);
 
     DynamicLibraryList::iterator ditr = getLibraryItr(fileName);
-    if (ditr!=_dlList.end()) return PREVIOUSLY_LOADED;
+    if (ditr!=_dlList.end()) 
+        return PREVIOUSLY_LOADED;
 
     _openingLibrary=true;
 
@@ -857,7 +900,8 @@ Registry::DynamicLibraryList::iterator Registry::getLibraryItr(const std::string
     DynamicLibraryList::iterator ditr = _dlList.begin();
     for(;ditr!=_dlList.end();++ditr)
     {
-        if ((*ditr)->getName()==fileName) return ditr;
+        if ((*ditr)->getName()==fileName) 
+            return ditr;
     }
     return _dlList.end();
 }
@@ -866,8 +910,10 @@ DynamicLibrary* Registry::getLibrary(const std::string& fileName)
 {
     OpenThreads::ScopedLock<OpenThreads::ReentrantMutex> lock(_pluginMutex);
     DynamicLibraryList::iterator ditr = getLibraryItr(fileName);
-    if (ditr!=_dlList.end()) return ditr->get();
-    else return NULL;
+    if (ditr!=_dlList.end()) 
+        return ditr->get();
+    else 
+        return NULL;
 }
 
 ReaderWriter* Registry::getReaderWriterForExtension(const std::string& ext)
@@ -883,7 +929,8 @@ ReaderWriter* Registry::getReaderWriterForExtension(const std::string& ext)
         ++itr)
     {
         rwOriginal.insert(itr->get());
-        if((*itr)->acceptsExtension(ext)) return (*itr).get();
+        if((*itr)->acceptsExtension(ext)) 
+            return (*itr).get();
     }
 
     // now look for a plug-in to load the file.
@@ -897,7 +944,8 @@ ReaderWriter* Registry::getReaderWriterForExtension(const std::string& ext)
         {
             if (rwOriginal.find(itr->get())==rwOriginal.end())
             {
-                if((*itr)->acceptsExtension(ext)) return (*itr).get();
+                if((*itr)->acceptsExtension(ext)) 
+                    return (*itr).get();
             }
         }
     }
@@ -933,83 +981,149 @@ struct Registry::ReadObjectFunctor : public Registry::ReadFunctor
 {
     ReadObjectFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { return rw.readObject(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validObject(); }
-    virtual bool isValid(osg::Object* object) const { return object!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { 
+        return rw.readObject(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validObject(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return object!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadObjectFunctor(filename, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadObjectFunctor(filename, options); 
+    }
 };
 
 struct Registry::ReadImageFunctor : public Registry::ReadFunctor
 {
     ReadImageFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { return rw.readImage(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validImage(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osg::Image*>(object)!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { 
+        return rw.readImage(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validImage(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osg::Image*>(object)!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadImageFunctor(filename, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadImageFunctor(filename, options); 
+    }
 };
 
 struct Registry::ReadHeightFieldFunctor : public Registry::ReadFunctor
 {
     ReadHeightFieldFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { return rw.readHeightField(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validHeightField(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osg::HeightField*>(object)!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { 
+        return rw.readHeightField(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validHeightField(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osg::HeightField*>(object)!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadHeightFieldFunctor(filename, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadHeightFieldFunctor(filename, options); 
+    }
 };
 
 struct Registry::ReadNodeFunctor : public Registry::ReadFunctor
 {
     ReadNodeFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { return rw.readNode(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validNode(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osg::Node*>(object)!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { 
+        return rw.readNode(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validNode(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osg::Node*>(object)!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadNodeFunctor(filename, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadNodeFunctor(filename, options); 
+    }
 };
 
 struct Registry::ReadArchiveFunctor : public Registry::ReadFunctor
 {
-    ReadArchiveFunctor(const std::string& filename, ReaderWriter::ArchiveStatus status, unsigned int indexBlockSizeHint, const Options* options):
+    ReadArchiveFunctor(const std::string& filename, 
+        ReaderWriter::ArchiveStatus status, 
+        unsigned int indexBlockSizeHint, 
+        const Options* options):
         ReadFunctor(filename,options),
         _status(status),
-        _indexBlockSizeHint(indexBlockSizeHint) {}
+        _indexBlockSizeHint(indexBlockSizeHint) 
+    {
+
+    }
 
     ReaderWriter::ArchiveStatus _status;
     unsigned int _indexBlockSizeHint;
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { return rw.openArchive(_filename, _status, _indexBlockSizeHint, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validArchive(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osgDB::Archive*>(object)!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw) const { 
+        return rw.openArchive(_filename, _status, _indexBlockSizeHint, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validArchive(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osgDB::Archive*>(object)!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadArchiveFunctor(filename, _status, _indexBlockSizeHint, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadArchiveFunctor(filename, _status, _indexBlockSizeHint, options); 
+    }
 };
 
 struct Registry::ReadShaderFunctor : public Registry::ReadFunctor
 {
     ReadShaderFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { return rw.readShader(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validShader(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osg::Shader*>(object)!=0;  }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { 
+        return rw.readShader(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validShader(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osg::Shader*>(object)!=0;  
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadShaderFunctor(filename, options); }
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadShaderFunctor(filename, options); 
+    }
 };
 
 struct Registry::ReadScriptFunctor : public Registry::ReadFunctor
 {
-    ReadScriptFunctor(const std::string& filename, const Options* options):ReadFunctor(filename,options) {}
+    ReadScriptFunctor(const std::string& filename, const Options* options)
+    :ReadFunctor(filename,options) 
+    {
 
-    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { return rw.readScript(_filename, _options); }
-    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { return readResult.validScript(); }
-    virtual bool isValid(osg::Object* object) const { return dynamic_cast<osg::Script*>(object)!=0;  }
+    }
 
-    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { return new ReadScriptFunctor(filename, options); }
+    virtual ReaderWriter::ReadResult doRead(ReaderWriter& rw)const  { 
+        return rw.readScript(_filename, _options); 
+    }
+    virtual bool isValid(ReaderWriter::ReadResult& readResult) const { 
+        return readResult.validScript(); 
+    }
+    virtual bool isValid(osg::Object* object) const { 
+        return dynamic_cast<osg::Script*>(object)!=0;  
+    }
+
+    virtual ReadFunctor* cloneType(const std::string& filename, const Options* options) const { 
+        return new ReadScriptFunctor(filename, options); 
+    }
 };
 
 
@@ -1025,12 +1139,16 @@ void Registry::addArchiveExtension(const std::string ext)
     _archiveExtList.push_back(ext);
 }
 
-std::string Registry::findDataFileImplementation(const std::string& filename, const Options* options, CaseSensitivity caseSensitivity)
+std::string Registry::findDataFileImplementation(const std::string& filename, 
+    const Options* options, 
+    CaseSensitivity caseSensitivity)
 {
-    if (filename.empty()) return filename;
+    if (filename.empty()) 
+        return filename;
 
     // if data file contains a server address then we can't find it in local directories so return empty string.
-    if (containsServerAddress(filename)) return std::string();
+    if (containsServerAddress(filename)) 
+        return std::string();
 
     bool absolutePath = osgDB::isAbsolutePath(filename);
 
@@ -1046,7 +1164,8 @@ std::string Registry::findDataFileImplementation(const std::string& filename, co
     if (options && !options->getDatabasePathList().empty())
     {
         fileFound = findFileInPath(filename, options->getDatabasePathList(), caseSensitivity);
-        if (!fileFound.empty()) return fileFound;
+        if (!fileFound.empty()) 
+            return fileFound;
 
         if (osgDB::containsCurrentWorkingDirectoryReference(options->getDatabasePathList()))
         {
@@ -1059,7 +1178,8 @@ std::string Registry::findDataFileImplementation(const std::string& filename, co
     if (!filepaths.empty())
     {
         fileFound = findFileInPath(filename, filepaths, caseSensitivity);
-        if (!fileFound.empty()) return fileFound;
+        if (!fileFound.empty()) 
+            return fileFound;
 
         if (!pathsContainsCurrentWorkingDirectory && osgDB::containsCurrentWorkingDirectoryReference(filepaths))
         {
@@ -1091,13 +1211,15 @@ std::string Registry::findDataFileImplementation(const std::string& filename, co
         if (options && !options->getDatabasePathList().empty())
         {
             fileFound = findFileInPath(simpleFileName, options->getDatabasePathList(), caseSensitivity);
-            if (!fileFound.empty()) return fileFound;
+            if (!fileFound.empty()) 
+                return fileFound;
         }
 
         if (!filepaths.empty())
         {
             fileFound = findFileInPath(simpleFileName, filepaths,caseSensitivity);
-            if (!fileFound.empty()) return fileFound;
+            if (!fileFound.empty()) 
+                return fileFound;
         }
 
     }
@@ -1106,7 +1228,9 @@ std::string Registry::findDataFileImplementation(const std::string& filename, co
     return std::string();
 }
 
-std::string Registry::findLibraryFileImplementation(const std::string& filename, const Options* /*options*/, CaseSensitivity caseSensitivity)
+std::string Registry::findLibraryFileImplementation(const std::string& filename, 
+    const Options* /*options*/, 
+    CaseSensitivity caseSensitivity)
 {
     if (filename.empty())
         return filename;
@@ -1129,7 +1253,8 @@ std::string Registry::findLibraryFileImplementation(const std::string& filename,
     if (simpleFileName!=filename)
     {
         fileFound = findFileInPath(simpleFileName, filepath,caseSensitivity);
-        if (!fileFound.empty()) return fileFound;
+        if (!fileFound.empty()) 
+            return fileFound;
     }
 
     // failed return empty string.
@@ -1159,7 +1284,8 @@ ReaderWriter::ReadResult Registry::read(const ReadFunctor& readFunctor)
 
             ReaderWriter::ReadResult result = openArchiveImplementation(archiveName,ReaderWriter::READ, 4096, readFunctor._options);
 
-            if (!result.validArchive()) return result;
+            if (!result.validArchive()) 
+                return result;
 
             osgDB::Archive* archive = result.getArchive();
 
@@ -1193,8 +1319,10 @@ ReaderWriter::ReadResult Registry::read(const ReadFunctor& readFunctor)
     for(;itr.valid();++itr)
     {
         ReaderWriter::ReadResult rr = readFunctor.doRead(*itr);
-        if (readFunctor.isValid(rr)) return rr;
-        else results.push_back(rr);
+        if (readFunctor.isValid(rr)) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // check loaded archives.
@@ -1202,12 +1330,14 @@ ReaderWriter::ReadResult Registry::read(const ReadFunctor& readFunctor)
     for(;aaitr.valid();++aaitr)
     {
         ReaderWriter::ReadResult rr = readFunctor.doRead(*aaitr);
-        if (readFunctor.isValid(rr)) return rr;
+        if (readFunctor.isValid(rr)) 
+            return rr;
         else
         {
             // don't pass on FILE_NOT_FOUND results as we don't want to prevent non archive plugins that haven't been
             // loaded yet from getting a chance to test for the presence of the file.
-            if (rr.status()!=ReaderWriter::ReadResult::FILE_NOT_FOUND) results.push_back(rr);
+            if (rr.status()!=ReaderWriter::ReadResult::FILE_NOT_FOUND) 
+                results.push_back(rr);
         }
     }
 
@@ -1218,8 +1348,10 @@ ReaderWriter::ReadResult Registry::read(const ReadFunctor& readFunctor)
         for(;itr.valid();++itr)
         {
             ReaderWriter::ReadResult rr = readFunctor.doRead(*itr);
-            if (readFunctor.isValid(rr)) return rr;
-            else results.push_back(rr);
+            if (readFunctor.isValid(rr)) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1273,12 +1405,15 @@ ReaderWriter::ReadResult Registry::readImplementation(const ReadFunctor& readFun
         // search for entry in the object cache.
         osg::ref_ptr<osg::Object> object = optionsCache ? optionsCache->getRefFromObjectCache(file, options) : 0;
 
-        if (!object && _objectCache.valid()) object = _objectCache->getRefFromObjectCache(file, options);
+        if (!object && _objectCache.valid()) 
+            object = _objectCache->getRefFromObjectCache(file, options);
 
         if (object.valid())
         {
-            if (readFunctor.isValid(object.get())) return ReaderWriter::ReadResult(object.get(), ReaderWriter::ReadResult::FILE_LOADED_FROM_CACHE);
-            else return ReaderWriter::ReadResult("Error file does not contain an osg::Object");
+            if (readFunctor.isValid(object.get())) 
+                return ReaderWriter::ReadResult(object.get(), ReaderWriter::ReadResult::FILE_LOADED_FROM_CACHE);
+            else 
+                return ReaderWriter::ReadResult("Error file does not contain an osg::Object");
         }
 
         ReaderWriter::ReadResult rr = read(readFunctor);
@@ -1288,7 +1423,8 @@ ReaderWriter::ReadResult Registry::readImplementation(const ReadFunctor& readFun
             object = _objectCache->getRefFromObjectCache(file, options);
             if (object.valid())
             {
-                if (readFunctor.isValid(object.get())) return ReaderWriter::ReadResult(object.get(), ReaderWriter::ReadResult::FILE_LOADED_FROM_CACHE);
+                if (readFunctor.isValid(object.get())) 
+                    return ReaderWriter::ReadResult(object.get(), ReaderWriter::ReadResult::FILE_LOADED_FROM_CACHE);
                 else
                 {
                     return ReaderWriter::ReadResult("Error file does not contain an osg::Object");
@@ -1296,8 +1432,10 @@ ReaderWriter::ReadResult Registry::readImplementation(const ReadFunctor& readFun
             }
 
             // update cache with new entry.
-            if (optionsCache) optionsCache->addEntryToObjectCache(file, rr.getObject(), 0.0, options);
-            else if (_objectCache.valid()) _objectCache->addEntryToObjectCache(file, rr.getObject(), 0.0, options);
+            if (optionsCache) 
+                optionsCache->addEntryToObjectCache(file, rr.getObject(), 0.0, options);
+            else if (_objectCache.valid()) 
+                _objectCache->addEntryToObjectCache(file, rr.getObject(), 0.0, options);
         }
         else
         {
@@ -1315,10 +1453,14 @@ ReaderWriter::ReadResult Registry::readImplementation(const ReadFunctor& readFun
 }
 
 
-ReaderWriter::ReadResult Registry::openArchiveImplementation(const std::string& fileName, ReaderWriter::ArchiveStatus status, unsigned int indexBlockSizeHint, const Options* options)
+ReaderWriter::ReadResult Registry::openArchiveImplementation(const std::string& fileName, 
+        ReaderWriter::ArchiveStatus status, 
+        unsigned int indexBlockSizeHint, 
+        const Options* options)
 {
     osg::ref_ptr<osgDB::Archive> archive = getRefFromArchiveCache(fileName);
-    if (archive.valid()) return archive.get();
+    if (archive.valid()) 
+        return archive.get();
 
     ReaderWriter::ReadResult result = readImplementation(ReadArchiveFunctor(fileName, status, indexBlockSizeHint, options),Options::CACHE_ARCHIVES);
 
@@ -1349,8 +1491,10 @@ ReaderWriter::WriteResult Registry::writeObjectImplementation(const Object& obj,
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeObject(obj,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // now look for a plug-in to save the file.
@@ -1360,8 +1504,10 @@ ReaderWriter::WriteResult Registry::writeObjectImplementation(const Object& obj,
         for(;itr.valid();++itr)
         {
             ReaderWriter::WriteResult rr = itr->writeObject(obj,fileName,options);
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1384,7 +1530,9 @@ ReaderWriter::ReadResult Registry::readImageImplementation(const std::string& fi
     return readImplementation(ReadImageFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
-ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,const std::string& fileName,const Options* options)
+ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,
+        const std::string& fileName,
+        const Options* options)
 {
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
@@ -1395,8 +1543,10 @@ ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeImage(image,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // now look for a plug-in to save the file.
@@ -1406,8 +1556,10 @@ ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,
         for(;itr.valid();++itr)
         {
             ReaderWriter::WriteResult rr = itr->writeImage(image,fileName,options);
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1429,7 +1581,9 @@ ReaderWriter::ReadResult Registry::readHeightFieldImplementation(const std::stri
     return readImplementation(ReadHeightFieldFunctor(fileName, options),Options::CACHE_HEIGHTFIELDS);
 }
 
-ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightField& HeightField,const std::string& fileName,const Options* options)
+ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightField& HeightField,
+    const std::string& fileName,
+    const Options* options)
 {
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
@@ -1440,8 +1594,10 @@ ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightF
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeHeightField(HeightField,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // now look for a plug-in to save the file.
@@ -1451,8 +1607,10 @@ ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightF
         for(;itr.valid();++itr)
         {
             ReaderWriter::WriteResult rr = itr->writeHeightField(HeightField,fileName,options);
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1497,8 +1655,10 @@ ReaderWriter::WriteResult Registry::writeNodeImplementation(const Node& node,con
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeNode(node,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // now look for a plug-in to save the file.
@@ -1510,8 +1670,10 @@ ReaderWriter::WriteResult Registry::writeNodeImplementation(const Node& node,con
         {
             ReaderWriter::WriteResult rr = itr->writeNode(node,fileName,options);
 
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1532,7 +1694,9 @@ ReaderWriter::ReadResult Registry::readShaderImplementation(const std::string& f
     return readImplementation(ReadShaderFunctor(fileName, options),Options::CACHE_SHADERS);
 }
 
-ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shader,const std::string& fileName,const Options* options)
+ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shader,
+    const std::string& fileName,
+    const Options* options)
 {
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
@@ -1543,8 +1707,10 @@ ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shad
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeShader(shader,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     results.clear();
@@ -1556,8 +1722,10 @@ ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shad
         for(;itr.valid();++itr)
         {
             ReaderWriter::WriteResult rr = itr->writeShader(shader,fileName,options);
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1579,7 +1747,9 @@ ReaderWriter::ReadResult Registry::readScriptImplementation(const std::string& f
     return readImplementation(ReadScriptFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
-ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& image,const std::string& fileName,const Options* options)
+ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& image,
+    const std::string& fileName,
+    const Options* options)
 {
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
@@ -1590,8 +1760,10 @@ ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& imag
     for(;itr.valid();++itr)
     {
         ReaderWriter::WriteResult rr = itr->writeScript(image,fileName,options);
-        if (rr.success()) return rr;
-        else results.push_back(rr);
+        if (rr.success()) 
+            return rr;
+        else 
+            results.push_back(rr);
     }
 
     // now look for a plug-in to save the file.
@@ -1601,8 +1773,10 @@ ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& imag
         for(;itr.valid();++itr)
         {
             ReaderWriter::WriteResult rr = itr->writeScript(image,fileName,options);
-            if (rr.success()) return rr;
-            else results.push_back(rr);
+            if (rr.success()) 
+                return rr;
+            else 
+                results.push_back(rr);
         }
     }
 
@@ -1618,9 +1792,13 @@ ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& imag
     return result;
 }
 
-void Registry::addEntryToObjectCache(const std::string& filename, osg::Object* object, double timestamp, Options *options)
+void Registry::addEntryToObjectCache(const std::string& filename, 
+        osg::Object* object, 
+        double timestamp, 
+        Options *options)
 {
-    if (_objectCache.valid()) _objectCache->addEntryToObjectCache(filename, object, timestamp, options);
+    if (_objectCache.valid()) 
+        _objectCache->addEntryToObjectCache(filename, object, timestamp, options);
 }
 
 osg::Object* Registry::getFromObjectCache(const std::string& filename, Options *options)
@@ -1635,23 +1813,27 @@ osg::ref_ptr<osg::Object> Registry::getRefFromObjectCache(const std::string& fil
 
 void Registry::updateTimeStampOfObjectsInCacheWithExternalReferences(const osg::FrameStamp& frameStamp)
 {
-    if (_objectCache.valid()) _objectCache->updateTimeStampOfObjectsInCacheWithExternalReferences(frameStamp.getReferenceTime());
+    if (_objectCache.valid()) 
+        _objectCache->updateTimeStampOfObjectsInCacheWithExternalReferences(frameStamp.getReferenceTime());
 }
 
 void Registry::removeExpiredObjectsInCache(const osg::FrameStamp& frameStamp)
 {
     double expiryTime = frameStamp.getReferenceTime() - _expiryDelay;
-    if (_objectCache.valid()) _objectCache->removeExpiredObjectsInCache(expiryTime);
+    if (_objectCache.valid()) 
+        _objectCache->removeExpiredObjectsInCache(expiryTime);
 }
 
 void Registry::removeFromObjectCache(const std::string& filename, Options *options)
 {
-    if (_objectCache.valid()) _objectCache->removeFromObjectCache(filename, options);
+    if (_objectCache.valid()) 
+        _objectCache->removeFromObjectCache(filename, options);
 }
 
 void Registry::clearObjectCache()
 {
-    if (_objectCache.valid()) _objectCache->clear();
+    if (_objectCache.valid()) 
+        _objectCache->clear();
 }
 
 void Registry::addToArchiveCache(const std::string& fileName, osgDB::Archive* archive)
@@ -1675,16 +1857,20 @@ osgDB::Archive* Registry::getFromArchiveCache(const std::string& fileName)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_archiveCacheMutex);
     ArchiveCache::iterator itr = _archiveCache.find(fileName);
-    if (itr!=_archiveCache.end()) return itr->second.get();
-    else return 0;
+    if (itr!=_archiveCache.end()) 
+        return itr->second.get();
+    else 
+        return 0;
 }
 
 osg::ref_ptr<osgDB::Archive> Registry::getRefFromArchiveCache(const std::string& fileName)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_archiveCacheMutex);
     ArchiveCache::iterator itr = _archiveCache.find(fileName);
-    if (itr!=_archiveCache.end()) return itr->second;
-    else return 0;
+    if (itr!=_archiveCache.end()) 
+        return itr->second;
+    else 
+        return 0;
 }
 
 void Registry::clearArchiveCache()
@@ -1695,13 +1881,16 @@ void Registry::clearArchiveCache()
 
 void Registry::releaseGLObjects(osg::State* state)
 {
-    if (_objectCache.valid()) _objectCache->releaseGLObjects( state );
-    if (_sharedStateManager.valid()) _sharedStateManager->releaseGLObjects( state );
+    if (_objectCache.valid()) 
+        _objectCache->releaseGLObjects( state );
+    if (_sharedStateManager.valid()) 
+        _sharedStateManager->releaseGLObjects( state );
 }
 
 SharedStateManager* Registry::getOrCreateSharedStateManager()
 {
-    if (!_sharedStateManager) _sharedStateManager = new SharedStateManager;
+    if (!_sharedStateManager) 
+        _sharedStateManager = new SharedStateManager;
 
     return _sharedStateManager.get();
 }

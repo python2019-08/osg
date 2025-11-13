@@ -394,7 +394,9 @@ Renderer::Renderer(osg::Camera* camera):
     bool automaticFlush = (ico==NULL);
 
     osg::DisplaySettings* ds = _camera->getDisplaySettings() ?  _camera->getDisplaySettings() :
-                               ((view && view->getDisplaySettings()) ?  view->getDisplaySettings() :  osg::DisplaySettings::instance().get());
+                               ( (view && view->getDisplaySettings()) 
+                                 ?  view->getDisplaySettings() 
+                                 :  osg::DisplaySettings::instance().get() );
 
     _serializeDraw = ds ? ds->getSerializeDrawDispatch() : false;
 
@@ -403,9 +405,15 @@ Renderer::Renderer(osg::Camera* camera):
     {
         switch(view->getLightingMode())
         {
-            case(osg::View::NO_LIGHT): sceneViewOptions = 0; break;
-            case(osg::View::SKY_LIGHT): sceneViewOptions = osgUtil::SceneView::SKY_LIGHT; break;
-            case(osg::View::HEADLIGHT): sceneViewOptions = osgUtil::SceneView::HEADLIGHT; break;
+            case(osg::View::NO_LIGHT): 
+                sceneViewOptions = 0; 
+                break;
+            case(osg::View::SKY_LIGHT): 
+                sceneViewOptions = osgUtil::SceneView::SKY_LIGHT; 
+                break;
+            case(osg::View::HEADLIGHT): 
+                sceneViewOptions = osgUtil::SceneView::HEADLIGHT; 
+                break;
         }
     }
 
@@ -483,7 +491,8 @@ void Renderer::initialize(osg::State* state)
 
 void Renderer::setGraphicsThreadDoesCull(bool flag)
 {
-    if (_graphicsThreadDoesCull==flag) return;
+    if (_graphicsThreadDoesCull==flag) 
+        return;
 
     _graphicsThreadDoesCull = flag;
 }
@@ -551,7 +560,10 @@ void Renderer::updateSceneView(osgUtil::SceneView* sceneView)
     }
 
     osg::DisplaySettings* ds = _camera->getDisplaySettings() ?  _camera->getDisplaySettings() :
-                               ((view &&view->getDisplaySettings()) ?  view->getDisplaySettings() :  osg::DisplaySettings::instance().get());
+                               ((view &&view->getDisplaySettings()) ?  
+                                       view->getDisplaySettings() :  
+                                       osg::DisplaySettings::instance().get()
+                                    );
 
     if (ds && ds->getUseSceneViewForStereoHint())
     {
@@ -561,7 +573,8 @@ void Renderer::updateSceneView(osgUtil::SceneView* sceneView)
     if (view)
     {
         _startTick = view->getStartTick();
-        if (state) state->setStartTick(_startTick);
+        if (state) 
+            state->setStartTick(_startTick);
     }
     else
     {
@@ -569,7 +582,8 @@ void Renderer::updateSceneView(osgUtil::SceneView* sceneView)
         if (gw)
         {
             _startTick = gw->getEventQueue()->getStartTick();
-            if (state) state->setStartTick(_startTick);
+            if (state) 
+                state->setStartTick(_startTick);
         }
     }
 }
@@ -581,7 +595,8 @@ void Renderer::compile()
     _compileOnNextDraw = false;
 
     osgUtil::SceneView* sceneView = _sceneView[0].get();
-    if (!sceneView || _done) return;
+    if (!sceneView || _done) 
+        return;
 
     sceneView->getState()->checkGLErrors("Before Renderer::compile");
 
@@ -659,7 +674,8 @@ void Renderer::cull()
 {
     DEBUG_MESSAGE<<"cull()"<<std::endl;
 
-    if (_done || _graphicsThreadDoesCull) return;
+    if (_done || _graphicsThreadDoesCull) 
+        return;
 
     // note we assume lock has already been acquired.
     osgUtil::SceneView* sceneView = _availableQueue.takeFront();
@@ -696,9 +712,12 @@ void Renderer::cull()
         {
             DEBUG_MESSAGE<<"Collecting rendering stats"<<std::endl;
 
-            stats->setAttribute(frameNumber, "Cull traversal begin time", osg::Timer::instance()->delta_s(_startTick, beforeCullTick));
-            stats->setAttribute(frameNumber, "Cull traversal end time", osg::Timer::instance()->delta_s(_startTick, afterCullTick));
-            stats->setAttribute(frameNumber, "Cull traversal time taken", osg::Timer::instance()->delta_s(beforeCullTick, afterCullTick));
+            stats->setAttribute(frameNumber, "Cull traversal begin time", 
+                osg::Timer::instance()->delta_s(_startTick, beforeCullTick));
+            stats->setAttribute(frameNumber, "Cull traversal end time", 
+                osg::Timer::instance()->delta_s(_startTick, afterCullTick));
+            stats->setAttribute(frameNumber, "Cull traversal time taken", 
+                osg::Timer::instance()->delta_s(beforeCullTick, afterCullTick));
         }
 
         if (stats && stats->collectStats("scene"))
@@ -830,7 +849,8 @@ void Renderer::cull_draw()
     DEBUG_MESSAGE<<"cull_draw() "<<this<<std::endl;
 
     osgUtil::SceneView* sceneView = _sceneView[0].get();
-    if (!sceneView || _done) return;
+    if (!sceneView || _done) 
+        return;
 
     if (_done)
     {
@@ -919,13 +939,19 @@ void Renderer::cull_draw()
     {
         DEBUG_MESSAGE<<"Collecting rendering stats"<<std::endl;
 
-        stats->setAttribute(frameNumber, "Cull traversal begin time", osg::Timer::instance()->delta_s(_startTick, beforeCullTick));
-        stats->setAttribute(frameNumber, "Cull traversal end time", osg::Timer::instance()->delta_s(_startTick, afterCullTick));
-        stats->setAttribute(frameNumber, "Cull traversal time taken", osg::Timer::instance()->delta_s(beforeCullTick, afterCullTick));
+        stats->setAttribute(frameNumber, "Cull traversal begin time", 
+            osg::Timer::instance()->delta_s(_startTick, beforeCullTick));
+        stats->setAttribute(frameNumber, "Cull traversal end time", 
+            osg::Timer::instance()->delta_s(_startTick, afterCullTick));
+        stats->setAttribute(frameNumber, "Cull traversal time taken", 
+            osg::Timer::instance()->delta_s(beforeCullTick, afterCullTick));
 
-        stats->setAttribute(frameNumber, "Draw traversal begin time", osg::Timer::instance()->delta_s(_startTick, beforeDrawTick));
-        stats->setAttribute(frameNumber, "Draw traversal end time", osg::Timer::instance()->delta_s(_startTick, afterDrawTick));
-        stats->setAttribute(frameNumber, "Draw traversal time taken", osg::Timer::instance()->delta_s(beforeDrawTick, afterDrawTick));
+        stats->setAttribute(frameNumber, "Draw traversal begin time", 
+            osg::Timer::instance()->delta_s(_startTick, beforeDrawTick));
+        stats->setAttribute(frameNumber, "Draw traversal end time", 
+            osg::Timer::instance()->delta_s(_startTick, afterDrawTick));
+        stats->setAttribute(frameNumber, "Draw traversal time taken", 
+            osg::Timer::instance()->delta_s(beforeDrawTick, afterDrawTick));
     }
 
     DEBUG_MESSAGE<<"end cull_draw() "<<this<<std::endl;
@@ -935,10 +961,12 @@ void Renderer::cull_draw()
 void Renderer::operator () (osg::Object* object)
 {
     osg::GraphicsContext* context = dynamic_cast<osg::GraphicsContext*>(object);
-    if (context) operator()(context);
+    if (context) 
+        operator()(context);
 
     osg::Camera* camera =object->asCamera();
-    if (camera) cull();
+    if (camera) 
+        cull();
 }
 
 void Renderer::operator () (osg::GraphicsContext* /*context*/)
@@ -955,16 +983,20 @@ void Renderer::operator () (osg::GraphicsContext* /*context*/)
 
 void Renderer::resizeGLObjectBuffers(unsigned int maxSize)
 {
-    if (_sceneView[0].valid()) _sceneView[0]->resizeGLObjectBuffers(maxSize);
-    if (_sceneView[1].valid()) _sceneView[1]->resizeGLObjectBuffers(maxSize);
+    if (_sceneView[0].valid()) 
+        _sceneView[0]->resizeGLObjectBuffers(maxSize);
+    if (_sceneView[1].valid()) 
+        _sceneView[1]->resizeGLObjectBuffers(maxSize);
 }
 
 void Renderer::releaseGLObjects(osg::State* state) const
 {
     osgDB::Registry::instance()->releaseGLObjects(state);
 
-    if (_sceneView[0].valid()) _sceneView[0]->releaseGLObjects(state);
-    if (_sceneView[1].valid()) _sceneView[1]->releaseGLObjects(state);
+    if (_sceneView[0].valid()) 
+        _sceneView[0]->releaseGLObjects(state);
+    if (_sceneView[1].valid()) 
+        _sceneView[1]->releaseGLObjects(state);
 }
 
 void Renderer::release()
@@ -989,11 +1021,14 @@ void Renderer::setCameraRequiresSetUp(bool flag)
     {
         osgUtil::SceneView* sv = getSceneView(i);
         osgUtil::RenderStage* rs = sv ? sv->getRenderStage() : 0;
-        if (rs) rs->setCameraRequiresSetUp(flag);
+        if (rs) 
+            rs->setCameraRequiresSetUp(flag);
         rs = sv ? sv->getRenderStageLeft() : 0;
-        if (rs) rs->setCameraRequiresSetUp(flag);
+        if (rs) 
+            rs->setCameraRequiresSetUp(flag);
         rs = sv ? sv->getRenderStageRight() : 0;
-        if (rs) rs->setCameraRequiresSetUp(flag);
+        if (rs) 
+            rs->setCameraRequiresSetUp(flag);
     }
 }
 
@@ -1004,11 +1039,14 @@ bool Renderer::getCameraRequiresSetUp() const
     {
         const osgUtil::SceneView* sv = getSceneView(i);
         const osgUtil::RenderStage* rs = sv ? sv->getRenderStage() : 0;
-        if (rs) result = result || rs->getCameraRequiresSetUp();
+        if (rs) 
+            result = result || rs->getCameraRequiresSetUp();
         rs = sv ? sv->getRenderStageLeft() : 0;
-        if (rs) result = result || rs->getCameraRequiresSetUp();
+        if (rs) 
+            result = result || rs->getCameraRequiresSetUp();
         rs = sv ? sv->getRenderStageRight() : 0;
-        if (rs) result = result || rs->getCameraRequiresSetUp();
+        if (rs) 
+            result = result || rs->getCameraRequiresSetUp();
     }
     return result;
 }

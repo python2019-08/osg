@@ -2288,7 +2288,8 @@ bool Texture::areAllTextureObjectsLoaded() const
 {
     for(unsigned int i=0;i<DisplaySettings::instance()->getMaxNumberOfGraphicsContexts();++i)
     {
-        if (_textureObjectBuffer[i]==0) return false;
+        if (_textureObjectBuffer[i]==0) 
+            return false;
     }
     return true;
 }

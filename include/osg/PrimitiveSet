@@ -174,27 +174,57 @@ class OSG_EXPORT PrimitiveSet : public BufferData
             _numInstances(prim._numInstances),
             _mode(prim._mode) {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const PrimitiveSet*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "PrimitiveSet"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const PrimitiveSet*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "PrimitiveSet"; 
+        }
 
-        Type                    getType() const { return _primitiveType; }
+        Type                    getType() const { 
+            return _primitiveType; 
+        }
 
-        virtual osg::PrimitiveSet* asPrimitiveSet() { return this; }
-        virtual const osg::PrimitiveSet* asPrimitiveSet() const { return this; }
+        virtual osg::PrimitiveSet* asPrimitiveSet() { 
+            return this; 
+        }
+        virtual const osg::PrimitiveSet* asPrimitiveSet() const { 
+            return this; 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return 0; }
-        virtual unsigned int    getTotalDataSize() const { return 0; }
-        virtual bool            supportsBufferObject() const { return false; }
+        virtual const GLvoid*   getDataPointer() const { 
+            return 0; 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return 0; 
+        }
+        virtual bool            supportsBufferObject() const { 
+            return false; 
+        }
 
-        virtual DrawElements* getDrawElements() { return 0; }
-        virtual const DrawElements* getDrawElements() const { return 0; }
+        virtual DrawElements* getDrawElements() { 
+            return 0; 
+        }
+        virtual const DrawElements* getDrawElements() const { 
+            return 0; 
+        }
 
-        void setNumInstances(int n) { _numInstances = n; }
-        int getNumInstances() const { return _numInstances; }
+        void setNumInstances(int n) { 
+            _numInstances = n; 
+        }
+        int getNumInstances() const { 
+            return _numInstances; 
+        }
 
-        void setMode(GLenum mode) { _mode = mode; }
-        GLenum getMode() const { return _mode; }
+        void setMode(GLenum mode) { 
+            _mode = mode; 
+        }
+        GLenum getMode() const { 
+            return _mode; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const = 0;
 
@@ -237,11 +267,21 @@ class OSG_EXPORT DrawArrays : public PrimitiveSet
             _first(da._first),
             _count(da._count) {}
 
-        virtual Object* cloneType() const { return new DrawArrays(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new DrawArrays(*this,copyop); }
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const DrawArrays*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "DrawArrays"; }
+        virtual Object* cloneType() const { 
+            return new DrawArrays(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new DrawArrays(*this,copyop); 
+        }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const DrawArrays*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "DrawArrays"; 
+        }
 
 
         void set(GLenum mode,GLint first, GLsizei count)
@@ -251,20 +291,34 @@ class OSG_EXPORT DrawArrays : public PrimitiveSet
             _count = count;
         }
 
-        void setFirst(GLint first) { _first = first; }
-        GLint getFirst() const { return _first; }
+        void setFirst(GLint first) { 
+            _first = first; 
+        }
+        GLint getFirst() const { 
+            return _first; 
+        }
 
-        void setCount(GLsizei count) { _count = count; }
-        GLsizei getCount() const { return _count; }
+        void setCount(GLsizei count) { 
+            _count = count; 
+        }
+        GLsizei getCount() const { 
+            return _count; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const;
 
         virtual void accept(PrimitiveFunctor& functor) const;
         virtual void accept(PrimitiveIndexFunctor& functor) const;
 
-        virtual unsigned int getNumIndices() const { return static_cast<unsigned int>(_count); }
-        virtual unsigned int index(unsigned int pos) const { return static_cast<unsigned int>(_first)+pos; }
-        virtual void offsetIndices(int offset) { _first += offset; }
+        virtual unsigned int getNumIndices() const { 
+            return static_cast<unsigned int>(_count); 
+        }
+        virtual unsigned int index(unsigned int pos) const { 
+            return static_cast<unsigned int>(_first)+pos; 
+        }
+        virtual void offsetIndices(int offset) { 
+            _first += offset; 
+        }
 
     protected:
 
@@ -305,15 +359,29 @@ class OSG_EXPORT DrawArrayLengths : public PrimitiveSet, public VectorGLsizei
             _first(first) {}
 
 
-        virtual Object* cloneType() const { return new DrawArrayLengths(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new DrawArrayLengths(*this,copyop); }
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const DrawArrayLengths*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "DrawArrayLengths"; }
+        virtual Object* cloneType() const { 
+            return new DrawArrayLengths(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new DrawArrayLengths(*this,copyop); 
+        }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const DrawArrayLengths*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "DrawArrayLengths"; 
+        }
 
 
-        void setFirst(GLint first) { _first = first; }
-        GLint getFirst() const { return _first; }
+        void setFirst(GLint first) { 
+            _first = first; 
+        }
+        GLint getFirst() const { 
+            return _first; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const;
 
@@ -321,14 +389,20 @@ class OSG_EXPORT DrawArrayLengths : public PrimitiveSet, public VectorGLsizei
         virtual void accept(PrimitiveIndexFunctor& functor) const;
 
         virtual unsigned int getNumIndices() const;
-        virtual unsigned int index(unsigned int pos) const { return _first+pos; }
-        virtual void offsetIndices(int offset) { _first += offset; }
+        virtual unsigned int index(unsigned int pos) const { 
+            return _first+pos; 
+        }
+        virtual void offsetIndices(int offset) { 
+            _first += offset; 
+        }
 
         virtual unsigned int getNumPrimitives() const;
 
     protected:
 
-        virtual ~DrawArrayLengths() {}
+        virtual ~DrawArrayLengths() {
+
+        }
 
         GLint   _first;
 };
@@ -344,17 +418,27 @@ class DrawElements : public PrimitiveSet
             PrimitiveSet(copy,copyop) {}
 
 
-        virtual DrawElements* getDrawElements() { return this; }
-        virtual const DrawElements* getDrawElements() const { return this; }
+        virtual DrawElements* getDrawElements() { 
+            return this; 
+        }
+        virtual const DrawElements* getDrawElements() const { 
+            return this; 
+        }
 
         /** Set the ElementBufferObject.*/
-        inline void setElementBufferObject(osg::ElementBufferObject* ebo) { setBufferObject(ebo); }
+        inline void setElementBufferObject(osg::ElementBufferObject* ebo) { 
+            setBufferObject(ebo); 
+        }
 
         /** Get the ElementBufferObject. If no EBO is assigned returns NULL*/
-        inline osg::ElementBufferObject* getElementBufferObject() { return dynamic_cast<osg::ElementBufferObject*>(_bufferObject.get()); }
+        inline osg::ElementBufferObject* getElementBufferObject() { 
+            return dynamic_cast<osg::ElementBufferObject*>(_bufferObject.get()); 
+        }
 
         /** Get the const ElementBufferObject. If no EBO is assigned returns NULL*/
-        inline const osg::ElementBufferObject* getElementBufferObject() const { return dynamic_cast<const osg::ElementBufferObject*>(_bufferObject.get()); }
+        inline const osg::ElementBufferObject* getElementBufferObject() const { 
+            return dynamic_cast<const osg::ElementBufferObject*>(_bufferObject.get()); 
+        }
 
         virtual GLenum getDataType() = 0;
         virtual void resizeElements(unsigned int numIndices) = 0;
@@ -399,31 +483,63 @@ class OSG_EXPORT DrawElementsUByte : public DrawElements, public VectorGLubyte
             DrawElements(DrawElementsUBytePrimitiveType,mode),
             vector_type(no) {}
 
-        virtual Object* cloneType() const { return new DrawElementsUByte(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new DrawElementsUByte(*this,copyop); }
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const DrawElementsUByte*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "DrawElementsUByte"; }
+        virtual Object* cloneType() const { 
+            return new DrawElementsUByte(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new DrawElementsUByte(*this,copyop); 
+        }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const DrawElementsUByte*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "DrawElementsUByte"; 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return empty()?0:&front(); }
-        virtual unsigned int    getTotalDataSize() const { return static_cast<unsigned int>(size()); }
-        virtual bool            supportsBufferObject() const { return false; }
+        virtual const GLvoid*   getDataPointer() const { 
+            return empty()?0:&front(); 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return static_cast<unsigned int>(size()); 
+        }
+        virtual bool            supportsBufferObject() const { 
+            return false; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const ;
 
         virtual void accept(PrimitiveFunctor& functor) const;
         virtual void accept(PrimitiveIndexFunctor& functor) const;
 
-        virtual unsigned int getNumIndices() const { return static_cast<unsigned int>(size()); }
-        virtual unsigned int index(unsigned int pos) const { return (*this)[pos]; }
+        virtual unsigned int getNumIndices() const { 
+            return static_cast<unsigned int>(size()); 
+        }
+        virtual unsigned int index(unsigned int pos) const { 
+            return (*this)[pos]; 
+        }
         virtual void offsetIndices(int offset);
 
-        virtual GLenum getDataType() { return GL_UNSIGNED_BYTE; }
-        virtual void resizeElements(unsigned int numIndices) { resize(numIndices); }
-        virtual void reserveElements(unsigned int numIndices) { reserve(numIndices); }
-        virtual void setElement(unsigned int i, unsigned int v)  { (*this)[i] = v; }
-        virtual unsigned int getElement(unsigned int i) { return (*this)[i]; }
-        virtual void addElement(unsigned int v) { push_back(GLubyte(v)); }
+        virtual GLenum getDataType() { 
+            return GL_UNSIGNED_BYTE; 
+        }
+        virtual void resizeElements(unsigned int numIndices) { 
+            resize(numIndices); 
+        }
+        virtual void reserveElements(unsigned int numIndices) { 
+            reserve(numIndices); 
+        }
+        virtual void setElement(unsigned int i, unsigned int v)  { 
+            (*this)[i] = v; 
+        }
+        virtual unsigned int getElement(unsigned int i) { 
+            return (*this)[i]; 
+        }
+        virtual void addElement(unsigned int v) { 
+            push_back(GLubyte(v)); 
+        }
 
     protected:
 
@@ -467,31 +583,63 @@ class OSG_EXPORT DrawElementsUShort : public DrawElements, public VectorGLushort
             DrawElements(DrawElementsUShortPrimitiveType,mode),
             vector_type(first,last) {}
 
-        virtual Object* cloneType() const { return new DrawElementsUShort(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new DrawElementsUShort(*this,copyop); }
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const DrawElementsUShort*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "DrawElementsUShort"; }
+        virtual Object* cloneType() const { 
+            return new DrawElementsUShort(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new DrawElementsUShort(*this,copyop); 
+        }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const DrawElementsUShort*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg";
+         }
+        virtual const char* className() const { 
+            return "DrawElementsUShort"; 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return empty()?0:&front(); }
-        virtual unsigned int    getTotalDataSize() const { return 2u*static_cast<unsigned int>(size()); }
-        virtual bool            supportsBufferObject() const { return false; }
+        virtual const GLvoid*   getDataPointer() const { 
+            return empty()?0:&front(); 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return 2u*static_cast<unsigned int>(size()); 
+        }
+        virtual bool            supportsBufferObject() const { 
+            return false; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const;
 
         virtual void accept(PrimitiveFunctor& functor) const;
         virtual void accept(PrimitiveIndexFunctor& functor) const;
 
-        virtual unsigned int getNumIndices() const { return static_cast<unsigned int>(size()); }
-        virtual unsigned int index(unsigned int pos) const { return (*this)[pos]; }
+        virtual unsigned int getNumIndices() const { 
+            return static_cast<unsigned int>(size()); 
+        }
+        virtual unsigned int index(unsigned int pos) const { 
+            return (*this)[pos]; 
+        }
         virtual void offsetIndices(int offset);
 
-        virtual GLenum getDataType() { return GL_UNSIGNED_SHORT; }
-        virtual void resizeElements(unsigned int numIndices) { resize(numIndices); }
-        virtual void reserveElements(unsigned int numIndices) { reserve(numIndices); }
-        virtual void setElement(unsigned int i, unsigned int v) { (*this)[i] = v; }
-        virtual unsigned int getElement(unsigned int i) { return (*this)[i]; }
-        virtual void addElement(unsigned int v) { push_back(GLushort(v)); }
+        virtual GLenum getDataType() { 
+            return GL_UNSIGNED_SHORT; 
+        }
+        virtual void resizeElements(unsigned int numIndices) { 
+            resize(numIndices); 
+        }
+        virtual void reserveElements(unsigned int numIndices) { 
+            reserve(numIndices); 
+        }
+        virtual void setElement(unsigned int i, unsigned int v) { 
+            (*this)[i] = v; 
+        }
+        virtual unsigned int getElement(unsigned int i) { 
+            return (*this)[i]; 
+        }
+        virtual void addElement(unsigned int v) { 
+            push_back(GLushort(v)); 
+        }
 
     protected:
 
@@ -534,31 +682,63 @@ class OSG_EXPORT DrawElementsUInt : public DrawElements, public VectorGLuint
             DrawElements(DrawElementsUIntPrimitiveType,mode),
             vector_type(first,last) {}
 
-        virtual Object* cloneType() const { return new DrawElementsUInt(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new DrawElementsUInt(*this,copyop); }
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const DrawElementsUInt*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "DrawElementsUInt"; }
+        virtual Object* cloneType() const { 
+            return new DrawElementsUInt(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new DrawElementsUInt(*this,copyop); 
+        }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const DrawElementsUInt*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "DrawElementsUInt"; 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return empty()?0:&front(); }
-        virtual unsigned int    getTotalDataSize() const { return 4u*static_cast<unsigned int>(size()); }
-        virtual bool            supportsBufferObject() const { return false; }
+        virtual const GLvoid*   getDataPointer() const { 
+            return empty()?0:&front(); 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return 4u*static_cast<unsigned int>(size()); 
+        }
+        virtual bool            supportsBufferObject() const { 
+            return false; 
+        }
 
         virtual void draw(State& state, bool useVertexBufferObjects) const;
 
         virtual void accept(PrimitiveFunctor& functor) const;
         virtual void accept(PrimitiveIndexFunctor& functor) const;
 
-        virtual unsigned int getNumIndices() const { return static_cast<unsigned int>(size()); }
-        virtual unsigned int index(unsigned int pos) const { return (*this)[pos]; }
+        virtual unsigned int getNumIndices() const { 
+            return static_cast<unsigned int>(size()); 
+        }
+        virtual unsigned int index(unsigned int pos) const { 
+            return (*this)[pos]; 
+        }
         virtual void offsetIndices(int offset);
 
-        virtual GLenum getDataType() { return GL_UNSIGNED_INT; }
-        virtual void resizeElements(unsigned int numIndices) { resize(numIndices); }
-        virtual void reserveElements(unsigned int numIndices) { reserve(numIndices); }
-        virtual void setElement(unsigned int i, unsigned int v) { (*this)[i] = v; }
-        virtual unsigned int getElement(unsigned int i) { return (*this)[i]; }
-        virtual void addElement(unsigned int v) { push_back(GLuint(v)); }
+        virtual GLenum getDataType() { 
+            return GL_UNSIGNED_INT; 
+        }
+        virtual void resizeElements(unsigned int numIndices) { 
+            resize(numIndices); 
+        }
+        virtual void reserveElements(unsigned int numIndices) { 
+            reserve(numIndices); 
+        }
+        virtual void setElement(unsigned int i, unsigned int v) { 
+            (*this)[i] = v; 
+        }
+        virtual unsigned int getElement(unsigned int i) { 
+            return (*this)[i]; 
+        }
+        virtual void addElement(unsigned int v) { 
+            push_back(GLuint(v)); 
+        }
 
     protected:
 
@@ -578,11 +758,21 @@ public:
         _firsts(dal._firsts),
         _counts(dal._counts) {}
 
-    virtual osg::Object* cloneType() const { return new MultiDrawArrays(); }
-    virtual osg::Object* clone(const osg::CopyOp& copyop) const { return new MultiDrawArrays(*this,copyop); }
-    virtual bool isSameKindAs(const osg::Object* obj) const { return dynamic_cast<const MultiDrawArrays*>(obj)!=NULL; }
-    virtual const char* libraryName() const { return "osg"; }
-    virtual const char* className() const { return "MultiDrawArrays"; }
+    virtual osg::Object* cloneType() const { 
+        return new MultiDrawArrays(); 
+    }
+    virtual osg::Object* clone(const osg::CopyOp& copyop) const { 
+        return new MultiDrawArrays(*this,copyop); 
+    }
+    virtual bool isSameKindAs(const osg::Object* obj) const { 
+        return dynamic_cast<const MultiDrawArrays*>(obj)!=NULL; 
+    }
+    virtual const char* libraryName() const { 
+        return "osg"; 
+    }
+    virtual const char* className() const { 
+        return "MultiDrawArrays"; 
+    }
 
 
     virtual void draw(osg::State& state, bool useVertexBufferObjects) const;
@@ -597,14 +787,26 @@ public:
     virtual unsigned int getNumPrimitives() const;
 
     typedef std::vector<GLint> Firsts;
-    void setFirsts(const Firsts& firsts) { _firsts = firsts; }
-    Firsts& getFirsts() { return _firsts; }
-    const Firsts& getFirsts() const { return _firsts; }
+    void setFirsts(const Firsts& firsts) { 
+        _firsts = firsts; 
+    }
+    Firsts& getFirsts() { 
+        return _firsts; 
+    }
+    const Firsts& getFirsts() const { 
+        return _firsts; 
+    }
 
     typedef std::vector<GLsizei> Counts;
-    void setCounts(const Counts& firsts) { _counts = firsts; }
-    Counts& getCounts() { return _counts; }
-    const Counts& getCounts() const { return _counts; }
+    void setCounts(const Counts& firsts) { 
+        _counts = firsts; 
+    }
+    Counts& getCounts() { 
+        return _counts; 
+    }
+    const Counts& getCounts() const { 
+        return _counts; 
+    }
 
     void add(GLint first, GLsizei count);
 

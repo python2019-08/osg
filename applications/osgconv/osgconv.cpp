@@ -767,7 +767,8 @@ int main( int argc, char **argv )
 
     if (enableObjectCache)
     {
-        if (osgDB::Registry::instance()->getOptions()==0) osgDB::Registry::instance()->setOptions(new osgDB::Options());
+        if (osgDB::Registry::instance()->getOptions()==0) 
+            osgDB::Registry::instance()->setOptions(new osgDB::Options());
         osgDB::Registry::instance()->getOptions()->setObjectCacheHint(osgDB::Options::CACHE_ALL);
     }
 

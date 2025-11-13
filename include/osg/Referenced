@@ -53,23 +53,35 @@ class OSG_EXPORT Referenced
 
         Referenced(const Referenced&);
 
-        inline Referenced& operator = (const Referenced&) { return *this; }
+        inline Referenced& operator = (const Referenced&) { 
+            return *this; 
+        }
 
         /** Deprecated, Referenced is always theadsafe so there method now has no effect and does not need to be called.*/
-        virtual void setThreadSafeRefUnref(bool /*threadSafe*/) {}
+        virtual void setThreadSafeRefUnref(bool /*threadSafe*/) {
+
+        }
 
         /** Get whether a mutex is used to ensure ref() and unref() are thread safe.*/
 #if defined(_OSG_REFERENCED_USE_ATOMIC_OPERATIONS)
-        bool getThreadSafeRefUnref() const { return true; }
+        bool getThreadSafeRefUnref() const { 
+            return true; 
+        }
 #else
-        bool getThreadSafeRefUnref() const { return _refMutex!=0; }
+        bool getThreadSafeRefUnref() const { 
+            return _refMutex!=0; 
+        }
 #endif
 
         /** Get the mutex used to ensure thread safety of ref()/unref(). */
 #if defined(_OSG_REFERENCED_USE_ATOMIC_OPERATIONS)
-        OpenThreads::Mutex* getRefMutex() const { return getGlobalReferencedMutex(); }
+        OpenThreads::Mutex* getRefMutex() const { 
+            return getGlobalReferencedMutex(); 
+        }
 #else
-        OpenThreads::Mutex* getRefMutex() const { return _refMutex; }
+        OpenThreads::Mutex* getRefMutex() const { 
+            return _refMutex; 
+        }
 #endif
 
         /** Get the optional global Referenced mutex, this can be shared between all osg::Referenced.*/
@@ -83,7 +95,8 @@ class OSG_EXPORT Referenced
             a pointer to this object is no longer referencing it.  If the
             reference count goes to zero, it is assumed that this object
             is no longer referenced and is automatically deleted.*/
-        inline int unref() const;
+        // inline int unref() const;
+        int unref() const;
 
         /** Decrement the reference count by one, indicating that
             a pointer to this object is no longer referencing it.  However, do
@@ -94,7 +107,9 @@ class OSG_EXPORT Referenced
         int unref_nodelete() const;
 
         /** Return the number of pointers currently referencing this object. */
-        inline int referenceCount() const { return _refCount; }
+        inline int referenceCount() const { 
+            return _refCount; 
+        }
 
 
         /** Get the ObserverSet if one is attached, otherwise return NULL.*/
@@ -175,38 +190,46 @@ inline int Referenced::ref() const
 #endif
 }
 
-inline int Referenced::unref() const
-{
-    int newRef;
-#if defined(_OSG_REFERENCED_USE_ATOMIC_OPERATIONS)
-    newRef = --_refCount;
-    bool needDelete = (newRef == 0);
-#else
-    bool needDelete = false;
-    if (_refMutex)
-    {
-        OpenThreads::ScopedLock<OpenThreads::Mutex> lock(*_refMutex);
-        newRef = --_refCount;
-        needDelete = newRef==0;
-    }
-    else
-    {
-        newRef = --_refCount;
-        needDelete = newRef==0;
-    }
-#endif
+// inline int Referenced::unref() const
+// {
+//     int newRef;
+// #if defined(_OSG_REFERENCED_USE_ATOMIC_OPERATIONS)
+//     OSG_WARN<<"og...include/osg/Referenced(01): _refCount="<<_refCount <<std::endl;
+//     newRef = --_refCount;
+//     bool needDelete = (newRef == 0);
+// #else
+//     OSG_WARN<<"og...include/osg/Referenced(02): _refCount="<<_refCount <<std::endl;
+//     bool needDelete = false;
+//     if (_refMutex)
+//     {
+//         OpenThreads::ScopedLock<OpenThreads::Mutex> lock(*_refMutex);
+//         OSG_WARN<<"og...include/osg/Referenced(03): _refCount="<<_refCount <<std::endl;
+//         newRef = --_refCount;
+//         needDelete = newRef==0;
+//     }
+//     else
+//     {
+//         OSG_WARN<<"og...include/osg/Referenced(04): _refCount="<<_refCount <<std::endl;
+//         newRef = --_refCount;
+//         needDelete = newRef==0;
+//     }
+// #endif
 
-    if (needDelete)
-    {
-        signalObserversAndDelete(true,true);
-    }
-    return newRef;
-}
+//     if (needDelete)
+//     {
+//         signalObserversAndDelete(true,true);
+//     }
+//     return newRef;
+// }
 
 // intrusive_ptr_add_ref and intrusive_ptr_release allow
 // use of osg Referenced classes with boost::intrusive_ptr
-inline void intrusive_ptr_add_ref(Referenced* p) { p->ref(); }
-inline void intrusive_ptr_release(Referenced* p) { p->unref(); }
+inline void intrusive_ptr_add_ref(Referenced* p) { 
+    p->ref(); 
+}
+inline void intrusive_ptr_release(Referenced* p) { 
+    p->unref(); 
+}
 
 }
 

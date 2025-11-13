@@ -44,8 +44,12 @@ int DisplaySettings::getNvOptimusEnablement() const
 
 ref_ptr<DisplaySettings>& DisplaySettings::instance()
 {
-    static ref_ptr<DisplaySettings> s_displaySettings = new DisplaySettings;
-    return s_displaySettings;
+    // static ref_ptr<DisplaySettings> s_displaySettings = new DisplaySettings;
+    // return s_displaySettings;
+    static ref_ptr<DisplaySettings>* s_displaySettings = new ref_ptr<DisplaySettings>(new DisplaySettings);
+    return *s_displaySettings;
+    // 注意：这里故意不释放内存，由操作系统在程序退出时回收
+    // 这避免了静态变量销毁顺序问题
 }
 
 OSG_INIT_SINGLETON_PROXY(ProxyInitDisplaySettings, DisplaySettings::instance())

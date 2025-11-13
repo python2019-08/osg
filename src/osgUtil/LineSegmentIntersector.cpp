@@ -110,8 +110,10 @@ struct IntersectFunctor
         {
 
             // trivial reject of segment wholely outside.
-            if (e.x()<bb.xMin()) return false;
-            if (s.x()>bb.xMax()) return false;
+            if (e.x()<bb.xMin()) 
+                return false;
+            if (s.x()>bb.xMax()) 
+                return false;
 
             if (s.x()<bb.xMin())
             {
@@ -127,8 +129,10 @@ struct IntersectFunctor
         }
         else
         {
-            if (s.x()<bb.xMin()) return false;
-            if (e.x()>bb.xMax()) return false;
+            if (s.x()<bb.xMin()) 
+                return false;
+            if (e.x()>bb.xMax()) 
+                return false;
 
             if (e.x()<bb.xMin())
             {
@@ -148,8 +152,10 @@ struct IntersectFunctor
         {
 
             // trivial reject of segment wholely outside.
-            if (e.y()<bb.yMin()) return false;
-            if (s.y()>bb.yMax()) return false;
+            if (e.y()<bb.yMin()) 
+                return false;
+            if (s.y()>bb.yMax()) 
+                return false;
 
             if (s.y()<bb.yMin())
             {
@@ -165,8 +171,10 @@ struct IntersectFunctor
         }
         else
         {
-            if (s.y()<bb.yMin()) return false;
-            if (e.y()>bb.yMax()) return false;
+            if (s.y()<bb.yMin()) 
+                return false;
+            if (e.y()>bb.yMax()) 
+                return false;
 
             if (e.y()<bb.yMin())
             {
@@ -186,8 +194,10 @@ struct IntersectFunctor
         {
 
             // trivial reject of segment wholely outside.
-            if (e.z()<bb.zMin()) return false;
-            if (s.z()>bb.zMax()) return false;
+            if (e.z()<bb.zMin()) 
+                return false;
+            if (s.z()>bb.zMax()) 
+                return false;
 
             if (s.z()<bb.zMin())
             {
@@ -203,8 +213,10 @@ struct IntersectFunctor
         }
         else
         {
-            if (s.z()<bb.zMin()) return false;
-            if (e.z()>bb.zMax()) return false;
+            if (s.z()<bb.zMin()) 
+                return false;
+            if (e.z()>bb.zMax()) 
+                return false;
 
             if (e.z()<bb.zMin())
             {
@@ -233,7 +245,8 @@ struct IntersectFunctor
 
     void intersect(const osg::Vec3& v0, const osg::Vec3& v1, const osg::Vec3& v2)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         // const StartEnd startend = _startEndStack.back();
         // const osg::Vec3& ls = startend.first;
@@ -253,17 +266,21 @@ struct IntersectFunctor
         if (det>epsilon)
         {
             value_type u = (P*T);
-            if (u<0.0 || u>det) return;
+            if (u<0.0 || u>det) 
+                return;
 
             osg::Vec3 Q = T ^ E1;
             value_type v = (Q*_d);
-            if (v<0.0 || v>det) return;
+            if (v<0.0 || v>det) 
+                return;
 
-            if ((u+v)> det) return;
+            if ((u+v)> det) 
+                return;
 
             value_type inv_det = 1.0/det;
             value_type t = (Q*E2)*inv_det;
-            if (t<0.0 || t>_length) return;
+            if (t<0.0 || t>_length) 
+                return;
 
             u *= inv_det;
             v *= inv_det;
@@ -276,17 +293,21 @@ struct IntersectFunctor
         else if (det<-epsilon)
         {
             value_type u = (P*T);
-            if (u>0.0 || u<det) return;
+            if (u>0.0 || u<det) 
+                return;
 
             Vec3 Q = T ^ E1;
             value_type v = (Q*_d);
-            if (v>0.0 || v<det) return;
+            if (v>0.0 || v<det) 
+                return;
 
-            if ((u+v) < det) return;
+            if ((u+v) < det) 
+                return;
 
             value_type inv_det = 1.0/det;
             value_type t = (Q*E2)*inv_det;
-            if (t<0.0 || t>_length) return;
+            if (t<0.0 || t>_length) 
+                return;
 
             u *= inv_det;
             v *= inv_det;
@@ -384,7 +405,8 @@ struct IntersectFunctor
 
     void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0, unsigned int p1, unsigned int p2)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         _primitiveIndex = primitiveIndex;
 
@@ -393,7 +415,8 @@ struct IntersectFunctor
 
     void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         _primitiveIndex = primitiveIndex;
 
@@ -431,10 +454,22 @@ LineSegmentIntersector::LineSegmentIntersector(CoordinateFrame cf, double x, dou
 {
     switch(cf)
     {
-        case WINDOW : _start.set(x,y,0.0); _end.set(x,y,1.0); break;
-        case PROJECTION : _start.set(x,y,-1.0); _end.set(x,y,1.0); break;
-        case VIEW : _start.set(x,y,0.0); _end.set(x,y,1.0); break;
-        case MODEL : _start.set(x,y,0.0); _end.set(x,y,1.0); break;
+        case WINDOW : 
+            _start.set(x,y,0.0); 
+            _end.set(x,y,1.0); 
+            break;
+        case PROJECTION : 
+            _start.set(x,y,-1.0); 
+            _end.set(x,y,1.0); 
+            break;
+        case VIEW : 
+            _start.set(x,y,0.0); 
+            _end.set(x,y,1.0); 
+            break;
+        case MODEL : 
+            _start.set(x,y,0.0); 
+            _end.set(x,y,1.0); 
+            break;
     }
 }
 
@@ -466,22 +501,32 @@ osg::Matrix LineSegmentIntersector::getTransformation(IntersectionVisitor& iv, C
     switch (cf)
     {
         case(WINDOW):
-            if (iv.getWindowMatrix()) matrix.preMult( *iv.getWindowMatrix() );
-            if (iv.getProjectionMatrix()) matrix.preMult( *iv.getProjectionMatrix() );
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getWindowMatrix()) 
+                matrix.preMult( *iv.getWindowMatrix() );
+            if (iv.getProjectionMatrix()) 
+                matrix.preMult( *iv.getProjectionMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(PROJECTION):
-            if (iv.getProjectionMatrix()) matrix.preMult( *iv.getProjectionMatrix() );
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getProjectionMatrix()) 
+                matrix.preMult( *iv.getProjectionMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(VIEW):
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(MODEL):
-            if (iv.getModelMatrix()) matrix = *iv.getModelMatrix();
+            if (iv.getModelMatrix()) 
+                matrix = *iv.getModelMatrix();
             break;
     }
 
@@ -492,7 +537,8 @@ osg::Matrix LineSegmentIntersector::getTransformation(IntersectionVisitor& iv, C
 
 bool LineSegmentIntersector::enter(const osg::Node& node)
 {
-    if (reachedLimit()) return false;
+    if (reachedLimit()) 
+        return false;
     return !node.isCullingActive() || intersects( node.getBound() );
 }
 
@@ -503,12 +549,15 @@ void LineSegmentIntersector::leave()
 
 void LineSegmentIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Drawable* drawable)
 {
-    if (reachedLimit()) return;
+    if (reachedLimit()) 
+        return;
 
     osg::Vec3d s(_start), e(_end);
-    if ( drawable->isCullingActive() && !intersectAndClip( s, e, drawable->getBoundingBox() ) ) return;
+    if ( drawable->isCullingActive() && !intersectAndClip( s, e, drawable->getBoundingBox() ) ) 
+        return;
 
-    if (iv.getDoDummyTraversal()) return;
+    if (iv.getDoDummyTraversal()) 
+        return;
 
     intersect(iv, drawable, s, e);
 }
@@ -516,7 +565,15 @@ void LineSegmentIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Dr
 void LineSegmentIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Drawable* drawable,
                                        const osg::Vec3d& s, const osg::Vec3d& e)
 {
-    if (reachedLimit()) return;
+    if (reachedLimit()) 
+        return;
+    
+    if (!drawable)
+    {
+        OSG_FATAL<< "LineSegmentIntersector::intersect(iv,drawable,s,e): drawable is null."<<s<<" "<<e<<std::endl;
+        return;
+    }
+    
 
     LineSegmentIntersectorUtils::Settings settings;
     settings._lineSegIntersector = this;
@@ -537,16 +594,20 @@ void LineSegmentIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Dr
         osg::TemplatePrimitiveFunctor<LineSegmentIntersectorUtils::IntersectFunctor<osg::Vec3d, double> > intersector;
         intersector.set(s,e, &settings);
 
-        if (kdTree) kdTree->intersect(intersector, kdTree->getNode(0));
-        else drawable->accept(intersector);
+        if (kdTree) 
+            kdTree->intersect(intersector, kdTree->getNode(0));
+        else 
+            drawable->accept(intersector);
     }
     else
     {
         osg::TemplatePrimitiveFunctor<LineSegmentIntersectorUtils::IntersectFunctor<osg::Vec3f, float> > intersector;
         intersector.set(s,e, &settings);
 
-        if (kdTree) kdTree->intersect(intersector, kdTree->getNode(0));
-        else drawable->accept(intersector);
+        if (kdTree) 
+            kdTree->intersect(intersector, kdTree->getNode(0));
+        else 
+            drawable->accept(intersector);
     }
 }
 
@@ -560,18 +621,21 @@ void LineSegmentIntersector::reset()
 bool LineSegmentIntersector::intersects(const osg::BoundingSphere& bs)
 {
     // if bs not valid then return true based on the assumption that an invalid sphere is yet to be defined.
-    if (!bs.valid()) return true;
+    if (!bs.valid()) 
+        return true;
 
     osg::Vec3d sm = _start - bs._center;
     double c = sm.length2()-bs._radius*bs._radius;
-    if (c<0.0) return true;
+    if (c<0.0) 
+        return true;
 
     osg::Vec3d se = _end-_start;
     double a = se.length2();
     double b = (sm*se)*2.0;
     double d = b*b-4.0*a*c;
 
-    if (d<0.0) return false;
+    if (d<0.0) 
+        return false;
 
     d = sqrt(d);
 
@@ -580,14 +644,17 @@ bool LineSegmentIntersector::intersects(const osg::BoundingSphere& bs)
     double r1 = (-b-d)*div;
     double r2 = (-b+d)*div;
 
-    if (r1<=0.0 && r2<=0.0) return false;
+    if (r1<=0.0 && r2<=0.0) 
+        return false;
 
-    if (r1>=1.0 && r2>=1.0) return false;
+    if (r1>=1.0 && r2>=1.0) 
+        return false;
 
     if (_intersectionLimit == LIMIT_NEAREST && !getIntersections().empty())
     {
         double ratio = (sm.length() - bs._radius) / sqrt(a);
-        if (ratio >= getIntersections().begin()->ratio) return false;
+        if (ratio >= getIntersections().begin()->ratio) 
+            return false;
     }
 
     // passed all the rejection tests so line must intersect bounding sphere, return true.
@@ -605,40 +672,48 @@ bool LineSegmentIntersector::intersectAndClip(osg::Vec3d& s, osg::Vec3d& e,const
     if (s.x()<=e.x())
     {
         // trivial reject of segment wholely outside.
-        if (e.x()<bb_min.x()) return false;
-        if (s.x()>bb_max.x()) return false;
+        if (e.x()<bb_min.x()) 
+            return false;
+        if (s.x()>bb_max.x()) 
+            return false;
 
         if (s.x()<bb_min.x())
         {
             // clip s to xMin.
             double r = (bb_min.x()-s.x())/(e.x()-s.x()) - epsilon;
-            if (r>0.0) s = s + (e-s)*r;
+            if (r>0.0) 
+                s = s + (e-s)*r;
         }
 
         if (e.x()>bb_max.x())
         {
             // clip e to xMax.
             double r = (bb_max.x()-s.x())/(e.x()-s.x()) + epsilon;
-            if (r<1.0) e = s+(e-s)*r;
+            if (r<1.0) 
+                e = s+(e-s)*r;
         }
     }
     else
     {
-        if (s.x()<bb_min.x()) return false;
-        if (e.x()>bb_max.x()) return false;
+        if (s.x()<bb_min.x()) 
+            return false;
+        if (e.x()>bb_max.x()) 
+            return false;
 
         if (e.x()<bb_min.x())
         {
             // clip e to xMin.
             double r = (bb_min.x()-e.x())/(s.x()-e.x()) - epsilon;
-            if (r>0.0) e = e + (s-e)*r;
+            if (r>0.0) 
+                e = e + (s-e)*r;
         }
 
         if (s.x()>bb_max.x())
         {
             // clip s to xMax.
             double r = (bb_max.x()-e.x())/(s.x()-e.x()) + epsilon;
-            if (r<1.0) s = e + (s-e)*r;
+            if (r<1.0) 
+                s = e + (s-e)*r;
         }
     }
 
@@ -646,40 +721,48 @@ bool LineSegmentIntersector::intersectAndClip(osg::Vec3d& s, osg::Vec3d& e,const
     if (s.y()<=e.y())
     {
         // trivial reject of segment wholely outside.
-        if (e.y()<bb_min.y()) return false;
-        if (s.y()>bb_max.y()) return false;
+        if (e.y()<bb_min.y()) 
+            return false;
+        if (s.y()>bb_max.y()) 
+            return false;
 
         if (s.y()<bb_min.y())
         {
             // clip s to yMin.
             double r = (bb_min.y()-s.y())/(e.y()-s.y()) - epsilon;
-            if (r>0.0) s = s + (e-s)*r;
+            if (r>0.0) 
+                s = s + (e-s)*r;
         }
 
         if (e.y()>bb_max.y())
         {
             // clip e to yMax.
             double r = (bb_max.y()-s.y())/(e.y()-s.y()) + epsilon;
-            if (r<1.0) e = s+(e-s)*r;
+            if (r<1.0) 
+                e = s+(e-s)*r;
         }
     }
     else
     {
-        if (s.y()<bb_min.y()) return false;
-        if (e.y()>bb_max.y()) return false;
+        if (s.y()<bb_min.y()) 
+            return false;
+        if (e.y()>bb_max.y()) 
+            return false;
 
         if (e.y()<bb_min.y())
         {
             // clip e to yMin.
             double r = (bb_min.y()-e.y())/(s.y()-e.y()) - epsilon;
-            if (r>0.0) e = e + (s-e)*r;
+            if (r>0.0) 
+                e = e + (s-e)*r;
         }
 
         if (s.y()>bb_max.y())
         {
             // clip s to yMax.
             double r = (bb_max.y()-e.y())/(s.y()-e.y()) + epsilon;
-            if (r<1.0) s = e + (s-e)*r;
+            if (r<1.0) 
+                s = e + (s-e)*r;
         }
     }
 
@@ -687,40 +770,48 @@ bool LineSegmentIntersector::intersectAndClip(osg::Vec3d& s, osg::Vec3d& e,const
     if (s.z()<=e.z())
     {
         // trivial reject of segment wholely outside.
-        if (e.z()<bb_min.z()) return false;
-        if (s.z()>bb_max.z()) return false;
+        if (e.z()<bb_min.z()) 
+            return false;
+        if (s.z()>bb_max.z()) 
+            return false;
 
         if (s.z()<bb_min.z())
         {
             // clip s to zMin.
             double r = (bb_min.z()-s.z())/(e.z()-s.z()) - epsilon;
-            if (r>0.0) s = s + (e-s)*r;
+            if (r>0.0) 
+                s = s + (e-s)*r;
         }
 
         if (e.z()>bb_max.z())
         {
             // clip e to zMax.
             double r = (bb_max.z()-s.z())/(e.z()-s.z()) + epsilon;
-            if (r<1.0) e = s+(e-s)*r;
+            if (r<1.0) 
+                e = s+(e-s)*r;
         }
     }
     else
     {
-        if (s.z()<bb_min.z()) return false;
-        if (e.z()>bb_max.z()) return false;
+        if (s.z()<bb_min.z()) 
+            return false;
+        if (e.z()>bb_max.z()) 
+            return false;
 
         if (e.z()<bb_min.z())
         {
             // clip e to zMin.
             double r = (bb_min.z()-e.z())/(s.z()-e.z()) - epsilon;
-            if (r>0.0) e = e + (s-e)*r;
+            if (r>0.0) 
+                e = e + (s-e)*r;
         }
 
         if (s.z()>bb_max.z())
         {
             // clip s to zMax.
             double r = (bb_max.z()-e.z())/(s.z()-e.z()) + epsilon;
-            if (r<1.0) s = e + (s-e)*r;
+            if (r<1.0) 
+                s = e + (s-e)*r;
         }
     }
 
@@ -791,10 +882,12 @@ osg::Texture* LineSegmentIntersector::Intersection::getTextureLookUp(osg::Vec3& 
         if (drawable->getStateSet())
         {
             const osg::TexMat* texMat = dynamic_cast<osg::TexMat*>(drawable->getStateSet()->getTextureAttribute(0,osg::StateAttribute::TEXMAT));
-            if (texMat) activeTexMat = texMat;
+            if (texMat) 
+                activeTexMat = texMat;
 
             const osg::Texture* texture = dynamic_cast<osg::Texture*>(drawable->getStateSet()->getTextureAttribute(0,osg::StateAttribute::TEXTURE));
-            if (texture) activeTexture = texture;
+            if (texture) 
+                activeTexture = texture;
         }
 
         for(osg::NodePath::const_reverse_iterator itr = nodePath.rbegin();
@@ -807,13 +900,15 @@ osg::Texture* LineSegmentIntersector::Intersection::getTextureLookUp(osg::Vec3& 
                 if (!activeTexMat)
                 {
                     const osg::TexMat* texMat = dynamic_cast<const osg::TexMat*>(node->getStateSet()->getTextureAttribute(0,osg::StateAttribute::TEXMAT));
-                    if (texMat) activeTexMat = texMat;
+                    if (texMat) 
+                        activeTexMat = texMat;
                 }
 
                 if (!activeTexture)
                 {
                     const osg::Texture* texture = dynamic_cast<const osg::Texture*>(node->getStateSet()->getTextureAttribute(0,osg::StateAttribute::TEXTURE));
-                    if (texture) activeTexture = texture;
+                    if (texture) 
+                        activeTexture = texture;
                 }
             }
         }

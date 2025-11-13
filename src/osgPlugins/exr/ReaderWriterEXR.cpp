@@ -180,6 +180,7 @@ unsigned char *exr_load(std::istream& fin,
 public:
     ReaderWriterEXR()
     {
+        this->setName("ReaderWriterEXR");// abner-added.
     }
 
     virtual bool acceptsExtension(const std::string& extension) const { return osgDB::equalCaseInsensitive(extension,"exr"); }

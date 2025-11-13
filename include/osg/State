@@ -852,46 +852,80 @@ class OSG_EXPORT State : public Referenced
         }
 
         /** Set the frame stamp for the current frame.*/
-        inline void setFrameStamp(FrameStamp* fs) { _frameStamp = fs; }
+        inline void setFrameStamp(FrameStamp* fs) { 
+            _frameStamp = fs; 
+        }
 
         /** Get the frame stamp for the current frame.*/
-        inline FrameStamp* getFrameStamp() { return _frameStamp.get(); }
+        inline FrameStamp* getFrameStamp() { 
+            return _frameStamp.get(); 
+        }
 
         /** Get the const frame stamp for the current frame.*/
-        inline const FrameStamp* getFrameStamp() const { return _frameStamp.get(); }
+        inline const FrameStamp* getFrameStamp() const { 
+            return _frameStamp.get(); 
+        }
 
 
         /** Set the DisplaySettings. Note, nothing is applied, the visual settings are just
           * used in the State object to pass the current visual settings to Drawables
           * during rendering. */
-        inline void setDisplaySettings(DisplaySettings* vs) { _displaySettings = vs; }
+        inline void setDisplaySettings(DisplaySettings* vs) { 
+            _displaySettings = vs; 
+        }
 
         /** Get the const DisplaySettings */
-        inline DisplaySettings* getDisplaySettings() { return _displaySettings.get(); }
+        inline DisplaySettings* getDisplaySettings() { 
+            return _displaySettings.get(); 
+        }
 
         /** Get the const DisplaySettings */
-        inline const DisplaySettings* getDisplaySettings() const { return _displaySettings.get(); }
+        inline const DisplaySettings* getDisplaySettings() const { 
+            return _displaySettings.get(); 
+        }
 
-        /** Get the const DisplaySettings that is current active DisplaySettings to be used by osg::State, - if DisplaySettings is not directly assigned then fallback to DisplaySettings::instance(). */
-        inline DisplaySettings* getActiveDisplaySettings() { return _displaySettings.valid() ? _displaySettings.get() : osg::DisplaySettings::instance().get(); }
+        /** Get the const DisplaySettings that is current active DisplaySettings 
+         * to be used by osg::State, - if DisplaySettings is not directly assigned 
+         * then fallback to DisplaySettings::instance(). 
+         * */
+        inline DisplaySettings* getActiveDisplaySettings() { 
+            return _displaySettings.valid() 
+                    ? _displaySettings.get() 
+                    : osg::DisplaySettings::instance().get(); 
+        }
 
-        /** Get the const DisplaySettings that is current active DisplaySettings to be used by osg::State, - if DisplaySettings is not directly assigned then fallback to DisplaySettings::instance(). */
-        inline const DisplaySettings* getActiveDisplaySettings() const { return _displaySettings.valid() ? _displaySettings.get() : osg::DisplaySettings::instance().get(); }
+        /** Get the const DisplaySettings that is current active DisplaySettings to 
+         * be used by osg::State, - if DisplaySettings is not directly assigned then 
+         * fallback to DisplaySettings::instance(). 
+         * */
+        inline const DisplaySettings* getActiveDisplaySettings() const { 
+            return _displaySettings.valid() 
+                    ? _displaySettings.get() 
+                    : osg::DisplaySettings::instance().get(); 
+        }
 
 
-        /** Set the root StateSet this is applied above all StateSet that are pushed and popped during the draw traversal.*/
+        /** Set the root StateSet this is applied above all StateSet that are pushed 
+         *  and popped during the draw traversal.
+         * */
         void setRootStateSet(osg::StateSet* stateset);
 
         /** Get the root StateSet.*/
-        osg::StateSet* getRootStateSet() { return _rootStateSet.get(); }
+        osg::StateSet* getRootStateSet() { 
+            return _rootStateSet.get(); 
+        }
 
 
         /** Set flag for early termination of the draw traversal.*/
-        void setAbortRenderingPtr(bool* abortPtr) { _abortRenderingPtr = abortPtr; }
+        void setAbortRenderingPtr(bool* abortPtr) { 
+            _abortRenderingPtr = abortPtr; 
+        }
 
         /** Get flag for early termination of the draw traversal,
           * if true steps should be taken to complete rendering early.*/
-        bool getAbortRendering() const { return _abortRenderingPtr!=0?(*_abortRenderingPtr):false; }
+        bool getAbortRendering() const { 
+            return _abortRenderingPtr!=0?(*_abortRenderingPtr):false; 
+        }
 
 
         struct DynamicObjectRenderingCompletedCallback : public osg::Referenced
@@ -900,10 +934,14 @@ class OSG_EXPORT State : public Referenced
         };
 
         /** Set the callback to be called when the dynamic object count hits 0.*/
-        void setDynamicObjectRenderingCompletedCallback(DynamicObjectRenderingCompletedCallback* cb){ _completeDynamicObjectRenderingCallback = cb; }
+        void setDynamicObjectRenderingCompletedCallback(DynamicObjectRenderingCompletedCallback* cb){ 
+            _completeDynamicObjectRenderingCallback = cb; 
+        }
 
         /** Get the callback to be called when the dynamic object count hits 0.*/
-        DynamicObjectRenderingCompletedCallback* getDynamicObjectRenderingCompletedCallback() { return _completeDynamicObjectRenderingCallback.get(); }
+        DynamicObjectRenderingCompletedCallback* getDynamicObjectRenderingCompletedCallback() { 
+            return _completeDynamicObjectRenderingCallback.get(); 
+        }
 
         /** Set the number of dynamic objects that will be rendered in this graphics context this frame.*/
         void setDynamicObjectCount(unsigned int count, bool callCallbackOnZero = false)
@@ -911,7 +949,9 @@ class OSG_EXPORT State : public Referenced
             if (_dynamicObjectCount != count)
             {
                 _dynamicObjectCount = count;
-                if (_dynamicObjectCount==0 && callCallbackOnZero && _completeDynamicObjectRenderingCallback.valid())
+                if (_dynamicObjectCount==0 && 
+                    callCallbackOnZero && 
+                    _completeDynamicObjectRenderingCallback.valid() )
                 {
                     _completeDynamicObjectRenderingCallback->completed(this);
                 }
@@ -919,7 +959,9 @@ class OSG_EXPORT State : public Referenced
         }
 
         /** Get the number of dynamic objects that will be rendered in this graphics context this frame.*/
-        unsigned int getDynamicObjectCount() const { return _dynamicObjectCount; }
+        unsigned int getDynamicObjectCount() const { 
+            return _dynamicObjectCount; 
+        }
 
         /** Decrement the number of dynamic objects left to render this frame, and once the count goes to zero call the
           * DynamicObjectRenderingCompletedCallback to inform of completion.*/
@@ -933,10 +975,14 @@ class OSG_EXPORT State : public Referenced
         }
 
         void setMaxTexturePoolSize(unsigned int size);
-        unsigned int getMaxTexturePoolSize() const { return _maxTexturePoolSize; }
+        unsigned int getMaxTexturePoolSize() const { 
+            return _maxTexturePoolSize; 
+        }
 
         void setMaxBufferObjectPoolSize(unsigned int size);
-        unsigned int getMaxBufferObjectPoolSize() const { return _maxBufferObjectPoolSize; }
+        unsigned int getMaxBufferObjectPoolSize() const { 
+            return _maxBufferObjectPoolSize; 
+        }
 
 
         enum CheckForGLErrors
@@ -955,10 +1001,14 @@ class OSG_EXPORT State : public Referenced
         };
 
         /** Set whether and how often OpenGL errors should be checked for.*/
-        void setCheckForGLErrors(CheckForGLErrors check) { _checkGLErrors = check; }
+        void setCheckForGLErrors(CheckForGLErrors check) { 
+            _checkGLErrors = check; 
+        }
 
         /** Get whether and how often OpenGL errors should be checked for.*/
-        CheckForGLErrors getCheckForGLErrors() const { return _checkGLErrors; }
+        CheckForGLErrors getCheckForGLErrors() const { 
+            return _checkGLErrors; 
+        }
 
         bool checkGLErrors(const char* str1=0, const char* str2=0) const;
         bool checkGLErrors(const std::string& str) const;
@@ -972,17 +1022,25 @@ class OSG_EXPORT State : public Referenced
         virtual void initializeExtensionProcs();
 
         /** Get the helper class for dispatching osg::Arrays as OpenGL attribute data.*/
-        inline AttributeDispatchers& getAttributeDispatchers() { return _arrayDispatchers; }
+        inline AttributeDispatchers& getAttributeDispatchers() { 
+            return _arrayDispatchers; 
+        }
 
 
         /** Set the helper class that provides applications with estimate on how much different graphics operations will cost.*/
-        inline void setGraphicsCostEstimator(GraphicsCostEstimator* gce) { _graphicsCostEstimator = gce; }
+        inline void setGraphicsCostEstimator(GraphicsCostEstimator* gce) { 
+            _graphicsCostEstimator = gce; 
+        }
 
         /** Get the helper class that provides applications with estimate on how much different graphics operations will cost.*/
-        inline GraphicsCostEstimator* getGraphicsCostEstimator() { return _graphicsCostEstimator.get(); }
+        inline GraphicsCostEstimator* getGraphicsCostEstimator() { 
+            return _graphicsCostEstimator.get(); 
+        }
 
         /** Get the cont helper class that provides applications with estimate on how much different graphics operations will cost.*/
-        inline const GraphicsCostEstimator* getGraphicsCostEstimator() const { return _graphicsCostEstimator.get(); }
+        inline const GraphicsCostEstimator* getGraphicsCostEstimator() const { 
+            return _graphicsCostEstimator.get(); 
+        }
 
 
 
@@ -990,23 +1048,35 @@ class OSG_EXPORT State : public Referenced
          * counter available with ARB_timer_query. Note that State
          * doesn't update these values itself.
          */
-        Timer_t getStartTick() const { return _startTick; }
-        void setStartTick(Timer_t tick) { _startTick = tick; }
-        Timer_t getGpuTick() const { return _gpuTick; }
+        Timer_t getStartTick() const { 
+            return _startTick; 
+        }
+        void setStartTick(Timer_t tick) { 
+            _startTick = tick; 
+        }
+        Timer_t getGpuTick() const { 
+            return _gpuTick; 
+        }
 
         double getGpuTime() const
         {
             return osg::Timer::instance()->delta_s(_startTick, _gpuTick);
         }
-        GLuint64 getGpuTimestamp() const { return _gpuTimestamp; }
+        GLuint64 getGpuTimestamp() const { 
+            return _gpuTimestamp; 
+        }
 
         void setGpuTimestamp(Timer_t tick, GLuint64 timestamp)
         {
             _gpuTick = tick;
             _gpuTimestamp = timestamp;
         }
-        int getTimestampBits() const { return _timestampBits; }
-        void setTimestampBits(int bits) { _timestampBits = bits; }
+        int getTimestampBits() const { 
+            return _timestampBits; 
+        }
+        void setTimestampBits(int bits) { 
+            _timestampBits = bits; 
+        }
 
         /** called by the GraphicsContext just before GraphicsContext::swapBuffersImplementation().*/
         virtual void frameCompleted();
@@ -1098,9 +1168,15 @@ class OSG_EXPORT State : public Referenced
         typedef std::map<GLenum, std::string>                           ModeDefineMap;
         typedef std::vector<ModeDefineMap>                              TextureModeDefineMapList;
 
-        inline StringModeMap& getStringModeMap() { return _stringModeMap; }
-        inline TextureModeDefineMapList& getTextureModeDefineMapList() { return _textureModeDefineMapList; }
-        inline ModeDefineMap& getTextureModeDefineMap(unsigned int i) { return _textureModeDefineMapList[i]; }
+        inline StringModeMap& getStringModeMap() { 
+            return _stringModeMap; 
+        }
+        inline TextureModeDefineMapList& getTextureModeDefineMapList() { 
+            return _textureModeDefineMapList; 
+        }
+        inline ModeDefineMap& getTextureModeDefineMap(unsigned int i) { 
+            return _textureModeDefineMapList[i]; 
+        }
 
         typedef std::map<StateAttribute::GLMode,ModeStack>              ModeMap;
         typedef std::vector<ModeMap>                                    TextureModeMapList;
@@ -1112,19 +1188,40 @@ class OSG_EXPORT State : public Referenced
 
         typedef std::vector< ref_ptr<const Matrix> >                    MatrixStack;
 
-        inline const ModeMap&                                           getModeMap() const {return _modeMap;}
-        inline const AttributeMap&                                      getAttributeMap() const {return _attributeMap;}
-        inline const UniformMap&                                        getUniformMap() const {return _uniformMap;}
-        inline DefineMap&                                               getDefineMap() {return _defineMap;}
-        inline const DefineMap&                                         getDefineMap() const {return _defineMap;}
-        inline const TextureModeMapList&                                getTextureModeMapList() const {return _textureModeMapList;}
-        inline const TextureAttributeMapList&                           getTextureAttributeMapList() const {return _textureAttributeMapList;}
-        inline StateSet::DefineList&                                    getCurrentShaderCompositionDefines() { return _currentShaderCompositionDefines; }
-        inline const StateSet::DefineList&                              getCurrentShaderCompositionDefines() const { return _currentShaderCompositionDefines; }
+        inline const ModeMap&                     getModeMap() const {
+            return _modeMap;
+        }
+        inline const AttributeMap&                getAttributeMap() const {
+            return _attributeMap;
+        }
+        inline const UniformMap&                  getUniformMap() const {
+            return _uniformMap;
+        }
+        inline DefineMap&                         getDefineMap() {
+            return _defineMap;
+        }
+        inline const DefineMap&                   getDefineMap() const {
+            return _defineMap;
+        }
+        inline const TextureModeMapList&          getTextureModeMapList() const {
+            return _textureModeMapList;
+        }
+        inline const TextureAttributeMapList&     getTextureAttributeMapList() const {
+            return _textureAttributeMapList;
+        }
+        inline StateSet::DefineList&              getCurrentShaderCompositionDefines() { 
+            return _currentShaderCompositionDefines; 
+        }
+        inline const StateSet::DefineList&        getCurrentShaderCompositionDefines() const { 
+            return _currentShaderCompositionDefines; 
+        }
 
 
-        void getDefineString(std::string& shaderDefineStr, const StateSet::DefineList& currentDefines, const osg::ShaderDefines& shaderDefines);
-        void getDefineString(std::string& shaderDefineStr, const osg::ShaderPragmas& shaderPragmas);
+        void getDefineString(std::string& shaderDefineStr, 
+                const StateSet::DefineList& currentDefines, 
+                const osg::ShaderDefines& shaderDefines);
+        void getDefineString(std::string& shaderDefineStr, 
+                const osg::ShaderPragmas& shaderPragmas);
         bool supportsShaderRequirements(const osg::ShaderPragmas& shaderPragmas);
         bool supportsShaderRequirement(const std::string& shaderRequirement);
 
@@ -1186,7 +1283,11 @@ class OSG_EXPORT State : public Referenced
 
         Program::AttribBindingList  _attributeBindingList;
 
-        void setUpVertexAttribAlias(VertexAttribAlias& alias, GLuint location, const std::string glName, const std::string osgName, const std::string& declaration);
+        void setUpVertexAttribAlias(VertexAttribAlias& alias, 
+            GLuint location, 
+            const std::string glName, 
+            const std::string osgName, 
+            const std::string& declaration);
 
         /** Apply an OpenGL mode if required, passing in mode, enable flag and
           * appropriate mode stack. This is a wrapper around \c glEnable() and
@@ -1203,10 +1304,13 @@ class OSG_EXPORT State : public Referenced
             {
                 ms.last_applied_value = enabled;
 
-                if (enabled) glEnable(mode);
-                else glDisable(mode);
+                if (enabled) 
+                    glEnable(mode);
+                else 
+                    glDisable(mode);
 
-                if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(mode);
+                if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                    checkGLErrors(mode);
 
                 return true;
             }
@@ -1214,7 +1318,10 @@ class OSG_EXPORT State : public Referenced
                 return false;
         }
 
-        inline bool applyModeOnTexUnit(unsigned int unit,StateAttribute::GLMode mode,bool enabled,ModeStack& ms)
+        inline bool applyModeOnTexUnit(unsigned int unit,
+            StateAttribute::GLMode mode,
+            bool enabled,
+            ModeStack& ms)
         {
             if (ms.valid && ms.last_applied_value != enabled)
             {
@@ -1222,10 +1329,13 @@ class OSG_EXPORT State : public Referenced
                 {
                     ms.last_applied_value = enabled;
 
-                    if (enabled) glEnable(mode);
-                    else glDisable(mode);
+                    if (enabled) 
+                        glEnable(mode);
+                    else 
+                        glDisable(mode);
 
-                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(mode);
+                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                        checkGLErrors(mode);
 
                     return true;
                 }
@@ -1241,7 +1351,8 @@ class OSG_EXPORT State : public Referenced
         {
             if (as.last_applied_attribute != attribute)
             {
-                if (!as.global_default_attribute.valid()) as.global_default_attribute = attribute->cloneType()->asStateAttribute();
+                if (!as.global_default_attribute.valid()) 
+                    as.global_default_attribute = attribute->cloneType()->asStateAttribute();
 
                 as.last_applied_attribute = attribute;
                 attribute->apply(*this);
@@ -1253,7 +1364,8 @@ class OSG_EXPORT State : public Referenced
                     _shaderCompositionDirty = true;
                 }
 
-                if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(attribute);
+                if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                    checkGLErrors(attribute);
 
                 return true;
             }
@@ -1261,13 +1373,16 @@ class OSG_EXPORT State : public Referenced
                 return false;
         }
 
-        inline bool applyAttributeOnTexUnit(unsigned int unit,const StateAttribute* attribute,AttributeStack& as)
+        inline bool applyAttributeOnTexUnit(unsigned int unit,
+                const StateAttribute* attribute,
+                AttributeStack& as)
         {
             if (as.last_applied_attribute != attribute)
             {
                 if (setActiveTextureUnit(unit))
                 {
-                    if (!as.global_default_attribute.valid()) as.global_default_attribute = attribute->cloneType()->asStateAttribute();
+                    if (!as.global_default_attribute.valid()) 
+                        as.global_default_attribute = attribute->cloneType()->asStateAttribute();
 
                     as.last_applied_attribute = attribute;
                     attribute->apply(*this);
@@ -1279,7 +1394,8 @@ class OSG_EXPORT State : public Referenced
                         _shaderCompositionDirty = true;
                     }
 
-                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(attribute);
+                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                        checkGLErrors(attribute);
 
                     return true;
                 }
@@ -1306,7 +1422,8 @@ class OSG_EXPORT State : public Referenced
                         _shaderCompositionDirty = true;
                     }
 
-                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(as.global_default_attribute.get());
+                    if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                        checkGLErrors(as.global_default_attribute.get());
                 }
                 return true;
             }
@@ -1330,7 +1447,8 @@ class OSG_EXPORT State : public Referenced
                             as.last_applied_shadercomponent = sc;
                             _shaderCompositionDirty = true;
                         }
-                        if (_checkGLErrors==ONCE_PER_ATTRIBUTE) checkGLErrors(as.global_default_attribute.get());
+                        if (_checkGLErrors==ONCE_PER_ATTRIBUTE) 
+                            checkGLErrors(as.global_default_attribute.get());
                     }
                     return true;
                 }
@@ -1373,48 +1491,77 @@ class OSG_EXPORT State : public Referenced
 
         inline ModeMap& getOrCreateTextureModeMap(unsigned int unit)
         {
-            if (unit>=_textureModeMapList.size()) _textureModeMapList.resize(unit+1);
+            if (unit>=_textureModeMapList.size()) 
+                _textureModeMapList.resize(unit+1);
             return _textureModeMapList[unit];
         }
 
 
         inline AttributeMap& getOrCreateTextureAttributeMap(unsigned int unit)
         {
-            if (unit>=_textureAttributeMapList.size()) _textureAttributeMapList.resize(unit+1);
+            if (unit>=_textureAttributeMapList.size()) 
+                _textureAttributeMapList.resize(unit+1);
             return _textureAttributeMapList[unit];
         }
 
-        inline void pushModeList(ModeMap& modeMap,const StateSet::ModeList& modeList);
-        inline void pushAttributeList(AttributeMap& attributeMap,const StateSet::AttributeList& attributeList);
-        inline void pushUniformList(UniformMap& uniformMap,const StateSet::UniformList& uniformList);
-        inline void pushDefineList(DefineMap& defineMap,const StateSet::DefineList& defineList);
+        inline void pushModeList(ModeMap& modeMap,
+            const StateSet::ModeList& modeList);
+        inline void pushAttributeList(AttributeMap& attributeMap,
+            const StateSet::AttributeList& attributeList);
+        inline void pushUniformList(UniformMap& uniformMap,
+            const StateSet::UniformList& uniformList);
+        inline void pushDefineList(DefineMap& defineMap,
+            const StateSet::DefineList& defineList);
 
-        inline void popModeList(ModeMap& modeMap,const StateSet::ModeList& modeList);
-        inline void popAttributeList(AttributeMap& attributeMap,const StateSet::AttributeList& attributeList);
-        inline void popUniformList(UniformMap& uniformMap,const StateSet::UniformList& uniformList);
-        inline void popDefineList(DefineMap& defineMap,const StateSet::DefineList& defineList);
+        inline void popModeList(ModeMap& modeMap,
+            const StateSet::ModeList& modeList);
+        inline void popAttributeList(AttributeMap& attributeMap,
+            const StateSet::AttributeList& attributeList);
+        inline void popUniformList(UniformMap& uniformMap,
+            const StateSet::UniformList& uniformList);
+        inline void popDefineList(DefineMap& defineMap,
+            const StateSet::DefineList& defineList);
 
-        inline void applyModeList(ModeMap& modeMap,const StateSet::ModeList& modeList);
-        inline void applyAttributeList(AttributeMap& attributeMap,const StateSet::AttributeList& attributeList);
-        inline void applyUniformList(UniformMap& uniformMap,const StateSet::UniformList& uniformList);
-        inline void applyDefineList(DefineMap& defineMap,const StateSet::DefineList& defineList);
+        inline void applyModeList(ModeMap& modeMap,
+            const StateSet::ModeList& modeList);
+        inline void applyAttributeList(AttributeMap& attributeMap,
+            const StateSet::AttributeList& attributeList);
+        inline void applyUniformList(UniformMap& uniformMap,
+            const StateSet::UniformList& uniformList);
+        inline void applyDefineList(DefineMap& defineMap,
+            const StateSet::DefineList& defineList);
 
         inline void applyModeMap(ModeMap& modeMap);
         inline void applyAttributeMap(AttributeMap& attributeMap);
         inline void applyUniformMap(UniformMap& uniformMap);
 
-        inline void applyModeListOnTexUnit(unsigned int unit,ModeMap& modeMap,const StateSet::ModeList& modeList);
-        inline void applyAttributeListOnTexUnit(unsigned int unit,AttributeMap& attributeMap,const StateSet::AttributeList& attributeList);
+        inline void applyModeListOnTexUnit(unsigned int unit,
+            ModeMap& modeMap,
+            const StateSet::ModeList& modeList);
+        inline void applyAttributeListOnTexUnit(unsigned int unit,
+            AttributeMap& attributeMap,
+            const StateSet::AttributeList& attributeList);
 
-        inline void applyModeMapOnTexUnit(unsigned int unit,ModeMap& modeMap);
-        inline void applyAttributeMapOnTexUnit(unsigned int unit,AttributeMap& attributeMap);
+        inline void applyModeMapOnTexUnit(unsigned int unit,
+            ModeMap& modeMap);
+        inline void applyAttributeMapOnTexUnit(unsigned int unit,
+            AttributeMap& attributeMap);
 
-        void haveAppliedMode(ModeMap& modeMap,StateAttribute::GLMode mode,StateAttribute::GLModeValue value);
-        void haveAppliedMode(ModeMap& modeMap,StateAttribute::GLMode mode);
-        void haveAppliedAttribute(AttributeMap& attributeMap,const StateAttribute* attribute);
-        void haveAppliedAttribute(AttributeMap& attributeMap,StateAttribute::Type type, unsigned int member);
-        bool getLastAppliedMode(const ModeMap& modeMap,StateAttribute::GLMode mode) const;
-        const StateAttribute* getLastAppliedAttribute(const AttributeMap& attributeMap,StateAttribute::Type type, unsigned int member) const;
+        void haveAppliedMode(ModeMap& modeMap,
+            StateAttribute::GLMode mode,
+            StateAttribute::GLModeValue value);
+        void haveAppliedMode(ModeMap& modeMap,
+            StateAttribute::GLMode mode);
+        void haveAppliedAttribute(AttributeMap& attributeMap,
+            const StateAttribute* attribute);
+        void haveAppliedAttribute(AttributeMap& attributeMap,
+            StateAttribute::Type type, 
+            unsigned int member);
+        bool getLastAppliedMode(const ModeMap& modeMap,
+            StateAttribute::GLMode mode) const;
+        const StateAttribute* getLastAppliedAttribute(const AttributeMap& attributeMap,
+            StateAttribute::Type type, 
+            unsigned int member) const;
 
         void loadModelViewMatrix();
 

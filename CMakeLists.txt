@@ -165,6 +165,29 @@ IF(ANDROID)
     INCLUDE(OsgAndroidMacroUtils)
 ENDIF()
 
+# ----启用 AddressSanitizer： 仅对 Debug 配置生效  
+OPTION(ENABLE_123HWASAN   "Enable hwaddress-sanitize support" OFF)
+OPTION(ENABLE_123ASAN     "Enable address-sanitize   support" OFF)
+OPTION(ENABLE_123LEAKSAN  "Enable leak-sanitize      support" OFF)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if( ENABLE_123HWASAN ) 
+        # MAINLY for android ndk        
+        add_compile_options(-fsanitize=hwaddress -fno-omit-frame-pointer )
+        add_link_options(-fsanitize=hwaddress)
+    elseif(ENABLE_123ASAN)
+        add_compile_options( -fsanitize=address -g -O0 -fno-omit-frame-pointer )
+        add_link_options( -fsanitize=address -g "LINKER:-export-dynamic" "LINKER:-z,defs")        
+    elseif(ENABLE_123LEAKSAN)      
+        # 只检测内存泄漏，不检测越界访问
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)    
+    else()
+        add_compile_options(-g -O0 -DDEBUG)    
+    endif()
+endif()
+
+
+
 # Okay, here's the problem: On some platforms, linking against OpenThreads
 # is not enough and explicit linking to the underlying thread library
 # is also required (e.g. FreeBSD). But OpenThreads may be built with different

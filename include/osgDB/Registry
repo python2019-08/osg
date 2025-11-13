@@ -82,8 +82,12 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
           * when there is no filename extension to rely upon.
           */
         void addMimeTypeExtensionMapping(const std::string fromMimeType, const std::string toExt);
-        MimeTypeExtensionMap& getMimeTypeExtensionMap() { return _mimeTypeExtMap; }
-        const MimeTypeExtensionMap& getMimeTypeExtensionMap() const { return _mimeTypeExtMap; }
+        MimeTypeExtensionMap& getMimeTypeExtensionMap() { 
+            return _mimeTypeExtMap; 
+        }
+        const MimeTypeExtensionMap& getMimeTypeExtensionMap() const { 
+            return _mimeTypeExtMap; 
+        }
 
         void addReaderWriter(ReaderWriter* rw);
         void removeReaderWriter(ReaderWriter* rw);
@@ -126,15 +130,21 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         ReaderWriter* getReaderWriterForMimeType(const std::string& mimeType);
 
         /** get list of all registered ReaderWriters.*/
-        ReaderWriterList& getReaderWriterList() { return _rwList; }
+        ReaderWriterList& getReaderWriterList() { 
+            return _rwList; 
+        }
 
         /** get const list of all registered ReaderWriters.*/
-        const ReaderWriterList& getReaderWriterList() const { return _rwList; }
+        const ReaderWriterList& getReaderWriterList() const { 
+            return _rwList; 
+        }
 
         /** get a list of registered ReaderWriters which can handle given protocol */
-        void getReaderWriterListForProtocol(const std::string& protocol, ReaderWriterList& results) const;
+        void getReaderWriterListForProtocol(const std::string& protocol, 
+                                            ReaderWriterList& results) const;
 
-        ReaderWriter* getReaderWriterForProtocolAndExtension(const std::string& protocol, const std::string& extension);
+        ReaderWriter* getReaderWriterForProtocolAndExtension(const std::string& protocol, 
+                                                            const std::string& extension);
 
 
         typedef std::vector< osg::ref_ptr<ImageProcessor> > ImageProcessorList;
@@ -146,10 +156,14 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         ImageProcessor* getImageProcessorForExtension(const std::string& ext);
 
         /** get list of all registered ImageProcessors.*/
-        ImageProcessorList& getImageProcessorList() { return _ipList; }
+        ImageProcessorList& getImageProcessorList() { 
+            return _ipList; 
+        }
 
         /** get const list of all registered ImageProcessors.*/
-        const ImageProcessorList& getImageProcessorList() const { return _ipList; }
+        const ImageProcessorList& getImageProcessorList() const { 
+            return _ipList; 
+        }
 
 
         typedef class osgDB::FindFileCallback FindFileCallback;
@@ -158,59 +172,100 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         typedef class osgDB::FileLocationCallback FileLocationCallback;
 
         /** Set the Registry callback to use in place of the default findFile calls.*/
-        void setFindFileCallback( FindFileCallback* cb) { _findFileCallback = cb; }
+        void setFindFileCallback( FindFileCallback* cb) { 
+            _findFileCallback = cb; 
+        }
 
         /** Get the findFile callback.*/
-        FindFileCallback* getFindFileCallback() { return _findFileCallback.get(); }
+        FindFileCallback* getFindFileCallback() { 
+            return _findFileCallback.get(); 
+        }
 
         /** Get the const findFile callback.*/
-        const FindFileCallback* getFindFileCallback() const { return _findFileCallback.get(); }
-
-
-        std::string findDataFile(const std::string& fileName, const Options* options, CaseSensitivity caseSensitivity)
-        {
-            if (options && options->getFindFileCallback()) return options->getFindFileCallback()->findDataFile(fileName, options, caseSensitivity);
-            else if (_findFileCallback.valid()) return _findFileCallback->findDataFile(fileName, options, caseSensitivity);
-            else return findDataFileImplementation(fileName, options, caseSensitivity);
+        const FindFileCallback* getFindFileCallback() const { 
+            return _findFileCallback.get(); 
         }
-        std::string findDataFileImplementation(const std::string& fileName, const Options* options, CaseSensitivity caseSensitivity);
 
-        std::string findLibraryFile(const std::string& fileName, const Options* options, CaseSensitivity caseSensitivity)
+
+        std::string findDataFile(const std::string& fileName, 
+                                const Options* options, 
+                                CaseSensitivity caseSensitivity)
         {
-            if (options && options->getFindFileCallback()) return options->getFindFileCallback()->findLibraryFile(fileName, options, caseSensitivity);
-            else if (_findFileCallback.valid()) return _findFileCallback->findLibraryFile(fileName, options, caseSensitivity);
-            else return findLibraryFileImplementation(fileName, options, caseSensitivity);
+            if (options && options->getFindFileCallback()) 
+                return options->getFindFileCallback()->findDataFile(fileName, options, caseSensitivity);
+            else if (_findFileCallback.valid()) 
+                return _findFileCallback->findDataFile(fileName, options, caseSensitivity);
+            else 
+                return findDataFileImplementation(fileName, options, caseSensitivity);
         }
-        std::string findLibraryFileImplementation(const std::string& fileName, const Options* options, CaseSensitivity caseSensitivity);
+        std::string findDataFileImplementation(const std::string& fileName, 
+                                            const Options* options, 
+                                            CaseSensitivity caseSensitivity);
+
+        std::string findLibraryFile(const std::string& fileName, 
+                                    const Options* options, 
+                                    CaseSensitivity caseSensitivity)
+        {
+            if (options && options->getFindFileCallback()) 
+                return options->getFindFileCallback()->findLibraryFile(fileName, options, caseSensitivity);
+            else if (_findFileCallback.valid()) 
+                return _findFileCallback->findLibraryFile(fileName, options, caseSensitivity);
+            else 
+                return findLibraryFileImplementation(fileName, options, caseSensitivity);
+        }
+        std::string findLibraryFileImplementation(const std::string& fileName, 
+                                                const Options* options, 
+                                                CaseSensitivity caseSensitivity);
 
 
 
         /** Set the Registry callback to use in place of the default readFile calls.*/
-        void setReadFileCallback( ReadFileCallback* cb) { _readFileCallback = cb; }
+        void setReadFileCallback( ReadFileCallback* cb) { 
+            _readFileCallback = cb; 
+        }
 
         /** Get the readFile callback.*/
-        ReadFileCallback* getReadFileCallback() { return _readFileCallback.get(); }
+        ReadFileCallback* getReadFileCallback() { 
+            return _readFileCallback.get(); 
+        }
 
         /** Get the const readFile callback.*/
-        const ReadFileCallback* getReadFileCallback() const { return _readFileCallback.get(); }
-
-
-        ReaderWriter::ReadResult openArchive(const std::string& fileName,ReaderWriter::ArchiveStatus status, unsigned int indexBlockSizeHint, const Options* options)
-        {
-            if (options && options->getReadFileCallback()) return options->getReadFileCallback()->openArchive(fileName, status, indexBlockSizeHint, options);
-            else if (_readFileCallback.valid()) return _readFileCallback->openArchive(fileName, status, indexBlockSizeHint, options);
-            else return openArchiveImplementation(fileName, status, indexBlockSizeHint, options);
+        const ReadFileCallback* getReadFileCallback() const { 
+            return _readFileCallback.get(); 
         }
-        ReaderWriter::ReadResult openArchiveImplementation(const std::string& fileName, ReaderWriter::ArchiveStatus status, unsigned int indexBlockSizeHint, const Options* options);
 
-        ReaderWriter::ReadResult readObject(const std::string& fileName,const Options* options, bool buildKdTreeIfRequired=true)
+
+        ReaderWriter::ReadResult openArchive(const std::string& fileName,
+                                        ReaderWriter::ArchiveStatus status, 
+                                        unsigned int indexBlockSizeHint, 
+                                        const Options* options)
+        {
+            if (options && options->getReadFileCallback()) 
+                return options->getReadFileCallback()->openArchive(fileName, status, indexBlockSizeHint, options);
+            else if (_readFileCallback.valid()) 
+                return _readFileCallback->openArchive(fileName, status, indexBlockSizeHint, options);
+            else 
+                return openArchiveImplementation(fileName, status, indexBlockSizeHint, options);
+        }
+        ReaderWriter::ReadResult openArchiveImplementation(const std::string& fileName, 
+                                                        ReaderWriter::ArchiveStatus status, 
+                                                        unsigned int indexBlockSizeHint, 
+                                                        const Options* options);
+
+        ReaderWriter::ReadResult readObject(const std::string& fileName,
+                                            const Options* options, 
+                                            bool buildKdTreeIfRequired=true)
         {
             ReaderWriter::ReadResult result;
-            if (options && options->getReadFileCallback()) result = options->getReadFileCallback()->readObject(fileName,options);
-            else if (_readFileCallback.valid()) result = _readFileCallback->readObject(fileName,options);
-            else result = readObjectImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                result = options->getReadFileCallback()->readObject(fileName,options);
+            else if (_readFileCallback.valid()) 
+                result = _readFileCallback->readObject(fileName,options);
+            else 
+                result = readObjectImplementation(fileName,options);
 
-            if (buildKdTreeIfRequired) _buildKdTreeIfRequired(result, options);
+            if (buildKdTreeIfRequired) 
+                _buildKdTreeIfRequired(result, options);
 
             return result;
         }
@@ -218,26 +273,38 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
 
         ReaderWriter::ReadResult readImage(const std::string& fileName,const Options* options)
         {
-            if (options && options->getReadFileCallback()) return options->getReadFileCallback()->readImage(fileName,options);
-            else if (_readFileCallback.valid()) return _readFileCallback->readImage(fileName,options);
-            else return readImageImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                return options->getReadFileCallback()->readImage(fileName,options);
+            else if (_readFileCallback.valid()) 
+                return _readFileCallback->readImage(fileName,options);
+            else return 
+                readImageImplementation(fileName,options);
         }
         ReaderWriter::ReadResult readImageImplementation(const std::string& fileName,const Options* options);
 
         ReaderWriter::ReadResult readHeightField(const std::string& fileName,const Options* options)
         {
-            if (options && options->getReadFileCallback()) return options->getReadFileCallback()->readHeightField(fileName,options);
-            else if (_readFileCallback.valid()) return _readFileCallback->readHeightField(fileName,options);
-            else return readHeightFieldImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                return options->getReadFileCallback()->readHeightField(fileName,options);
+            else if (_readFileCallback.valid()) 
+                return _readFileCallback->readHeightField(fileName,options);
+            else 
+                return readHeightFieldImplementation(fileName,options);
         }
-        ReaderWriter::ReadResult readHeightFieldImplementation(const std::string& fileName,const Options* options);
+        ReaderWriter::ReadResult readHeightFieldImplementation(const std::string& fileName,
+                                                            const Options* options);
 
-        ReaderWriter::ReadResult readNode(const std::string& fileName,const Options* options, bool buildKdTreeIfRequired=true)
+        ReaderWriter::ReadResult readNode(const std::string& fileName,
+                                    const Options* options, 
+                                    bool buildKdTreeIfRequired=true)
         {
             ReaderWriter::ReadResult result;
-            if (options && options->getReadFileCallback()) result = options->getReadFileCallback()->readNode(fileName,options);
-            else if (_readFileCallback.valid()) result = _readFileCallback->readNode(fileName,options);
-            else result = readNodeImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                result = options->getReadFileCallback()->readNode(fileName,options);
+            else if (_readFileCallback.valid()) 
+                result = _readFileCallback->readNode(fileName,options);
+            else 
+                result = readNodeImplementation(fileName,options);
 
             if (buildKdTreeIfRequired) _buildKdTreeIfRequired(result, options);
 
@@ -247,17 +314,23 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
 
         ReaderWriter::ReadResult readShader(const std::string& fileName,const Options* options)
         {
-            if (options && options->getReadFileCallback()) return options->getReadFileCallback()->readShader(fileName,options);
-            if (_readFileCallback.valid()) return _readFileCallback->readShader(fileName,options);
-            else return readShaderImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                return options->getReadFileCallback()->readShader(fileName,options);
+            if (_readFileCallback.valid()) 
+                return _readFileCallback->readShader(fileName,options);
+            else 
+                return readShaderImplementation(fileName,options);
         }
         ReaderWriter::ReadResult readShaderImplementation(const std::string& fileName,const Options* options);
 
         ReaderWriter::ReadResult readScript(const std::string& fileName,const Options* options)
         {
-            if (options && options->getReadFileCallback()) return options->getReadFileCallback()->readScript(fileName,options);
-            else if (_readFileCallback.valid()) return _readFileCallback->readScript(fileName,options);
-            else return readScriptImplementation(fileName,options);
+            if (options && options->getReadFileCallback()) 
+                return options->getReadFileCallback()->readScript(fileName,options);
+            else if (_readFileCallback.valid()) 
+                return _readFileCallback->readScript(fileName,options);
+            else 
+                return readScriptImplementation(fileName,options);
         }
         ReaderWriter::ReadResult readScriptImplementation(const std::string& fileName,const Options* options);
 
@@ -266,59 +339,105 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         void setWriteFileCallback( WriteFileCallback* cb) { _writeFileCallback = cb; }
 
         /** Get the writeFile callback.*/
-        WriteFileCallback* getWriteFileCallback() { return _writeFileCallback.get(); }
+        WriteFileCallback* getWriteFileCallback() { 
+            return _writeFileCallback.get(); 
+        }
 
         /** Get the const writeFile callback.*/
-        const WriteFileCallback* getWriteFileCallback() const { return _writeFileCallback.get(); }
-
-
-        ReaderWriter::WriteResult writeObject(const osg::Object& obj, const std::string& fileName,const Options* options)
-        {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeObject(obj,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeObject(obj,fileName,options);
-            else return writeObjectImplementation(obj,fileName,options);
+        const WriteFileCallback* getWriteFileCallback() const { 
+            return _writeFileCallback.get(); 
         }
-        ReaderWriter::WriteResult writeObjectImplementation(const osg::Object& obj, const std::string& fileName,const Options* options);
 
-        ReaderWriter::WriteResult writeImage(const osg::Image& obj, const std::string& fileName,const Options* options)
-        {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeImage(obj,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeImage(obj,fileName,options);
-            else return writeImageImplementation(obj,fileName,options);
-        }
-        ReaderWriter::WriteResult writeImageImplementation(const osg::Image& obj, const std::string& fileName,const Options* options);
 
-        ReaderWriter::WriteResult writeHeightField(const osg::HeightField& obj, const std::string& fileName,const Options* options)
+        ReaderWriter::WriteResult writeObject(const osg::Object& obj, 
+                                            const std::string& fileName,
+                                            const Options* options)
         {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeHeightField(obj,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeHeightField(obj,fileName,options);
-            else return writeHeightFieldImplementation(obj,fileName,options);
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeObject(obj,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeObject(obj,fileName,options);
+            else 
+                return writeObjectImplementation(obj,fileName,options);
         }
-        ReaderWriter::WriteResult writeHeightFieldImplementation(const osg::HeightField& obj, const std::string& fileName,const Options* options);
+        ReaderWriter::WriteResult writeObjectImplementation(const osg::Object& obj, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
 
-        ReaderWriter::WriteResult writeNode(const osg::Node& node, const std::string& fileName,const Options* options)
+        ReaderWriter::WriteResult writeImage(const osg::Image& obj, 
+                                            const std::string& fileName,
+                                            const Options* options)
         {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeNode(node,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeNode(node,fileName,options);
-            else return writeNodeImplementation(node,fileName,options);
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeImage(obj,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeImage(obj,fileName,options);
+            else 
+                return writeImageImplementation(obj,fileName,options);
         }
-        ReaderWriter::WriteResult writeNodeImplementation(const osg::Node& node, const std::string& fileName,const Options* options);
+        ReaderWriter::WriteResult writeImageImplementation(const osg::Image& obj, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
 
-        ReaderWriter::WriteResult writeShader(const osg::Shader& obj, const std::string& fileName,const Options* options)
+        ReaderWriter::WriteResult writeHeightField(const osg::HeightField& obj, 
+                                                const std::string& fileName,
+                                                const Options* options)
         {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeShader(obj,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeShader(obj,fileName,options);
-            else return writeShaderImplementation(obj,fileName,options);
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeHeightField(obj,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeHeightField(obj,fileName,options);
+            else 
+                return writeHeightFieldImplementation(obj,fileName,options);
         }
-        ReaderWriter::WriteResult writeShaderImplementation(const osg::Shader& obj, const std::string& fileName,const Options* options);
+        ReaderWriter::WriteResult writeHeightFieldImplementation(const osg::HeightField& obj, 
+                                                            const std::string& fileName,
+                                                            const Options* options);
 
-        ReaderWriter::WriteResult writeScript(const osg::Script& obj, const std::string& fileName,const Options* options)
+        ReaderWriter::WriteResult writeNode(const osg::Node& node, 
+                                            const std::string& fileName,
+                                            const Options* options)
         {
-            if (options && options->getWriteFileCallback()) return options->getWriteFileCallback()->writeScript(obj,fileName,options);
-            else if (_writeFileCallback.valid()) return _writeFileCallback->writeScript(obj,fileName,options);
-            else return writeScriptImplementation(obj,fileName,options);
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeNode(node,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeNode(node,fileName,options);
+            else 
+                return writeNodeImplementation(node,fileName,options);
         }
-        ReaderWriter::WriteResult writeScriptImplementation(const osg::Script& obj, const std::string& fileName,const Options* options);
+        ReaderWriter::WriteResult writeNodeImplementation(const osg::Node& node, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
+
+        ReaderWriter::WriteResult writeShader(const osg::Shader& obj, 
+                                            const std::string& fileName,
+                                            const Options* options)
+        {
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeShader(obj,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeShader(obj,fileName,options);
+            else 
+                return writeShaderImplementation(obj,fileName,options);
+        }
+        ReaderWriter::WriteResult writeShaderImplementation(const osg::Shader& obj, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
+
+        ReaderWriter::WriteResult writeScript(const osg::Script& obj, 
+                                            const std::string& fileName,
+                                            const Options* options)
+        {
+            if (options && options->getWriteFileCallback()) 
+                return options->getWriteFileCallback()->writeScript(obj,fileName,options);
+            else if (_writeFileCallback.valid()) 
+                return _writeFileCallback->writeScript(obj,fileName,options);
+            else 
+                return writeScriptImplementation(obj,fileName,options);
+        }
+        ReaderWriter::WriteResult writeScriptImplementation(const osg::Script& obj, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
 
         inline void _buildKdTreeIfRequired(ReaderWriter::ReadResult& result, const Options* options)
         {
@@ -334,113 +453,179 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         }
 
         /** Set the callback to use inform to the DatabasePager whether a file is located on local or remote file system.*/
-        void setFileLocationCallback( FileLocationCallback* cb) { _fileLocationCallback = cb; }
+        void setFileLocationCallback( FileLocationCallback* cb) {
+             _fileLocationCallback = cb; 
+        }
 
         /** Get the callback to use inform to the DatabasePager whether a file is located on local or remote file system.*/
-        FileLocationCallback* getFileLocationCallback() const { return _fileLocationCallback.get(); }
+        FileLocationCallback* getFileLocationCallback() const { 
+            return _fileLocationCallback.get(); 
+        }
 
 
 
         /** Set whether the KdTrees should be built for geometry in the loader model. */
-        void setBuildKdTreesHint(Options::BuildKdTreesHint hint) { _buildKdTreesHint = hint; }
+        void setBuildKdTreesHint(Options::BuildKdTreesHint hint) { 
+            _buildKdTreesHint = hint; 
+        }
 
         /** Get whether the KdTrees should be built for geometry in the loader model. */
-        Options::BuildKdTreesHint getBuildKdTreesHint() const { return _buildKdTreesHint; }
+        Options::BuildKdTreesHint getBuildKdTreesHint() const { 
+            return _buildKdTreesHint; 
+        }
 
         /** Set the KdTreeBuilder visitor that is used to build KdTree on loaded models.*/
-        void setKdTreeBuilder(osg::KdTreeBuilder* builder) { _kdTreeBuilder = builder; }
+        void setKdTreeBuilder(osg::KdTreeBuilder* builder) { 
+            _kdTreeBuilder = builder; 
+        }
 
         /** Get the KdTreeBuilder visitor that is used to build KdTree on loaded models.*/
-        osg::KdTreeBuilder* getKdTreeBuilder() { return _kdTreeBuilder.get(); }
+        osg::KdTreeBuilder* getKdTreeBuilder() { 
+            return _kdTreeBuilder.get(); 
+        }
 
 
         /** Set the FileCache that is used to manage local storage of files downloaded from the internet.*/
-        void setFileCache(FileCache* fileCache) { _fileCache = fileCache; }
+        void setFileCache(FileCache* fileCache) { 
+            _fileCache = fileCache; 
+        }
 
         /** Get the FileCache that is used to manage local storage of files downloaded from the internet.*/
-        FileCache* getFileCache() { return _fileCache.get(); }
+        FileCache* getFileCache() { 
+            return _fileCache.get(); 
+        }
 
         /** Get the const FileCache that is used to manage local storage of files downloaded from the internet.*/
-        const FileCache* getFileCache() const { return _fileCache.get(); }
+        const FileCache* getFileCache() const { 
+            return _fileCache.get(); 
+        }
 
 
         /** Set the password map to be used by plugins when access files from secure locations.*/
-        void setAuthenticationMap(AuthenticationMap* authenticationMap) { _authenticationMap = authenticationMap; }
+        void setAuthenticationMap(AuthenticationMap* authenticationMap) { 
+            _authenticationMap = authenticationMap; 
+        }
 
         /** Get the password map to be used by plugins when access files from secure locations. Create a AuthenticationMap if one isn't already assigned.*/
         AuthenticationMap* getOrCreateAuthenticationMap()
         {
-            if (!_authenticationMap) _authenticationMap = new AuthenticationMap;
+            if (!_authenticationMap) 
+                _authenticationMap = new AuthenticationMap;
             return _authenticationMap.get();
         }
 
         /** Get the password map to be used by plugins when access files from secure locations.*/
-        AuthenticationMap* getAuthenticationMap() { return _authenticationMap.get(); }
+        AuthenticationMap* getAuthenticationMap() { 
+            return _authenticationMap.get(); 
+        }
 
         /** Get the password map to be used by plugins when access files from secure locations.*/
-        const AuthenticationMap* getAuthenticationMap() const { return _authenticationMap.get(); }
+        const AuthenticationMap* getAuthenticationMap() const { 
+            return _authenticationMap.get(); 
+        }
 
 
-        void setCreateNodeFromImage(bool flag) { _createNodeFromImage = flag; }
-        bool getCreateNodeFromImage() const { return _createNodeFromImage; }
+        void setCreateNodeFromImage(bool flag) { 
+            _createNodeFromImage = flag; 
+        }
+        bool getCreateNodeFromImage() const { 
+            return _createNodeFromImage; 
+        }
 
 
-        void setOptions(Options* opt) { _options = opt; }
-        Options* getOptions() { return _options.get(); }
-        const Options*  getOptions() const { return _options.get(); }
+        void setOptions(Options* opt) { 
+            _options = opt; 
+        }
+        Options* getOptions() { 
+            return _options.get(); 
+        }
+        const Options*  getOptions() const { 
+            return _options.get(); 
+        }
 
 
         /** initialize both the Data and Library FilePaths, by default called by the
           * constructor, so it should only be required if you want to force
           * the re-reading of environmental variables.*/
-        void initFilePathLists() { initDataFilePathList(); initLibraryFilePathList(); }
+        void initFilePathLists() { 
+            initDataFilePathList(); 
+            initLibraryFilePathList(); 
+        }
 
         /** initialize the Data FilePath by reading the OSG_FILE_PATH environmental variable.*/
         void initDataFilePathList();
 
         /** Set the data file path using a list of paths stored in a FilePath, which is used when search for data files.*/
-        void setDataFilePathList(const FilePathList& filepath) { _dataFilePath = filepath; }
+        void setDataFilePathList(const FilePathList& filepath) { 
+            _dataFilePath = filepath; 
+        }
 
-        /** Set the data file path using a single string delimited either with ';' (Windows) or ':' (All other platforms), which is used when search for data files.*/
+        /** Set the data file path using a single string delimited either with ';' (Windows) 
+         * or ':' (All other platforms), which is used when search for data files.
+         * */
         void setDataFilePathList(const std::string& paths);
 
         /** get the data file path which is used when search for data files.*/
-        FilePathList& getDataFilePathList() { return _dataFilePath; }
+        FilePathList& getDataFilePathList() { 
+            return _dataFilePath; 
+        }
 
         /** get the const data file path which is used when search for data files.*/
-        const FilePathList& getDataFilePathList() const { return _dataFilePath; }
+        const FilePathList& getDataFilePathList() const { 
+            return _dataFilePath; 
+        }
 
         /** initialize the Library FilePath by reading the OSG_LIBRARY_PATH
           * and the appropriate system environmental variables*/
         void initLibraryFilePathList();
 
         /** Set the library file path using a list of paths stored in a FilePath, which is used when search for data files.*/
-        void setLibraryFilePathList(const FilePathList& filepath) { _libraryFilePath = filepath; }
+        void setLibraryFilePathList(const FilePathList& filepath) { 
+            _libraryFilePath = filepath; 
+        }
 
-        /** Set the library file path using a single string delimited either with ';' (Windows) or ':' (All other platforms), which is used when search for data files.*/
+        /** Set the library file path using a single string delimited either with ';' (Windows) 
+         * or ':' (All other platforms), which is used when search for data files.
+         * */
         void setLibraryFilePathList(const std::string& paths);
 
         /** get the library file path which is used when search for library (dso/dll's) files.*/
-        FilePathList& getLibraryFilePathList() { return _libraryFilePath; }
+        FilePathList& getLibraryFilePathList() { 
+            return _libraryFilePath; 
+        }
 
         /** get the const library file path which is used when search for library (dso/dll's) files.*/
-        const FilePathList& getLibraryFilePathList() const { return _libraryFilePath; }
+        const FilePathList& getLibraryFilePathList() const { 
+            return _libraryFilePath; 
+        }
 
 
 
         /** Set the ObjectCache that is used to manage local storage of files downloaded from the internet.*/
-        void setObjectCache(ObjectCache* objectCache) { _objectCache = objectCache; }
+        void setObjectCache(ObjectCache* objectCache) { 
+            _objectCache = objectCache; 
+        }
 
         /** Get the ObjectCache that is used to manage local storage of files downloaded from the internet.*/
-        ObjectCache* getObjectCache() { return _objectCache.get(); }
+        ObjectCache* getObjectCache() { 
+            return _objectCache.get(); 
+        }
 
         /** Get the const ObjectCache that is used to manage local storage of files downloaded from the internet.*/
-        const ObjectCache* getObjectCache() const { return _objectCache.get(); }
+        const ObjectCache* getObjectCache() const { 
+            return _objectCache.get(); 
+        }
 
-        /** set hint to viewer code calling removeExpiredObjectsInCache to specify how long it should give before expiring objects in Registry cache,*/
-        void setExpiryDelay(double expiryDelay) { _expiryDelay = expiryDelay; }
+        /** set hint to viewer code calling removeExpiredObjectsInCache to specify how long 
+         * it should give before expiring objects in Registry cache,
+         * */
+        void setExpiryDelay(double expiryDelay) { 
+            _expiryDelay = expiryDelay; 
+        }
 
-        double getExpiryDelay() const { return _expiryDelay; }
+        double getExpiryDelay() const { 
+            return _expiryDelay; 
+        }
 
         /** For each object in the cache which has an reference count greater than 1
           * (and therefore referenced by elsewhere in the application) set the time stamp
@@ -460,7 +645,10 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         void clearObjectCache();
 
         /** Add a filename,object,timestamp triple to the Registry::ObjectCache.*/
-        void addEntryToObjectCache(const std::string& filename, osg::Object* object, double timestamp = 0.0, Options *options = NULL);
+        void addEntryToObjectCache(const std::string& filename, 
+                                osg::Object* object, 
+                                double timestamp = 0.0, 
+                                Options *options = NULL);
 
         /** Remove Object from cache.*/
         void removeFromObjectCache(const std::string& fileName, Options *options =  NULL);
@@ -497,13 +685,17 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         DynamicLibrary*              getLibrary(const std::string& fileName);
 
         /** Set the SharedStateManager.*/
-        void setSharedStateManager(SharedStateManager* SharedStateManager) { _sharedStateManager = SharedStateManager; }
+        void setSharedStateManager(SharedStateManager* SharedStateManager) { 
+            _sharedStateManager = SharedStateManager; 
+        }
 
         /** Get the SharedStateManager, creating one if one is not already created.*/
         SharedStateManager* getOrCreateSharedStateManager();
 
         /** Get the SharedStateManager. Return 0 if no SharedStateManager has been assigned.*/
-        SharedStateManager* getSharedStateManager() { return _sharedStateManager.get(); }
+        SharedStateManager* getSharedStateManager() { 
+            return _sharedStateManager.get(); 
+        }
 
         /** Add an Archive extension.*/
         void addArchiveExtension(const std::string ext);
@@ -515,13 +707,19 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         bool isProtocolRegistered(const std::string& protocol);
 
         /** Get the ObjectWrapperManager that is used to store all the ObjectWrappers. */
-        ObjectWrapperManager* getObjectWrapperManager() { return _objectWrapperManager.get(); }
+        ObjectWrapperManager* getObjectWrapperManager() { 
+            return _objectWrapperManager.get(); 
+        }
 
         /** Get the ObjectWrapperManager that is used to store all the ObjectWrappers. */
-        DeprecatedDotOsgWrapperManager* getDeprecatedDotOsgObjectWrapperManager() { return _deprecatedDotOsgWrapperManager.get(); }
+        DeprecatedDotOsgWrapperManager* getDeprecatedDotOsgObjectWrapperManager() { 
+            return _deprecatedDotOsgWrapperManager.get(); 
+        }
 
         typedef std::vector< std::string> ArchiveExtensionList;
-        const ArchiveExtensionList& getArchiveExtensions() const { return _archiveExtList; }
+        const ArchiveExtensionList& getArchiveExtensions() const { 
+            return _archiveExtList; 
+        }
 
     protected:
 
@@ -596,7 +794,8 @@ class OSGDB_EXPORT Registry : osg::depends_on<OpenThreads::Mutex*, osg::Referenc
         friend struct ReadScriptFunctor;
 
         ReaderWriter::ReadResult read(const ReadFunctor& readFunctor);
-        ReaderWriter::ReadResult readImplementation(const ReadFunctor& readFunctor,Options::CacheHintOptions cacheHint);
+        ReaderWriter::ReadResult readImplementation(const ReadFunctor& readFunctor,
+                                                Options::CacheHintOptions cacheHint);
 
 
         // forward declare helper class

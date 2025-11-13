@@ -289,19 +289,23 @@ void OperationThread::setOperationQueue(OperationQueue* opq)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_threadMutex);
 
-    if (_operationQueue == opq) return;
+    if (_operationQueue == opq) 
+        return;
 
-    if (_operationQueue.valid()) _operationQueue->removeOperationThread(this);
+    if (_operationQueue.valid()) 
+        _operationQueue->removeOperationThread(this);
 
     _operationQueue = opq;
 
-    if (_operationQueue.valid()) _operationQueue->addOperationThread(this);
+    if (_operationQueue.valid()) 
+        _operationQueue->addOperationThread(this);
 }
 
 void OperationThread::setDone(bool done)
 {
     unsigned d = done?1:0;
-    if (_done==d) return;
+    if (_done==d) 
+        return;
 
     _done.exchange(d);
 
@@ -318,7 +322,8 @@ void OperationThread::setDone(bool done)
             }
         }
 
-        if (_operationQueue.valid()) _operationQueue->releaseOperationsBlock();
+        if (_operationQueue.valid()) 
+            _operationQueue->releaseOperationsBlock();
     }
 }
 
@@ -343,7 +348,8 @@ int OperationThread::cancel()
                 //_operationQueue->releaseAllOperations();
             }
 
-            if (_currentOperation.valid()) _currentOperation->release();
+            if (_currentOperation.valid()) 
+                _currentOperation->release();
         }
 
         // then wait for the thread to stop running.
@@ -360,7 +366,8 @@ int OperationThread::cancel()
                     // _operationQueue->releaseAllOperations();
                 }
 
-                if (_currentOperation.valid()) _currentOperation->release();
+                if (_currentOperation.valid()) 
+                    _currentOperation->release();
             }
 #endif
             // commenting out debug info as it was cashing crash on exit, presumable
@@ -382,26 +389,30 @@ int OperationThread::cancel()
 void OperationThread::add(Operation* operation)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_threadMutex);
-    if (!_operationQueue) _operationQueue = new OperationQueue;
+    if (!_operationQueue) 
+        _operationQueue = new OperationQueue;
     _operationQueue->add(operation);
 }
 
 void OperationThread::remove(Operation* operation)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_threadMutex);
-    if (_operationQueue.valid()) _operationQueue->remove(operation);
+    if (_operationQueue.valid()) 
+        _operationQueue->remove(operation);
 }
 
 void OperationThread::remove(const std::string& name)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_threadMutex);
-    if (_operationQueue.valid()) _operationQueue->remove(name);
+    if (_operationQueue.valid()) 
+        _operationQueue->remove(name);
 }
 
 void OperationThread::removeAllOperations()
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_threadMutex);
-    if (_operationQueue.valid()) _operationQueue->removeAllOperations();
+    if (_operationQueue.valid()) 
+        _operationQueue->removeAllOperations();
 }
 
 void OperationThread::run()
@@ -423,7 +434,8 @@ void OperationThread::run()
 
         operation = operationQueue->getNextOperation(true);
 
-        if (_done) break;
+        if (_done) 
+            break;
 
         if (operation.valid())
         {

@@ -17,7 +17,9 @@
 
 class ReaderWriterDOT : public osgDB::ReaderWriter {
   public:
-
+    ReaderWriterDOT(){
+      this->setName("ReaderWriterDOT");//
+    }
     virtual const char* className() const { return "DOT Writer"; }
     virtual bool acceptsExtension(const std::string& extension) const { return osgDB::equalCaseInsensitive(extension,"dot"); }
 

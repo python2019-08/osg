@@ -47,7 +47,9 @@ using namespace osgViewer;
 
 osg::DisplaySettings* ViewConfig::getActiveDisplaySetting(osgViewer::View& view) const
 {
-    return view.getDisplaySettings()  ? view.getDisplaySettings() : osg::DisplaySettings::instance().get();
+    return view.getDisplaySettings()  
+            ? view.getDisplaySettings() 
+            : osg::DisplaySettings::instance().get();
 }
 
 class CollectedCoordinateSystemNodesVisitor : public osg::NodeVisitor

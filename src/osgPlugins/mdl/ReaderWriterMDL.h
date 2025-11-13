@@ -12,7 +12,7 @@ namespace mdl
 class ReaderWriterMDL : public osgDB::ReaderWriter
 {
 public:
-
+    ReaderWriterMDL();
     virtual const char*   className() const;
 
     virtual bool   acceptsExtension(const std::string& extension) const;

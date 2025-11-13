@@ -130,7 +130,9 @@ void Cursor::updatePosition()
     osgViewer::View* view = dynamic_cast<osgViewer::View*>(_camera->getView());
     if (view)
     {
-        osg::DisplaySettings* ds = (view->getDisplaySettings()!=0) ? view->getDisplaySettings() : osg::DisplaySettings::instance().get();
+        osg::DisplaySettings* ds = (view->getDisplaySettings()!=0) 
+                                ? view->getDisplaySettings() 
+                                : osg::DisplaySettings::instance().get();
 
         double sd = ds->getScreenDistance();
         double fusionDistance = sd;

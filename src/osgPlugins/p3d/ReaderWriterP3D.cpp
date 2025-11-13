@@ -43,7 +43,7 @@ public:
     ReaderWriterP3DXML()
     {
         supportsOption("suppressEnvTags", "if set to (true|1) all env-tags in the p3d-file will be suppressed");
-
+        this->setName("ReaderWriterP3DXML");//abner-added
         _colorMap["WHITE"]  .set(1.0f,1.0f,1.0f,1.0f);
         _colorMap["BLACK"]  .set(0.0f,0.0f,0.0f,1.0f);
         _colorMap["PURPLE"] .set(1.0f,0.0f,1.0f,1.0f);

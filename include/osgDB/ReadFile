@@ -174,10 +174,12 @@ inline osg::ref_ptr<osg::Shader> readRefShaderFile(const std::string& filename)
   * The osgDB::Registry is used to load the appropriate ReaderWriter plugin
   * for the filename extension, and this plugin then handles the request
   * to read the specified file.*/
-inline osg::ref_ptr<osg::Shader> readRefShaderFile(osg::Shader::Type type, const std::string& filename, const Options* options)
+inline osg::ref_ptr<osg::Shader> readRefShaderFile(osg::Shader::Type type, 
+  const std::string& filename, const Options* options)
 {
     osg::ref_ptr<osg::Shader> shader = readRefShaderFile(filename, options);
-    if (shader.valid() && type != osg::Shader::UNDEFINED) shader->setType(type);
+    if (shader.valid() && type != osg::Shader::UNDEFINED) 
+      shader->setType(type);
     return shader;
 }
 
@@ -197,13 +199,15 @@ inline osg::ref_ptr<osg::Shader> readRefShaderFile(osg::Shader::Type type, const
   * The osgDB::Registry is used to load the appropriate ReaderWriter plugin
   * for the filename extension, and this plugin then handles the request
   * to read the specified file.*/
-extern OSGDB_EXPORT osg::ref_ptr<osg::Shader> readRefShaderFileWithFallback(osg::Shader::Type type, const std::string& filename, const Options* options, const char* fallback);
+extern OSGDB_EXPORT osg::ref_ptr<osg::Shader> readRefShaderFileWithFallback(osg::Shader::Type type, 
+  const std::string& filename, const Options* options, const char* fallback);
 
 /** Read an osg::Shader from file and set to specified shader type, if a shader isn't loaded fallback to specific shader source.
   * The osgDB::Registry is used to load the appropriate ReaderWriter plugin
   * for the filename extension, and this plugin then handles the request
   * to read the specified file.*/
-inline osg::ref_ptr<osg::Shader> readRefShaderFileWithFallback(osg::Shader::Type type, const std::string& filename, const char* fallback)
+inline osg::ref_ptr<osg::Shader> readRefShaderFileWithFallback(osg::Shader::Type type, 
+  const std::string& filename, const char* fallback)
 {
     return osgDB::readRefShaderFileWithFallback(type, filename, Registry::instance()->getOptions(), fallback);
 }
@@ -379,10 +383,12 @@ inline osg::Shader*  readShaderFile(const std::string& filename)
   * The osgDB::Registry is used to load the appropriate ReaderWriter plugin
   * for the filename extension, and this plugin then handles the request
   * to read the specified file.*/
-inline osg::Shader* readShaderFile(osg::Shader::Type type, const std::string& filename,const Options* options)
+inline osg::Shader* readShaderFile(osg::Shader::Type type, 
+  const std::string& filename,const Options* options)
 {
     osg::Shader* shader = readShaderFile(filename, options);
-    if (shader && type != osg::Shader::UNDEFINED) shader->setType(type);
+    if (shader && type != osg::Shader::UNDEFINED) 
+      shader->setType(type);
     return shader;
 }
 
@@ -403,11 +409,14 @@ inline osg::Shader* readShaderFile(osg::Shader::Type type, const std::string& fi
   * The osgDB::Registry is used to load the appropriate ReaderWriter plugin
   * for the filename extension, and this plugin then handles the request
   * to read the specified file.*/
-inline osg::Shader* readShaderFileWithFallback(osg::Shader::Type type, const std::string& filename, const Options* options, const char* fallback)
+inline osg::Shader* readShaderFileWithFallback(osg::Shader::Type type, 
+  const std::string& filename, const Options* options, const char* fallback)
 {
     osg::Shader* shader = readShaderFile(filename, options);
-    if (shader && type != osg::Shader::UNDEFINED) shader->setType(type);
-    if (!shader) shader = new osg::Shader(type, fallback);
+    if (shader && type != osg::Shader::UNDEFINED) 
+      shader->setType(type);
+    if (!shader) 
+      shader = new osg::Shader(type, fallback);
     return shader;
 }
 

@@ -712,6 +712,9 @@ bool WriteVTFFile(const osg::Image* /*img*/, std::ostream& /*fout*/)
 class ReaderWriterVTF : public osgDB::ReaderWriter
 {
 public:
+    ReaderWriterVTF(){
+        this->setName("ReaderWriterVTF");//abner-added
+    }
     virtual const char* className() const
     {
         return "VTF Image Reader/Writer";

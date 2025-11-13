@@ -40,9 +40,13 @@ class OSGDB_EXPORT FindFileCallback : public virtual osg::Referenced
 {
     public:
 
-        virtual std::string findDataFile(const std::string& filename, const Options* options, CaseSensitivity caseSensitivity);
+        virtual std::string findDataFile(const std::string& filename, 
+                                        const Options* options, 
+                                        CaseSensitivity caseSensitivity);
 
-        virtual std::string findLibraryFile(const std::string& filename, const Options* options, CaseSensitivity caseSensitivity);
+        virtual std::string findLibraryFile(const std::string& filename, 
+                                        const Options* options, 
+                                        CaseSensitivity caseSensitivity);
 
     protected:
         virtual ~FindFileCallback() {}
@@ -53,7 +57,10 @@ class OSGDB_EXPORT ReadFileCallback : public virtual osg::Referenced
 {
     public:
 
-        virtual ReaderWriter::ReadResult openArchive(const std::string& filename,ReaderWriter::ArchiveStatus status, unsigned int indexBlockSizeHint, const Options* useObjectCache);
+        virtual ReaderWriter::ReadResult openArchive(const std::string& filename,
+                                                    ReaderWriter::ArchiveStatus status, 
+                                                    unsigned int indexBlockSizeHint, 
+                                                    const Options* useObjectCache);
 
         virtual ReaderWriter::ReadResult readObject(const std::string& filename, const Options* options);
 
@@ -75,17 +82,29 @@ class OSGDB_EXPORT WriteFileCallback : public virtual osg::Referenced
 {
     public:
 
-        virtual ReaderWriter::WriteResult writeObject(const osg::Object& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeObject(const osg::Object& obj, 
+                                                    const std::string& fileName,
+                                                    const Options* options);
 
-        virtual ReaderWriter::WriteResult writeImage(const osg::Image& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeImage(const osg::Image& obj, 
+                                                    const std::string& fileName,
+                                                    const Options* options);
 
-        virtual ReaderWriter::WriteResult writeHeightField(const osg::HeightField& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeHeightField(const osg::HeightField& obj, 
+                                                        const std::string& fileName,
+                                                        const Options* options);
 
-        virtual ReaderWriter::WriteResult writeNode(const osg::Node& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeNode(const osg::Node& obj, 
+                                                const std::string& fileName,
+                                                const Options* options);
 
-        virtual ReaderWriter::WriteResult writeShader(const osg::Shader& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeShader(const osg::Shader& obj, 
+                                                    const std::string& fileName,
+                                                    const Options* options);
 
-        virtual ReaderWriter::WriteResult writeScript(const osg::Script& obj, const std::string& fileName,const Options* options);
+        virtual ReaderWriter::WriteResult writeScript(const osg::Script& obj, 
+                                                    const std::string& fileName,
+                                                    const Options* options);
 
     protected:
         virtual ~WriteFileCallback() {}

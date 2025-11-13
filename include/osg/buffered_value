@@ -27,12 +27,13 @@ class buffered_value
 {
     public:
 
-        inline buffered_value():
-            _array(DisplaySettings::instance()->getMaxNumberOfGraphicsContexts(),0)
-            {}
+        inline buffered_value()
+        : _array(DisplaySettings::instance()->getMaxNumberOfGraphicsContexts(),0)
+            { 
+            }
 
         inline buffered_value(unsigned int size):
-            _array(size,0)
+            _array(size, T{})
             {}
 
         buffered_value& operator = (const buffered_value& rhs)

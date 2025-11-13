@@ -11,7 +11,9 @@ using namespace mdl;
 using namespace osg;
 using namespace osgDB;
 
-
+ReaderWriterMDL::ReaderWriterMDL(){
+    this->setName("ReaderWriterMDL");//abner-added.
+}
 const char* ReaderWriterMDL::className() const
 {
     // Return a description of this class

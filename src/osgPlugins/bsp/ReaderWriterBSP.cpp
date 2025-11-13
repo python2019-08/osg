@@ -19,7 +19,10 @@ const int VBSP_MAGIC_NUMBER  = (('P'<<24)+('S'<<16)+('B'<<8)+'V');
 // "IBSP" for id (Quake 3) BSP files
 const int IBSP_MAGIC_NUMBER = (('P'<<24)+('S'<<16)+('B'<<8)+'I');
 
-
+ReaderWriterBSP::ReaderWriterBSP()
+{
+    this->setName("ReaderWriterBSP");// abner-added.
+}
 
 const char* ReaderWriterBSP::className() const
 {

@@ -716,7 +716,9 @@ void StateSet::setGlobalDefaults()
 
         if (program->getNumShaders()==0)
         {
-            OSG_NOTICE<<"void StateSet::setGlobalDefaults() ShaderPipeline enabled, numTextUnits = "<<DisplaySettings::instance()->getShaderPipelineNumTextureUnits()<<std::endl;
+            OSG_NOTICE<<"void StateSet::setGlobalDefaults() ShaderPipeline enabled, numTextUnits = "
+                    <<DisplaySettings::instance()->getShaderPipelineNumTextureUnits()
+                    <<std::endl;
 
             #include "shaders/shaderpipeline_vert.cpp"
             program->addShader( new osg::Shader(osg::Shader::VERTEX, shaderpipeline_vert) );
@@ -772,7 +774,8 @@ void StateSet::setGlobalDefaults()
         OSG_INFO<<"   StateSet::setGlobalDefaults() Setting up GL2 compatible shaders"<<std::endl;
 
         osg::DisplaySettings::ShaderHint shaderHint = osg::DisplaySettings::instance()->getShaderHint();
-        if (shaderHint==osg::DisplaySettings::SHADER_GL3 || shaderHint==osg::DisplaySettings::SHADER_GLES3)
+        if (shaderHint==osg::DisplaySettings::SHADER_GL3 || 
+            shaderHint==osg::DisplaySettings::SHADER_GLES3)
         {
             OSG_INFO<<"   StateSet::setGlobalDefaults() Setting up GL3 compatible shaders"<<std::endl;
 
@@ -783,7 +786,8 @@ void StateSet::setGlobalDefaults()
             setTextureAttribute(0, createDefaultTexture());
             addUniform(new osg::Uniform("baseTexture", 0));
         }
-        else if (shaderHint==osg::DisplaySettings::SHADER_GL2 || shaderHint==osg::DisplaySettings::SHADER_GLES2)
+        else if (shaderHint==osg::DisplaySettings::SHADER_GL2 || 
+                 shaderHint==osg::DisplaySettings::SHADER_GLES2)
         {
 
             OSG_INFO<<"   StateSet::setGlobalDefaults() Setting up GL2 compatible shaders"<<std::endl;

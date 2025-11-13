@@ -50,7 +50,8 @@ void GraphicsThread::run()
 void GraphicsOperation::operator () (Object* object)
 {
     osg::GraphicsContext* context = dynamic_cast<osg::GraphicsContext*>(object);
-    if (context) operator() (context);
+    if (context) 
+        operator() (context);
 }
 
 void SwapBuffersOperation::operator () (GraphicsContext* context)
@@ -68,8 +69,10 @@ void BarrierOperation::operator () (Object* /*object*/)
 {
     if (_preBlockOp!=NO_OPERATION)
     {
-        if (_preBlockOp==GL_FLUSH) glFlush();
-        else if (_preBlockOp==GL_FINISH) glFinish();
+        if (_preBlockOp==GL_FLUSH) 
+            glFlush();
+        else if (_preBlockOp==GL_FINISH) 
+            glFinish();
     }
 
     block();

@@ -118,7 +118,8 @@ StatsHandler::StatsHandler():
     _camera->setProjectionResizePolicy(osg::Camera::FIXED);
 
     osg::DisplaySettings::ShaderHint shaderHint = osg::DisplaySettings::instance()->getShaderHint();
-    if (shaderHint==osg::DisplaySettings::SHADER_GL3 || shaderHint==osg::DisplaySettings::SHADER_GLES3)
+    if (shaderHint==osg::DisplaySettings::SHADER_GL3 || 
+        shaderHint==osg::DisplaySettings::SHADER_GLES3)
     {
 
         OSG_INFO<<"StatsHandler::StatsHandler() Setting up GL3 compatible shaders"<<std::endl;

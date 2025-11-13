@@ -315,4 +315,40 @@ void Referenced::deleteUsingDeleteHandler() const
     getDeleteHandler()->requestDelete(this);
 }
 
+
+ 
+
+int Referenced::unref() const
+{
+    int newRef;
+#if defined(_OSG_REFERENCED_USE_ATOMIC_OPERATIONS)
+    OSG_WARN<<"og...include/osg/Referenced(01): _refCount="<<_refCount <<std::endl;
+    newRef = --_refCount;
+    bool needDelete = (newRef == 0);
+#else
+    OSG_WARN<<"og...include/osg/Referenced(02): _refCount="<<_refCount <<std::endl;
+    bool needDelete = false;
+    if (_refMutex)
+    {
+        OpenThreads::ScopedLock<OpenThreads::Mutex> lock(*_refMutex);
+        // OSG_WARN<<"og...include/osg/Referenced(03): _refCount="<<_refCount <<std::endl;
+        newRef = --_refCount;
+        needDelete = newRef==0;
+    }
+    else
+    {
+        OSG_WARN<<"og...include/osg/Referenced(04): _refCount="<<_refCount <<std::endl;
+        newRef = --_refCount;
+        needDelete = newRef==0;
+    }
+#endif
+
+    if (needDelete)
+    {
+        signalObserversAndDelete(true,true);
+    }
+    return newRef;
+}
+
+
 } // end of namespace osg

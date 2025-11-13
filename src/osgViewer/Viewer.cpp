@@ -553,11 +553,14 @@ void Viewer::realize()
     }
 
     // get the display settings that will be active for this viewer
-    osg::DisplaySettings* ds = _displaySettings.valid() ? _displaySettings.get() : osg::DisplaySettings::instance().get();
+    osg::DisplaySettings* ds = _displaySettings.valid() 
+                            ? _displaySettings.get() 
+                            : osg::DisplaySettings::instance().get();
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
 
     // pass on the display settings to the WindowSystemInterface.
-    if (wsi && wsi->getDisplaySettings()==0) wsi->setDisplaySettings(ds);
+    if (wsi && wsi->getDisplaySettings()==0) 
+        wsi->setDisplaySettings(ds);
 
     unsigned int maxTexturePoolSize = ds->getMaxTexturePoolSize();
     unsigned int maxBufferObjectPoolSize = ds->getMaxBufferObjectPoolSize();

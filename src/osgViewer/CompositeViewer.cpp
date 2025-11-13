@@ -632,7 +632,8 @@ void CompositeViewer::realize()
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
 
     // pass on the display settings to the WindowSystemInterface.
-    if (wsi && wsi->getDisplaySettings()==0) wsi->setDisplaySettings(ds);
+    if (wsi && wsi->getDisplaySettings()==0) 
+        wsi->setDisplaySettings(ds);
 
     unsigned int maxTexturePoolSize = ds->getMaxTexturePoolSize();
     unsigned int maxBufferObjectPoolSize = ds->getMaxBufferObjectPoolSize();

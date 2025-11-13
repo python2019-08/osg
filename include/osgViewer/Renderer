@@ -44,14 +44,24 @@ class OSGVIEWER_EXPORT Renderer : public osg::GraphicsOperation
 
         Renderer(osg::Camera* camera);
 
-        osgUtil::SceneView* getSceneView(unsigned int i) { return _sceneView[i].get(); }
-        const osgUtil::SceneView* getSceneView(unsigned int i) const { return _sceneView[i].get(); }
+        osgUtil::SceneView* getSceneView(unsigned int i) { 
+            return _sceneView[i].get(); 
+        }
+        const osgUtil::SceneView* getSceneView(unsigned int i) const { 
+            return _sceneView[i].get(); 
+        }
 
-        void setDone(bool done) { _done = done; }
-        bool getDone() { return _done; }
+        void setDone(bool done) { 
+            _done = done; 
+        }
+        bool getDone() { 
+            return _done; 
+        }
 
         void setGraphicsThreadDoesCull(bool flag);
-        bool getGraphicsThreadDoesCull() const { return _graphicsThreadDoesCull; }
+        bool getGraphicsThreadDoesCull() const { 
+            return _graphicsThreadDoesCull; 
+        }
 
 
         virtual void cull();
@@ -63,8 +73,12 @@ class OSGVIEWER_EXPORT Renderer : public osg::GraphicsOperation
         virtual void resizeGLObjectBuffers(unsigned int maxSize);
         virtual void releaseGLObjects(osg::State* = 0) const;
 
-        void setCompileOnNextDraw(bool flag) { _compileOnNextDraw = flag; }
-        bool getCompileOnNextDraw() const { return _compileOnNextDraw; }
+        void setCompileOnNextDraw(bool flag) { 
+            _compileOnNextDraw = flag; 
+        }
+        bool getCompileOnNextDraw() const { 
+            return _compileOnNextDraw; 
+        }
 
         virtual void operator () (osg::Object* object);
 

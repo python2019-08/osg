@@ -13,7 +13,7 @@ namespace bsp
 class ReaderWriterBSP : public osgDB::ReaderWriter
 {
 public:
-
+    ReaderWriterBSP();
     virtual const char*   className() const;
 
     virtual bool   acceptsExtension(const std::string& extension) const;
