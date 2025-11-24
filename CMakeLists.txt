@@ -165,28 +165,43 @@ IF(ANDROID)
     INCLUDE(OsgAndroidMacroUtils)
 ENDIF()
 
-# ----启用 AddressSanitizer： 仅对 Debug 配置生效  
+# ----启用 AddressSanitizer： 仅对 Debug 配置生效  ## abner-added
 OPTION(ENABLE_123HWASAN   "Enable hwaddress-sanitize support" OFF)
 OPTION(ENABLE_123ASAN     "Enable address-sanitize   support" OFF)
 OPTION(ENABLE_123LEAKSAN  "Enable leak-sanitize      support" OFF)
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug") ## abner-added
     if( ENABLE_123HWASAN ) 
         # MAINLY for android ndk        
-        add_compile_options(-fsanitize=hwaddress -fno-omit-frame-pointer )
+        add_compile_options(-fsanitize=hwaddress -g -O0 -fno-omit-frame-pointer )
         add_link_options(-fsanitize=hwaddress)
     elseif(ENABLE_123ASAN)
         add_compile_options( -fsanitize=address -g -O0 -fno-omit-frame-pointer )
-        add_link_options( -fsanitize=address -g "LINKER:-export-dynamic" "LINKER:-z,defs")        
+        add_link_options( -fsanitize=address -g "LINKER:-export-dynamic" "LINKER:-z,defs")  
     elseif(ENABLE_123LEAKSAN)      
         # 只检测内存泄漏，不检测越界访问
-        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_compile_options(-fsanitize=leak -g -O0 -fno-omit-frame-pointer)
         add_link_options(-fsanitize=leak)    
     else()
         add_compile_options(-g -O0 -DDEBUG)    
     endif()
 endif()
-
-
+set(OSG_DEPS_static_libs ${OSG_DEPS_static_libs} 
+            ${GDAL_LIBRARY} 
+            ${PROJ_LIBRARY} 
+            ${TIFF_LIBRARIES} 
+            ${FREETYPE_LIBRARY}
+            ${CURL_LIBRARIES}  
+            ${ZLIB_LIBRARY} 
+            ${JPEG_LIBRARY}  
+            ${PNG_LIBRARY} 
+            ${OPENSSL_SSL_LIBRARY}
+            ${OPENSSL_CRYPTO_LIBRARY} 
+            ${SQLite3_LIBRARY} 
+            ${GEOS_LIBRARY} 
+            ${LIBLZMA_LIBRARY} 
+        ) ## abner-added
+message(STATUS  "OSG_DEPS_static_libs=${OSG_DEPS_static_libs}")
+ 
 
 # Okay, here's the problem: On some platforms, linking against OpenThreads
 # is not enough and explicit linking to the underlying thread library
@@ -807,6 +822,7 @@ ELSE()
     FIND_PACKAGE(GDAL)
     FIND_PACKAGE(GTA)
     FIND_PACKAGE(CURL)
+message(STATUS "og...01.CURL_FOUND=${CURL_FOUND};;Curl_FOUND=${Curl_FOUND}")    
     FIND_PACKAGE(LibVNCServer)
     FIND_PACKAGE(DCMTK)
     FIND_PACKAGE(FFmpeg)
@@ -1204,6 +1220,7 @@ IF   (DYNAMIC_OPENSCENEGRAPH)
     SET(OPENSCENEGRAPH_USER_DEFINED_DYNAMIC_OR_STATIC "SHARED")
 ELSE ()
     SET(OPENSCENEGRAPH_USER_DEFINED_DYNAMIC_OR_STATIC "STATIC")
+    set(OSG_DEPS_static_libs "") ## abner-added
 ENDIF()
 
 

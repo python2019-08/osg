@@ -326,7 +326,7 @@ int Referenced::unref() const
     newRef = --_refCount;
     bool needDelete = (newRef == 0);
 #else
-    OSG_WARN<<"og...include/osg/Referenced(02): _refCount="<<_refCount <<std::endl;
+    // OSG_WARN<<"og...include/osg/Referenced(02): _refCount="<<_refCount <<std::endl;
     bool needDelete = false;
     if (_refMutex)
     {

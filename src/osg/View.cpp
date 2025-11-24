@@ -94,11 +94,13 @@ void View::take(osg::View& rhs)
     _slaves = rhs._slaves;
 
     // update the cameras so they all now see this View as their parent View
-    if (_camera.valid()) _camera->setView(this);
+    if (_camera.valid()) 
+        _camera->setView(this);
 
     for(unsigned int i=0; i<_slaves.size(); ++i)
     {
-        if (_slaves[i]._camera.valid()) _slaves[i]._camera->setView(this);
+        if (_slaves[i]._camera.valid()) 
+            _slaves[i]._camera->setView(this);
     }
 
     // then clear the passing in view.
@@ -125,7 +127,8 @@ void View::setLightingMode(LightingMode lightingMode)
 
 void View::setCamera(osg::Camera* camera)
 {
-    if (_camera.valid()) _camera->setView(0);
+    if (_camera.valid()) 
+        _camera->setView(0);
 
     _camera = camera;
 
@@ -158,9 +161,13 @@ void View::Slave::updateSlaveImplementation(View& view)
     _camera->inheritCullSettings(*(view.getCamera()), _camera->getInheritanceMask());
 }
 
-bool View::addSlave(osg::Camera* camera, const osg::Matrix& projectionOffset, const osg::Matrix& viewOffset, bool useMastersSceneData)
+bool View::addSlave(osg::Camera* camera, 
+    const osg::Matrix& projectionOffset, 
+    const osg::Matrix& viewOffset, 
+    bool useMastersSceneData)
 {
-    if (!camera) return false;
+    if (!camera) 
+        return false;
 
     camera->setView(this);
 
@@ -190,7 +197,8 @@ bool View::addSlave(osg::Camera* camera, const osg::Matrix& projectionOffset, co
 
 bool View::removeSlave(unsigned int pos)
 {
-    if (pos >= _slaves.size()) return false;
+    if (pos >= _slaves.size()) 
+        return false;
 
     _slaves[pos]._camera->setView(0);
     _slaves[pos]._camera->setCullCallback(0);
@@ -205,18 +213,21 @@ View::Slave * View::findSlaveForCamera(osg::Camera* camera)
 {
     unsigned int i = findSlaveIndexForCamera(camera);
 
-    if (i >= getNumSlaves()) return (NULL);
+    if (i >= getNumSlaves()) 
+        return (NULL);
 
     return &(_slaves[i]);
 }
 
 unsigned int View::findSlaveIndexForCamera(osg::Camera* camera) const
 {
-    if (_camera == camera) return _slaves.size();
+    if (_camera == camera) 
+        return _slaves.size();
 
     for(unsigned int i=0; i<_slaves.size(); ++i)
     {
-        if (_slaves[i]._camera == camera) return (i);
+        if (_slaves[i]._camera == camera) 
+            return (i);
     }
 
     return _slaves.size();
@@ -224,24 +235,28 @@ unsigned int View::findSlaveIndexForCamera(osg::Camera* camera) const
 
 void View::resizeGLObjectBuffers(unsigned int maxSize)
 {
-    if (_camera) _camera->resizeGLObjectBuffers(maxSize);
+    if (_camera) 
+        _camera->resizeGLObjectBuffers(maxSize);
 
     for(Slaves::iterator itr = _slaves.begin();
         itr != _slaves.end();
         ++itr)
     {
-        if (itr->_camera.valid()) itr->_camera->resizeGLObjectBuffers(maxSize);
+        if (itr->_camera.valid()) 
+            itr->_camera->resizeGLObjectBuffers(maxSize);
     }
 }
 
 void View::releaseGLObjects(osg::State* state) const
 {
-    if (_camera) _camera->releaseGLObjects(state);
+    if (_camera) 
+        _camera->releaseGLObjects(state);
 
     for(Slaves::const_iterator itr = _slaves.begin();
         itr != _slaves.end();
         ++itr)
     {
-        if (itr->_camera.valid()) itr->_camera->releaseGLObjects(state);
+        if (itr->_camera.valid()) 
+            itr->_camera->releaseGLObjects(state);
     }
 }

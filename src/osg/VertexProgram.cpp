@@ -22,12 +22,16 @@ using namespace osg;
 class GLVertexProgramManager : public GLObjectManager
 {
 public:
-    GLVertexProgramManager(unsigned int contextID) : GLObjectManager("GLVertexProgramManager",contextID) {}
+    GLVertexProgramManager(unsigned int contextID) 
+    : GLObjectManager("GLVertexProgramManager",contextID) {
+
+    }
 
     virtual void deleteGLObject(GLuint globj)
     {
         const GLExtensions* extensions = GLExtensions::Get(_contextID,true);
-        if (extensions->isGlslSupported) extensions->glDeletePrograms(1, &globj );
+        if (extensions->isGlslSupported) 
+            extensions->glDeletePrograms(1, &globj );
     }
 };
 
@@ -151,7 +155,8 @@ void VertexProgram::resizeGLObjectBuffers(unsigned int maxSize)
 
 void VertexProgram::releaseGLObjects(State* state) const
 {
-    if (!state) const_cast<VertexProgram*>(this)->dirtyVertexProgramObject();
+    if (!state) 
+        const_cast<VertexProgram*>(this)->dirtyVertexProgramObject();
     else
     {
         unsigned int contextID = state->getContextID();

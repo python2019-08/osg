@@ -34,7 +34,8 @@ public:
     virtual void flushDeletedGLObjects(double, double& availableTime)
     {
         // if no time available don't try to flush objects.
-        if (availableTime<=0.0) return;
+        if (availableTime<=0.0) 
+            return;
 
         VAS_NOTICE<<"VertexArrayStateManager::flushDeletedGLObjects()"<<std::endl;
 
@@ -57,7 +58,8 @@ public:
                 elapsedTime = timer.delta_s(start_tick,timer.tick());
             }
 
-            if (ditr!=_vertexArrayStateList.begin()) _vertexArrayStateList.erase(_vertexArrayStateList.begin(),ditr);
+            if (ditr!=_vertexArrayStateList.begin())
+                _vertexArrayStateList.erase(_vertexArrayStateList.begin(),ditr);
 
         }
 
@@ -116,25 +118,41 @@ protected:
 //
 struct VertexArrayDispatch : public VertexArrayState::ArrayDispatch
 {
-    VertexArrayDispatch() {}
+    VertexArrayDispatch() {
 
-    virtual const char* className() const { return "VertexArrayDispatch"; }
+    }
+
+    virtual const char* className() const { 
+        return "VertexArrayDispatch"; 
+    }
 
     virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array)
     {
-        VAS_NOTICE<<"    VertexArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<")"<<std::endl;
+        VAS_NOTICE<<"    VertexArrayDispatch::enable_and_dispatch("
+                  <<new_array->getNumElements()<<")"<<std::endl;
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
+        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 
+                        0, new_array->getDataPointer());
     }
 
-    virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State&, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    VertexArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
+        VAS_NOTICE<<"    VertexArrayDispatch::enable_and_dispatch("
+                  <<new_array->getNumElements()<<", vbo="
+                  <<std::hex<<vbo<<std::dec<<")"<<std::endl;
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 
+                        0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void enable_and_dispatch(osg::State& /*state*/, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void enable_and_dispatch(osg::State& /*state*/, 
+        GLint size, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(size, type, stride, ptr);
@@ -142,17 +160,29 @@ struct VertexArrayDispatch : public VertexArrayState::ArrayDispatch
 
     virtual void dispatch(osg::State& /*state*/, const osg::Array* new_array)
     {
-        VAS_NOTICE<<"    VertexArrayDispatch::dispatch("<<new_array->getNumElements()<<")"<<std::endl;
+        VAS_NOTICE<<"    VertexArrayDispatch::dispatch("
+                <<new_array->getNumElements()
+                <<")"<<std::endl;
         glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void dispatch(osg::State& /*state*/, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void dispatch(osg::State& /*state*/, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    VertexArrayDispatch::dispatch("<<new_array->getNumElements()<<", vbo"<<std::hex<<vbo<<std::dec<<")"<<std::endl;
-        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        VAS_NOTICE<<"    VertexArrayDispatch::dispatch("
+                <<new_array->getNumElements()
+                <<", vbo"<<std::hex<<vbo<<std::dec<<")"<<std::endl;
+        glVertexPointer(new_array->getDataSize(), new_array->getDataType(), 
+                    0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void dispatch(osg::State& /*state*/, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void dispatch(osg::State& /*state*/, 
+        GLint size, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glVertexPointer(size, type, stride, ptr);
     }
@@ -171,29 +201,43 @@ struct VertexArrayDispatch : public VertexArrayState::ArrayDispatch
 //
 struct ColorArrayDispatch : public VertexArrayState::ArrayDispatch
 {
-    ColorArrayDispatch() {}
+    ColorArrayDispatch() {
 
-    virtual const char* className() const { return "ColorArrayDispatch"; }
+    }
+
+    virtual const char* className() const { 
+        return "ColorArrayDispatch"; 
+    }
 
     virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array)
     {
-        VAS_NOTICE<<"    ColorArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<")"<<std::endl;
+        VAS_NOTICE<<"    ColorArrayDispatch::enable_and_dispatch(" <<new_array->getNumElements()
+                <<")"<<std::endl;
         glEnableClientState(GL_COLOR_ARRAY);
         glColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void enable_and_dispatch(osg::State& /*state*/, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void enable_and_dispatch(osg::State& /*state*/, 
+        GLint size, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glEnableClientState(GL_COLOR_ARRAY);
         glColorPointer(size, type, stride, ptr);
     }
 
-    virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State&, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    ColorArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<std::hex<<vbo<<std::dec<<std::dec<<")"<<std::endl;
+        VAS_NOTICE<<"    ColorArrayDispatch::enable_and_dispatch(" <<new_array->getNumElements()
+            <<", vbo="<<std::hex<<std::hex<<vbo<<std::dec<<std::dec<<")"<<std::endl;
 
         glEnableClientState(GL_COLOR_ARRAY);
-        glColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        glColorPointer(new_array->getDataSize(), new_array->getDataType(), 
+                0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
     virtual void dispatch(osg::State& /*state*/, const osg::Array* new_array)
@@ -202,13 +246,22 @@ struct ColorArrayDispatch : public VertexArrayState::ArrayDispatch
         glColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void dispatch(osg::State& /*state*/, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void dispatch(osg::State& /*state*/, 
+            const osg::Array* new_array, 
+            const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    ColorArrayDispatch::dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
-        glColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        VAS_NOTICE<<"    ColorArrayDispatch::dispatch("<<new_array->getNumElements()
+                  <<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
+        glColorPointer(new_array->getDataSize(), new_array->getDataType(), 
+                    0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void dispatch(osg::State& /*state*/, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void dispatch(osg::State& /*state*/, 
+        GLint size, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glColorPointer(size, type, stride, ptr);
     }
@@ -229,7 +282,9 @@ struct NormalArrayDispatch : public VertexArrayState::ArrayDispatch
 {
     NormalArrayDispatch() {}
 
-    virtual const char* className() const { return "NormalArrayDispatch"; }
+    virtual const char* className() const { 
+        return "NormalArrayDispatch"; 
+    }
 
     virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array)
     {
@@ -238,14 +293,23 @@ struct NormalArrayDispatch : public VertexArrayState::ArrayDispatch
         glNormalPointer(new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void enable_and_dispatch(osg::State&, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State&, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    NormalArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
+        VAS_NOTICE<<"    NormalArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()
+                <<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
         glEnableClientState(GL_NORMAL_ARRAY);
-        glNormalPointer(new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        glNormalPointer(new_array->getDataType(), 0, 
+            (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void enable_and_dispatch(osg::State& /*state*/, GLint /*size*/, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void enable_and_dispatch(osg::State& /*state*/, 
+        GLint /*size*/, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glEnableClientState(GL_NORMAL_ARRAY);
         glNormalPointer(type, stride, ptr);
@@ -257,13 +321,22 @@ struct NormalArrayDispatch : public VertexArrayState::ArrayDispatch
         glNormalPointer(new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void dispatch(osg::State& /*state*/, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void dispatch(osg::State& /*state*/, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    NormalArrayDispatch::dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
-        glNormalPointer(new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        VAS_NOTICE<<"    NormalArrayDispatch::dispatch("<<new_array->getNumElements()
+                <<", vbo="<<std::hex<<vbo<<std::dec<<")"<<std::endl;
+        glNormalPointer(new_array->getDataType(), 0, 
+                (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void dispatch(osg::State& /*state*/, GLint /*size*/, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void dispatch(osg::State& /*state*/, 
+        GLint /*size*/, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         glNormalPointer(type, stride, ptr);
     }
@@ -292,28 +365,39 @@ struct SecondaryColorArrayDispatch : public VertexArrayState::ArrayDispatch
 {
     SecondaryColorArrayDispatch() {}
 
-    virtual const char* className() const { return "SecondaryColorArrayDispatch"; }
+    virtual const char* className() const { 
+        return "SecondaryColorArrayDispatch"; 
+    }
 
     virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array)
     {
         glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
+        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), 
+                        new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State& state, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
         glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), 
+            new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
     virtual void dispatch(osg::State& state, const osg::Array* new_array)
     {
-        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
+        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), 
+            new_array->getDataType(), 0, new_array->getDataPointer());
     }
 
-    virtual void dispatch(osg::State& state, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void dispatch(osg::State& state, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        state.get<GLExtensions>()->glSecondaryColorPointer(new_array->getDataSize(), 
+            new_array->getDataType(), 
+            0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
     virtual void disable(osg::State& /*state*/)
@@ -339,28 +423,39 @@ struct FogCoordArrayDispatch : public VertexArrayState::ArrayDispatch
 {
     FogCoordArrayDispatch() {}
 
-    virtual const char* className() const { return "FogCoordArrayDispatch"; }
-
-    virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array)
-    {
-        glEnableClientState(GL_FOG_COORDINATE_ARRAY);
-        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, new_array->getDataPointer());
+    virtual const char* className() const { 
+        return "FogCoordArrayDispatch"; 
     }
 
-    virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State& state, 
+        const osg::Array* new_array)
     {
         glEnableClientState(GL_FOG_COORDINATE_ARRAY);
-        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 
+                        0, new_array->getDataPointer());
+    }
+
+    virtual void enable_and_dispatch(osg::State& state, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
+    {
+        glEnableClientState(GL_FOG_COORDINATE_ARRAY);
+        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, 
+                (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
     virtual void dispatch(osg::State& state, const osg::Array* new_array)
     {
-        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, new_array->getDataPointer());
+        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, 
+                new_array->getDataPointer());
     }
 
-    virtual void dispatch(osg::State& state, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void dispatch(osg::State& state, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        state.get<GLExtensions>()->glFogCoordPointer(new_array->getDataType(), 0, 
+            (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
     virtual void disable(osg::State& /*state*/)
@@ -377,7 +472,9 @@ struct TexCoordArrayDispatch : public VertexArrayState::ArrayDispatch
 {
     TexCoordArrayDispatch(unsigned int in_unit) : unit(in_unit) {}
 
-    virtual const char* className() const { return "TexCoordArrayDispatch"; }
+    virtual const char* className() const { 
+        return "TexCoordArrayDispatch"; 
+    }
 
     virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array)
     {
@@ -385,19 +482,30 @@ struct TexCoordArrayDispatch : public VertexArrayState::ArrayDispatch
 
         state.setClientActiveTextureUnit(unit);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glTexCoordPointer(new_array->getDataSize(), new_array->getDataType(), 0, new_array->getDataPointer());
+        glTexCoordPointer(new_array->getDataSize(), new_array->getDataType(), 
+            0, new_array->getDataPointer());
     }
 
-    virtual void enable_and_dispatch(osg::State& state, const osg::Array* new_array, const osg::GLBufferObject* vbo)
+    virtual void enable_and_dispatch(osg::State& state, 
+        const osg::Array* new_array, 
+        const osg::GLBufferObject* vbo)
     {
-        VAS_NOTICE<<"    TexCoordArrayDispatch::enable_and_dispatch("<<new_array->getNumElements()<<", vbo="<<std::hex<<vbo<<std::dec<<") unit="<<unit<<std::endl;
+        VAS_NOTICE<<"    TexCoordArrayDispatch::enable_and_dispatch("
+            <<new_array->getNumElements()
+            <<", vbo="<<std::hex<<vbo<<std::dec<<") unit="<<unit<<std::endl;
 
         state.setClientActiveTextureUnit(unit);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glTexCoordPointer(new_array->getDataSize(), new_array->getDataType(), 0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
+        glTexCoordPointer(new_array->getDataSize(), new_array->getDataType(), 
+            0, (const GLvoid *)(vbo->getOffset(new_array->getBufferIndex())));
     }
 
-    virtual void enable_and_dispatch(osg::State& state, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr, GLboolean /*normalized*/)
+    virtual void enable_and_dispatch(osg::State& state, 
+        GLint size, 
+        GLenum type, 
+        GLsizei stride, 
+        const GLvoid *ptr, 
+        GLboolean /*normalized*/)
     {
         state.setClientActiveTextureUnit(unit);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);

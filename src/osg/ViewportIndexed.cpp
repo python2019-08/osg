@@ -27,7 +27,8 @@ ViewportIndexed::~ViewportIndexed()
 
 void ViewportIndexed::setIndex(unsigned int index)
 {
-    if (_index==index) return;
+    if (_index==index) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 
