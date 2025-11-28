@@ -33,28 +33,47 @@ class OSG_EXPORT Stats : public osg::Referenced
 
         Stats(const std::string& name, unsigned int numberOfFrames);
 
-        void setName(const std::string& name) { _name = name; }
-        const std::string& getName() const { return _name; }
+        void setName(const std::string& name) { 
+            _name = name; 
+        }
+        const std::string& getName() const { 
+            return _name; 
+        }
 
         void allocate(unsigned int numberOfFrames);
 
-        unsigned int getEarliestFrameNumber() const { return _latestFrameNumber < static_cast<unsigned int>(_attributeMapList.size()) ? 0 : _latestFrameNumber - static_cast<unsigned int>(_attributeMapList.size()) + 1; }
-        unsigned int getLatestFrameNumber() const { return _latestFrameNumber; }
+        unsigned int getEarliestFrameNumber() const { 
+            return _latestFrameNumber < static_cast<unsigned int>(_attributeMapList.size()) ? 0 : 
+                  _latestFrameNumber - static_cast<unsigned int>(_attributeMapList.size()) + 1; 
+        }
+        unsigned int getLatestFrameNumber() const { 
+            return _latestFrameNumber; 
+        }
 
         typedef std::map<std::string, double> AttributeMap;
         typedef std::vector<AttributeMap> AttributeMapList;
 
-        bool setAttribute(unsigned int frameNumber, const std::string& attributeName, double value);
+        bool setAttribute(unsigned int frameNumber, 
+            const std::string& attributeName, 
+            double value);
 
-        inline bool getAttribute(unsigned int frameNumber, const std::string& attributeName, double& value) const
+        inline bool getAttribute(unsigned int frameNumber, 
+            const std::string& attributeName, 
+            double& value) const
         {
             OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
             return getAttributeNoMutex(frameNumber, attributeName, value);
         }
 
-        bool getAveragedAttribute(const std::string& attributeName, double& value, bool averageInInverseSpace=false) const;
+        bool getAveragedAttribute(const std::string& attributeName, 
+            double& value, 
+            bool averageInInverseSpace=false) const;
 
-        bool getAveragedAttribute(unsigned int startFrameNumber, unsigned int endFrameNumber, const std::string& attributeName, double& value, bool averageInInverseSpace=false) const;
+        bool getAveragedAttribute(unsigned int startFrameNumber, 
+            unsigned int endFrameNumber, 
+            const std::string& attributeName, 
+            double& value, 
+            bool averageInInverseSpace=false) const;
 
         inline AttributeMap& getAttributeMap(unsigned int frameNumber)
         {
@@ -96,13 +115,17 @@ class OSG_EXPORT Stats : public osg::Referenced
         int getIndex(unsigned int frameNumber) const
         {
             // reject frame that are in the future
-            if (frameNumber > _latestFrameNumber) return -1;
+            if (frameNumber > _latestFrameNumber) 
+                return -1;
 
             // reject frames that are too early
-            if (frameNumber < getEarliestFrameNumber()) return -1;
+            if (frameNumber < getEarliestFrameNumber()) 
+                return -1;
 
-            if (frameNumber >= _baseFrameNumber) return frameNumber - _baseFrameNumber;
-            else return static_cast<int>(_attributeMapList.size()) - (_baseFrameNumber-frameNumber);
+            if (frameNumber >= _baseFrameNumber) 
+                return frameNumber - _baseFrameNumber;
+            else 
+                return static_cast<int>(_attributeMapList.size()) - (_baseFrameNumber-frameNumber);
         }
 
         std::string         _name;

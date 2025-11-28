@@ -68,19 +68,36 @@ class OSGDB_EXPORT ImagePager : public osg::NodeVisitor::ImageRequestHandler
         };
 
 
-        ImageThread* getImageThread(unsigned int i) { return _imageThreads[i].get(); }
+        ImageThread* getImageThread(unsigned int i) { 
+            return _imageThreads[i].get(); 
+        }
 
-        const ImageThread* getImageThread(unsigned int i) const { return _imageThreads[i].get(); }
+        const ImageThread* getImageThread(unsigned int i) const { 
+            return _imageThreads[i].get(); 
+        }
 
-        unsigned int getNumImageThreads() const { return static_cast<unsigned int>(_imageThreads.size()); }
+        unsigned int getNumImageThreads() const { 
+            return static_cast<unsigned int>(_imageThreads.size()); 
+        }
 
 
-        void setPreLoadTime(double preLoadTime) { _preLoadTime=preLoadTime; }
-        virtual double getPreLoadTime() const { return _preLoadTime; }
+        void setPreLoadTime(double preLoadTime) { 
+            _preLoadTime=preLoadTime; 
+        }
+        virtual double getPreLoadTime() const { 
+            return _preLoadTime; 
+        }
 
-        virtual osg::ref_ptr<osg::Image> readRefImageFile(const std::string& fileName, const osg::Referenced* options=0);
+        virtual osg::ref_ptr<osg::Image> readRefImageFile(const std::string& fileName, 
+            const osg::Referenced* options=0);
 
-        virtual void requestImageFile(const std::string& fileName, osg::Object* attachmentPoint, int attachmentIndex, double timeToMergeBy, const osg::FrameStamp* framestamp, osg::ref_ptr<osg::Referenced>& imageRequest, const osg::Referenced* options);
+        virtual void requestImageFile(const std::string& fileName, 
+            osg::Object* attachmentPoint, 
+            int attachmentIndex, 
+            double timeToMergeBy, 
+            const osg::FrameStamp* framestamp, 
+            osg::ref_ptr<osg::Referenced>& imageRequest, 
+            const osg::Referenced* options);
 
         /** Return true if there are pending updates to the scene graph that require a call to updateSceneGraph(double). */
         virtual bool requiresUpdateSceneGraph() const;
@@ -89,11 +106,15 @@ class OSGDB_EXPORT ImagePager : public osg::NodeVisitor::ImageRequestHandler
         virtual void updateSceneGraph(const osg::FrameStamp &frameStamp);
 
         /** Signal the image thread that the update, cull and draw has begun for a new frame.
-          * Note, this is called by the application so that the image pager can go to sleep while the CPU is busy on the main rendering threads. */
+          * Note, this is called by the application so that the image pager can go to sleep 
+          * while the CPU is busy on the main rendering threads. 
+          * */
         virtual void signalBeginFrame(const osg::FrameStamp* framestamp);
 
         /** Signal the image thread that the update, cull and draw dispatch has completed.
-          * Note, this is called by the application so that the image pager can go to wake back up now the main rendering threads are iddle waiting for the next frame.*/
+          * Note, this is called by the application so that the image pager can go to wake back up 
+          * now the main rendering threads are iddle waiting for the next frame.
+          * */
         virtual void signalEndFrame();
 
         int cancel();

@@ -55,9 +55,11 @@ void GLObjectsVisitor::apply(osg::Node& node)
 
 void GLObjectsVisitor::apply(osg::Drawable& drawable)
 {
-    if (_drawablesAppliedSet.count(&drawable)!=0) return;
+    if (_drawablesAppliedSet.count(&drawable)!=0) 
+        return;
 
-    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("start of GLObjectsVisitor::apply(osg::Drawable& drawable)");
+    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+        _renderInfo.getState()->checkGLErrors("start of GLObjectsVisitor::apply(osg::Drawable& drawable)");
 
     _drawablesAppliedSet.insert(&drawable);
 
@@ -92,7 +94,8 @@ void GLObjectsVisitor::apply(osg::Drawable& drawable)
 
         drawable.compileGLObjects(_renderInfo);
 
-        if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("after drawable.compileGLObjects() call in GLObjectsVisitor::apply(osg::Drawable& drawable)  ");
+        if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+            _renderInfo.getState()->checkGLErrors("after drawable.compileGLObjects() call in GLObjectsVisitor::apply(osg::Drawable& drawable)  ");
     }
 
 
@@ -104,9 +107,11 @@ void GLObjectsVisitor::apply(osg::Drawable& drawable)
 
 void GLObjectsVisitor::apply(osg::StateSet& stateset)
 {
-    if (_stateSetAppliedSet.count(&stateset)!=0) return;
+    if (_stateSetAppliedSet.count(&stateset)!=0) 
+        return;
 
-    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("start of GLObjectsVisitor::apply(osg::StateSet& stateset)");
+    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+        _renderInfo.getState()->checkGLErrors("start of GLObjectsVisitor::apply(osg::StateSet& stateset)");
 
     _stateSetAppliedSet.insert(&stateset);
 
@@ -115,7 +120,8 @@ void GLObjectsVisitor::apply(osg::StateSet& stateset)
 
         stateset.compileGLObjects(*_renderInfo.getState());
 
-        if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("after stateset.compileGLObjects in GLObjectsVisitor::apply(osg::StateSet& stateset)");
+        if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+            _renderInfo.getState()->checkGLErrors("after stateset.compileGLObjects in GLObjectsVisitor::apply(osg::StateSet& stateset)");
 
         osg::Program* program = dynamic_cast<osg::Program*>(stateset.getAttribute(osg::StateAttribute::PROGRAM));
         if (program) {
@@ -141,7 +147,10 @@ void GLObjectsVisitor::apply(osg::StateSet& stateset)
                 {
                     pcp->apply(*(itr->second.first));
 
-                    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("after pcp->apply(Uniform&) in GLObjectsVisitor::apply(osg::StateSet& stateset), uniform name: ", (itr->second.first->getName()).c_str());
+                    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+                        _renderInfo.getState()->checkGLErrors(
+                            "after pcp->apply(Uniform&) in GLObjectsVisitor::apply(osg::StateSet& stateset), uniform name: ", 
+                            (itr->second.first->getName()).c_str());
                 }
             }
         }
@@ -165,7 +174,8 @@ void GLObjectsVisitor::apply(osg::StateSet& stateset)
         stateset.checkValidityOfAssociatedModes(*_renderInfo.getState());
     }
 
-    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) _renderInfo.getState()->checkGLErrors("after GLObjectsVisitor::apply(osg::StateSet& stateset)");
+    if (_checkGLErrors==osg::State::ONCE_PER_ATTRIBUTE) 
+        _renderInfo.getState()->checkGLErrors("after GLObjectsVisitor::apply(osg::StateSet& stateset)");
 }
 
 void GLObjectsVisitor::compile(osg::Node& node)
@@ -182,7 +192,8 @@ void GLObjectsVisitor::compile(osg::Node& node)
             _renderInfo.getState()->setLastAppliedProgramObject(0);
         }
 
-        if (_checkGLErrors!=osg::State::NEVER_CHECK_GL_ERRORS) _renderInfo.getState()->checkGLErrors("after GLObjectsVisitor::compile(osg::Node& node)");
+        if (_checkGLErrors!=osg::State::NEVER_CHECK_GL_ERRORS) 
+            _renderInfo.getState()->checkGLErrors("after GLObjectsVisitor::compile(osg::Node& node)");
     }
 }
 

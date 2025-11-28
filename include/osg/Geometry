@@ -38,64 +38,112 @@ class OSG_EXPORT Geometry : public Drawable
 
         META_Node(osg, Geometry);
 
-        virtual Geometry* asGeometry() { return this; }
-        virtual const Geometry* asGeometry() const { return this; }
+        virtual Geometry* asGeometry() { 
+          return this; 
+        }
+        virtual const Geometry* asGeometry() const { 
+          return this; 
+        }
 
         bool empty() const;
 
         typedef std::vector< osg::ref_ptr<osg::Array> >  ArrayList;
 
         void setVertexArray(Array* array);
-        Array* getVertexArray() { return _vertexArray.get(); }
-        const Array* getVertexArray() const  { return _vertexArray.get(); }
+        Array* getVertexArray() { 
+          return _vertexArray.get(); 
+        }
+        const Array* getVertexArray() const  { 
+          return _vertexArray.get(); 
+        }
 
 
-        void setNormalArray(Array* array) { setNormalArray(array, osg::Array::BIND_UNDEFINED); }
+        void setNormalArray(Array* array) { 
+          setNormalArray(array, osg::Array::BIND_UNDEFINED); 
+        }
         void setNormalArray(Array* array, osg::Array::Binding binding);
-        Array* getNormalArray() { return _normalArray.get(); }
-        const Array* getNormalArray() const { return _normalArray.get(); }
+        Array* getNormalArray() { 
+          return _normalArray.get(); 
+        }
+        const Array* getNormalArray() const { 
+          return _normalArray.get(); 
+        }
 
 
 
-        void setColorArray(Array* array) { setColorArray(array, osg::Array::BIND_UNDEFINED); }
+        void setColorArray(Array* array) { 
+          setColorArray(array, osg::Array::BIND_UNDEFINED); 
+        }
         void setColorArray(Array* array, osg::Array::Binding binding);
-        Array* getColorArray() { return _colorArray.get(); }
-        const Array* getColorArray() const { return _colorArray.get(); }
+        Array* getColorArray() { 
+          return _colorArray.get(); 
+        }
+        const Array* getColorArray() const { 
+          return _colorArray.get(); 
+        }
 
 
 
-        void setSecondaryColorArray(Array* array) { setSecondaryColorArray(array, osg::Array::BIND_UNDEFINED); }
+        void setSecondaryColorArray(Array* array) { 
+          setSecondaryColorArray(array, osg::Array::BIND_UNDEFINED); 
+        }
         void setSecondaryColorArray(Array* array, osg::Array::Binding binding);
-        Array* getSecondaryColorArray() { return _secondaryColorArray.get(); }
-        const Array* getSecondaryColorArray() const  { return _secondaryColorArray.get(); }
+        Array* getSecondaryColorArray() { 
+          return _secondaryColorArray.get(); 
+        }
+        const Array* getSecondaryColorArray() const  { 
+          return _secondaryColorArray.get(); 
+        }
 
 
-        void setFogCoordArray(Array* array) { setFogCoordArray(array, osg::Array::BIND_UNDEFINED); }
+        void setFogCoordArray(Array* array) { 
+          setFogCoordArray(array, osg::Array::BIND_UNDEFINED); 
+        }
         void setFogCoordArray(Array* array, osg::Array::Binding binding);
-        Array* getFogCoordArray() { return _fogCoordArray.get(); }
-        const Array* getFogCoordArray() const { return _fogCoordArray.get(); }
+        Array* getFogCoordArray() { 
+          return _fogCoordArray.get(); 
+        }
+        const Array* getFogCoordArray() const { 
+          return _fogCoordArray.get(); 
+        }
 
 
-        void setTexCoordArray(unsigned int unit, Array* array) { setTexCoordArray(unit, array, osg::Array::BIND_UNDEFINED); }
+        void setTexCoordArray(unsigned int unit, Array* array) { 
+          setTexCoordArray(unit, array, osg::Array::BIND_UNDEFINED); 
+        }
         void setTexCoordArray(unsigned int unit, Array* array, osg::Array::Binding binding);
         Array* getTexCoordArray(unsigned int unit);
         const Array* getTexCoordArray(unsigned int unit) const;
 
-        unsigned int getNumTexCoordArrays() const {  return static_cast<unsigned int>(_texCoordList.size()); }
+        unsigned int getNumTexCoordArrays() const {  
+          return static_cast<unsigned int>(_texCoordList.size()); 
+        }
         void setTexCoordArrayList(const ArrayList& arrrayList);
-        ArrayList& getTexCoordArrayList() { return _texCoordList; }
-        const ArrayList& getTexCoordArrayList() const { return _texCoordList; }
+        ArrayList& getTexCoordArrayList() { 
+          return _texCoordList; 
+        }
+        const ArrayList& getTexCoordArrayList() const { 
+          return _texCoordList; 
+        }
 
-        void setVertexAttribArray(unsigned int index, Array* array) { setVertexAttribArray(index, array, osg::Array::BIND_UNDEFINED); }
+        void setVertexAttribArray(unsigned int index, Array* array) { 
+          setVertexAttribArray(index, array, osg::Array::BIND_UNDEFINED); 
+        }
         void setVertexAttribArray(unsigned int index, Array* array, osg::Array::Binding binding);
         Array *getVertexAttribArray(unsigned int index);
         const Array *getVertexAttribArray(unsigned int index) const;
 
 
-        unsigned int getNumVertexAttribArrays() const { return static_cast<unsigned int>(_vertexAttribList.size()); }
+        unsigned int getNumVertexAttribArrays() const { 
+          return static_cast<unsigned int>(_vertexAttribList.size()); 
+        }
         void setVertexAttribArrayList(const ArrayList& arrayList);
-        ArrayList& getVertexAttribArrayList() { return _vertexAttribList; }
-        const ArrayList& getVertexAttribArrayList() const { return _vertexAttribList; }
+        ArrayList& getVertexAttribArrayList() { 
+          return _vertexAttribList; 
+        }
+        const ArrayList& getVertexAttribArrayList() const { 
+          return _vertexAttribList; 
+        }
 
 
 
@@ -103,12 +151,22 @@ class OSG_EXPORT Geometry : public Drawable
 
         void setPrimitiveSetList(const PrimitiveSetList& primitives);
 
-        PrimitiveSetList& getPrimitiveSetList() { return _primitives; }
-        const PrimitiveSetList& getPrimitiveSetList() const { return _primitives; }
+        PrimitiveSetList& getPrimitiveSetList() { 
+          return _primitives; 
+        }
+        const PrimitiveSetList& getPrimitiveSetList() const { 
+          return _primitives; 
+        }
 
-        unsigned int getNumPrimitiveSets() const { return static_cast<unsigned int>(_primitives.size()); }
-        PrimitiveSet* getPrimitiveSet(unsigned int pos) { return _primitives[pos].get(); }
-        const PrimitiveSet* getPrimitiveSet(unsigned int pos) const { return _primitives[pos].get(); }
+        unsigned int getNumPrimitiveSets() const { 
+          return static_cast<unsigned int>(_primitives.size()); 
+        }
+        PrimitiveSet* getPrimitiveSet(unsigned int pos) { 
+          return _primitives[pos].get(); 
+        }
+        const PrimitiveSet* getPrimitiveSet(unsigned int pos) const { 
+          return _primitives[pos].get(); 
+        }
 
         /** Add a primitive set to the geometry. */
         bool addPrimitiveSet(PrimitiveSet* primitiveset);
@@ -214,7 +272,9 @@ class OSG_EXPORT Geometry : public Drawable
 
     protected:
 
-        Geometry& operator = (const Geometry&) { return *this;}
+        Geometry& operator = (const Geometry&) { 
+          return *this;
+        }
 
         virtual ~Geometry();
 

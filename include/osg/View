@@ -41,13 +41,19 @@ class OSG_EXPORT View : public virtual osg::Object
 
 
         /** Set the Stats object used to collect various frame related timing and scene graph stats.*/
-        void setStats(osg::Stats* stats) { _stats = stats; }
+        void setStats(osg::Stats* stats) { 
+            _stats = stats; 
+        }
 
         /** Get the Viewers Stats object.*/
-        osg::Stats* getStats() { return _stats.get(); }
+        osg::Stats* getStats() { 
+            return _stats.get(); 
+        }
 
         /** Get the Viewers Stats object.*/
-        const osg::Stats* getStats() const { return _stats.get(); }
+        const osg::Stats* getStats() const { 
+            return _stats.get(); 
+        }
 
 
         /** Options for controlling the global lighting used for the view.*/
@@ -63,34 +69,53 @@ class OSG_EXPORT View : public virtual osg::Object
         void setLightingMode(LightingMode lightingMode);
 
         /** Get the global lighting used for this view.*/
-        LightingMode getLightingMode() const { return _lightingMode; }
+        LightingMode getLightingMode() const { 
+            return _lightingMode; 
+        }
 
         /** Get the global light.*/
-        void setLight(osg::Light* light) { _light = light; }
+        void setLight(osg::Light* light) { 
+            _light = light; 
+        }
 
         /** Get the global lighting if assigned.*/
-        osg::Light* getLight() { return _light.get(); }
+        osg::Light* getLight() { 
+            return _light.get(); 
+        }
 
         /** Get the const global lighting if assigned.*/
-        const osg::Light* getLight() const { return _light.get(); }
+        const osg::Light* getLight() const { 
+            return _light.get(); 
+        }
 
         /** Set the master camera of the view. */
         void setCamera(osg::Camera* camera);
 
         /** Get the master camera of the view. */
-        osg::Camera* getCamera() { return _camera.get(); }
+        osg::Camera* getCamera() { 
+            return _camera.get(); 
+        }
+
 
         /** Get the const master camera of the view. */
-        const osg::Camera* getCamera() const { return _camera.get(); }
+        const osg::Camera* getCamera() const { 
+            return _camera.get(); 
+        }
 
         /** Set the frame stamp of the view. */
-        void setFrameStamp(osg::FrameStamp* fs) { _frameStamp = fs; }
+        void setFrameStamp(osg::FrameStamp* fs) { 
+            _frameStamp = fs; 
+        }
 
         /** Get the frame stamp of the view. */
-        osg::FrameStamp* getFrameStamp() { return _frameStamp.get(); }
+        osg::FrameStamp* getFrameStamp() { 
+            return _frameStamp.get(); 
+        }
 
         /** Get the frame stamp of the view. */
-        const osg::FrameStamp* getFrameStamp() const { return _frameStamp.get(); }
+        const osg::FrameStamp* getFrameStamp() const { 
+            return _frameStamp.get(); 
+        }
 
 
         /** Slave allows one to up a camera that follows the master with a local offset to the project and view matrices.*/
@@ -99,20 +124,29 @@ class OSG_EXPORT View : public virtual osg::Object
             Slave(bool useMastersSceneData=true):
                 _useMastersSceneData(useMastersSceneData) {}
 
-            Slave(osg::Camera* camera, const osg::Matrixd& projectionOffset, const osg::Matrixd& viewOffset, bool useMastersSceneData=true):
+            Slave(osg::Camera* camera, 
+                const osg::Matrixd& projectionOffset, 
+                const osg::Matrixd& viewOffset, 
+                bool useMastersSceneData=true):
                 _camera(camera),
                 _projectionOffset(projectionOffset),
                 _viewOffset(viewOffset),
-                _useMastersSceneData(useMastersSceneData) {}
+                _useMastersSceneData(useMastersSceneData) {
+
+            }
 
             Slave(const Slave& rhs) :
                 _camera(rhs._camera),
                 _projectionOffset(rhs._projectionOffset),
                 _viewOffset(rhs._viewOffset),
                 _useMastersSceneData(rhs._useMastersSceneData),
-                _updateSlaveCallback(rhs._updateSlaveCallback) {}
+                _updateSlaveCallback(rhs._updateSlaveCallback) {
 
-            virtual ~Slave() {}
+            }
+
+            virtual ~Slave() {
+
+            }
 
             Slave& operator = (const Slave& rhs)
             {
@@ -131,8 +165,10 @@ class OSG_EXPORT View : public virtual osg::Object
 
             void updateSlave(View& view)
             {
-                if (_updateSlaveCallback.valid()) _updateSlaveCallback->updateSlave(view, *this);
-                else updateSlaveImplementation(view);
+                if (_updateSlaveCallback.valid()) 
+                    _updateSlaveCallback->updateSlave(view, *this);
+                else 
+                    updateSlaveImplementation(view);
             }
 
             virtual void updateSlaveImplementation(View& view);
@@ -144,16 +180,27 @@ class OSG_EXPORT View : public virtual osg::Object
             osg::ref_ptr<UpdateSlaveCallback>   _updateSlaveCallback;
         };
 
-        bool addSlave(osg::Camera* camera, bool useMastersSceneData=true) { return addSlave(camera, osg::Matrix::identity(), osg::Matrix::identity(), useMastersSceneData); }
+        bool addSlave(osg::Camera* camera, bool useMastersSceneData=true) { 
+            return addSlave(camera, osg::Matrix::identity(), osg::Matrix::identity(), useMastersSceneData); 
+        }
 
-        bool addSlave(osg::Camera* camera, const osg::Matrix& projectionOffset, const osg::Matrix& viewOffset, bool useMastersSceneData=true);
+        bool addSlave(osg::Camera* camera, 
+            const osg::Matrix& projectionOffset, 
+            const osg::Matrix& viewOffset, 
+            bool useMastersSceneData=true);
 
         bool removeSlave(unsigned int pos);
 
-        unsigned int getNumSlaves() const { return static_cast<unsigned int>(_slaves.size()); }
+        unsigned int getNumSlaves() const { 
+            return static_cast<unsigned int>(_slaves.size()); 
+        }
 
-        Slave& getSlave(unsigned int pos) { return _slaves[pos]; }
-        const Slave& getSlave(unsigned int pos) const { return _slaves[pos]; }
+        Slave& getSlave(unsigned int pos) { 
+            return _slaves[pos]; 
+        }
+        const Slave& getSlave(unsigned int pos) const { 
+            return _slaves[pos]; 
+        }
 
         unsigned int findSlaveIndexForCamera(osg::Camera* camera) const;
 
@@ -168,7 +215,9 @@ class OSG_EXPORT View : public virtual osg::Object
 
         virtual ~View();
 
-        virtual osg::GraphicsOperation* createRenderer(osg::Camera*) { return 0; }
+        virtual osg::GraphicsOperation* createRenderer(osg::Camera*) { 
+            return 0; 
+        }
 
         osg::ref_ptr<osg::Stats>        _stats;
 

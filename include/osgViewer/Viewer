@@ -43,13 +43,19 @@ class OSGVIEWER_EXPORT Viewer : public ViewerBase, public osgViewer::View
 
 
         /** Set the Stats object used to collect various frame related timing and scene graph stats.*/
-        virtual void setViewerStats(osg::Stats* stats) { setStats(stats); }
+        virtual void setViewerStats(osg::Stats* stats) { 
+          setStats(stats); 
+        }
 
         /** Get the Viewers Stats object.*/
-        virtual osg::Stats* getViewerStats() { return getStats(); }
+        virtual osg::Stats* getViewerStats() { 
+          return getStats(); 
+        }
 
         /** Get the Viewers Stats object.*/
-        virtual const osg::Stats* getViewerStats() const { return getStats(); }
+        virtual const osg::Stats* getViewerStats() const { 
+          return getStats(); 
+        }
 
 
         /** read the viewer configuration from a configuration file.*/
@@ -77,7 +83,9 @@ class OSGVIEWER_EXPORT Viewer : public ViewerBase, public osgViewer::View
 
         virtual double elapsedTime();
 
-        virtual osg::FrameStamp* getViewerFrameStamp() { return getFrameStamp(); }
+        virtual osg::FrameStamp* getViewerFrameStamp() { 
+          return getFrameStamp(); 
+        }
 
         /** Execute a main frame loop.
           * Equivalent to while (!viewer.done()) viewer.frame();
@@ -114,8 +122,12 @@ class OSGVIEWER_EXPORT Viewer : public ViewerBase, public osgViewer::View
         virtual void getUsage(osg::ApplicationUsage& usage) const;
 
         // ensure that osg::View provides the reiszerGLObjects and releaseGLObjects methods
-        virtual void resizeGLObjectBuffers(unsigned int maxSize) { osg::View::resizeGLObjectBuffers(maxSize); }
-        virtual void releaseGLObjects(osg::State* state = 0) const { osg::View::releaseGLObjects(state); }
+        virtual void resizeGLObjectBuffers(unsigned int maxSize) { 
+          osg::View::resizeGLObjectBuffers(maxSize); 
+        }
+        virtual void releaseGLObjects(osg::State* state = 0) const { 
+          osg::View::releaseGLObjects(state); 
+        }
 
     protected:
 

@@ -203,13 +203,16 @@ void ViewerBase::configureAffinity()
 
 void ViewerBase::setThreadingModel(ThreadingModel threadingModel)
 {
-    if (_threadingModel == threadingModel) return;
+    if (_threadingModel == threadingModel) 
+        return;
 
-    if (_threadsRunning) stopThreading();
+    if (_threadsRunning) 
+        stopThreading();
 
     _threadingModel = threadingModel;
 
-    if (isRealized() && _threadingModel!=SingleThreaded) setUpThreading();
+    if (isRealized() && _threadingModel!=SingleThreaded) 
+        setUpThreading();
 }
 
 ViewerBase::ThreadingModel ViewerBase::suggestBestThreadingModel()
@@ -217,16 +220,21 @@ ViewerBase::ThreadingModel ViewerBase::suggestBestThreadingModel()
     std::string str;
     if (osg::getEnvVar("OSG_THREADING", str))
     {
-        if (str=="SingleThreaded") return SingleThreaded;
-        else if (str=="CullDrawThreadPerContext") return CullDrawThreadPerContext;
-        else if (str=="DrawThreadPerContext") return DrawThreadPerContext;
-        else if (str=="CullThreadPerCameraDrawThreadPerContext") return CullThreadPerCameraDrawThreadPerContext;
+        if (str=="SingleThreaded") 
+            return SingleThreaded;
+        else if (str=="CullDrawThreadPerContext") 
+            return CullDrawThreadPerContext;
+        else if (str=="DrawThreadPerContext") 
+            return DrawThreadPerContext;
+        else if (str=="CullThreadPerCameraDrawThreadPerContext") 
+            return CullThreadPerCameraDrawThreadPerContext;
     }
 
     Contexts contexts;
     getContexts(contexts);
 
-    if (contexts.empty()) return SingleThreaded;
+    if (contexts.empty()) 
+        return SingleThreaded;
 
 #if 0
     // temporary hack to disable multi-threading under Windows till we find good solutions for
@@ -237,15 +245,18 @@ ViewerBase::ThreadingModel ViewerBase::suggestBestThreadingModel()
     Cameras cameras;
     getCameras(cameras);
 
-    if (cameras.empty()) return SingleThreaded;
+    if (cameras.empty()) 
+        return SingleThreaded;
 
 
     int numProcessors = OpenThreads::GetNumberOfProcessors();
 
     if (contexts.size()==1)
     {
-        if (numProcessors==1) return SingleThreaded;
-        else return DrawThreadPerContext;
+        if (numProcessors==1) 
+            return SingleThreaded;
+        else 
+            return DrawThreadPerContext;
     }
 
 #if 1
@@ -266,7 +277,8 @@ void ViewerBase::setUpThreading()
     }
 
     // if required configure affinity before we start threads
-    if (_useConfigureAffinity) configureAffinity();
+    if (_useConfigureAffinity) 
+        configureAffinity();
 
     Contexts contexts;
     getContexts(contexts);
@@ -293,40 +305,48 @@ void ViewerBase::setUpThreading()
 
     if (_threadingModel==SingleThreaded)
     {
-        if (_threadsRunning) stopThreading();
+        if (_threadsRunning) 
+            stopThreading();
     }
     else
     {
-        if (!_threadsRunning) startThreading();
+        if (!_threadsRunning) 
+            startThreading();
     }
 
 }
 
 void ViewerBase::setEndBarrierPosition(BarrierPosition bp)
 {
-    if (_endBarrierPosition == bp) return;
+    if (_endBarrierPosition == bp) 
+        return;
 
-    if (_threadsRunning) stopThreading();
+    if (_threadsRunning) 
+        stopThreading();
 
     _endBarrierPosition = bp;
 
-    if (_threadingModel!=SingleThreaded) startThreading();
+    if (_threadingModel!=SingleThreaded) 
+        startThreading();
 }
 
 void ViewerBase::setEndBarrierOperation(osg::BarrierOperation::PreBlockOp op)
 {
     if (_endBarrierOperation == op) return;
 
-    if (_threadsRunning) stopThreading();
+    if (_threadsRunning) 
+        stopThreading();
 
     _endBarrierOperation = op;
 
-    if (_threadingModel!=SingleThreaded) startThreading();
+    if (_threadingModel!=SingleThreaded) 
+        startThreading();
 }
 
 void ViewerBase::stopThreading()
 {
-    if (!_threadsRunning) return;
+    if (!_threadsRunning) 
+        return;
 
     OSG_INFO<<"ViewerBase::stopThreading() - stopping threading"<<std::endl;
 
@@ -345,7 +365,8 @@ void ViewerBase::stopThreading()
     {
         osg::Camera* camera = *camItr;
         Renderer* renderer = dynamic_cast<Renderer*>(camera->getRenderer());
-        if (renderer) renderer->release();
+        if (renderer) 
+            renderer->release();
     }
 
     // delete all the graphics threads.
@@ -388,7 +409,8 @@ void ViewerBase::stopThreading()
 
 void ViewerBase::startThreading()
 {
-    if (_threadsRunning) return;
+    if (_threadsRunning) 
+        return;
 
     OSG_INFO<<"Viewer::startThreading() - starting threading"<<std::endl;
 
@@ -497,7 +519,9 @@ void ViewerBase::startThreading()
     }
 
 
-    osg::ref_ptr<osg::BarrierOperation> swapReadyBarrier = contexts.empty() ? 0 : new osg::BarrierOperation(contexts.size(), osg::BarrierOperation::NO_OPERATION);
+    osg::ref_ptr<osg::BarrierOperation> swapReadyBarrier = contexts.empty() 
+                ? 0 
+                : new osg::BarrierOperation(contexts.size(), osg::BarrierOperation::NO_OPERATION);
 
     osg::ref_ptr<osg::SwapBuffersOperation> swapOp = new osg::SwapBuffersOperation();
 
@@ -519,23 +543,29 @@ void ViewerBase::startThreading()
         gc->createGraphicsThread();
 
         // add the startRenderingBarrier
-        if (_threadingModel==CullDrawThreadPerContext && _startRenderingBarrier.valid()) gc->getGraphicsThread()->add(_startRenderingBarrier.get());
+        if (_threadingModel==CullDrawThreadPerContext && _startRenderingBarrier.valid()) 
+            gc->getGraphicsThread()->add(_startRenderingBarrier.get());
 
         // add the rendering operation itself.
         gc->getGraphicsThread()->add(new osg::RunOperations());
 
-        if (_threadingModel==CullDrawThreadPerContext && _endBarrierPosition==BeforeSwapBuffers && _endRenderingDispatchBarrier.valid())
+        if (_threadingModel==CullDrawThreadPerContext && 
+            _endBarrierPosition==BeforeSwapBuffers && 
+            _endRenderingDispatchBarrier.valid() )
         {
             // add the endRenderingDispatchBarrier
             gc->getGraphicsThread()->add(_endRenderingDispatchBarrier.get());
         }
 
-        if (swapReadyBarrier.valid()) gc->getGraphicsThread()->add(swapReadyBarrier.get());
+        if (swapReadyBarrier.valid()) 
+            gc->getGraphicsThread()->add(swapReadyBarrier.get());
 
         // add the swap buffers
         gc->getGraphicsThread()->add(swapOp.get());
 
-        if (_threadingModel==CullDrawThreadPerContext && _endBarrierPosition==AfterSwapBuffers && _endRenderingDispatchBarrier.valid())
+        if (_threadingModel==CullDrawThreadPerContext && 
+            _endBarrierPosition==AfterSwapBuffers && 
+            _endRenderingDispatchBarrier.valid())
         {
             // add the endRenderingDispatchBarrier
             gc->getGraphicsThread()->add(_endRenderingDispatchBarrier.get());
@@ -557,7 +587,8 @@ void ViewerBase::startThreading()
             osg::GraphicsContext* gc = camera->getGraphicsContext();
 
             // add the startRenderingBarrier
-            if (_startRenderingBarrier.valid()) camera->getCameraThread()->add(_startRenderingBarrier.get());
+            if (_startRenderingBarrier.valid()) 
+                camera->getCameraThread()->add(_startRenderingBarrier.get());
 
             Renderer* renderer = dynamic_cast<Renderer*>(camera->getRenderer());
             if (renderer)
@@ -633,22 +664,26 @@ void ViewerBase::checkWindowStatus(const Contexts& contexts)
     if (contexts.size()==0)
     {
         _done = true;
-        if (areThreadsRunning()) stopThreading();
+        if (areThreadsRunning()) 
+            stopThreading();
     }
 }
 
 void ViewerBase::addUpdateOperation(osg::Operation* operation)
 {
-    if (!operation) return;
+    if (!operation) 
+        return;
 
-    if (!_updateOperations) _updateOperations = new osg::OperationQueue;
+    if (!_updateOperations) 
+        _updateOperations = new osg::OperationQueue;
 
     _updateOperations->add(operation);
 }
 
 void ViewerBase::removeUpdateOperation(osg::Operation* operation)
 {
-    if (!operation) return;
+    if (!operation) 
+        return;
 
     if (_updateOperations.valid())
     {
@@ -658,12 +693,14 @@ void ViewerBase::removeUpdateOperation(osg::Operation* operation)
 
 void ViewerBase::setIncrementalCompileOperation(osgUtil::IncrementalCompileOperation* ico)
 {
-    if (_incrementalCompileOperation == ico) return;
+    if (_incrementalCompileOperation == ico) 
+        return;
 
     Contexts contexts;
     getContexts(contexts, false);
 
-    if (_incrementalCompileOperation.valid()) _incrementalCompileOperation->removeContexts(contexts);
+    if (_incrementalCompileOperation.valid()) 
+        _incrementalCompileOperation->removeContexts(contexts);
 
     // assign new operation
     _incrementalCompileOperation = ico;
@@ -679,7 +716,8 @@ void ViewerBase::setIncrementalCompileOperation(osgUtil::IncrementalCompileOpera
     }
 
 
-    if (_incrementalCompileOperation) _incrementalCompileOperation->assignContexts(contexts);
+    if (_incrementalCompileOperation) 
+        _incrementalCompileOperation->assignContexts(contexts);
 }
 
 int ViewerBase::run()
@@ -692,7 +730,9 @@ int ViewerBase::run()
     unsigned int runTillFrameNumber = osg::UNINITIALIZED_FRAME_NUMBER;
     osg::getEnvVar("OSG_RUN_FRAME_COUNT", runTillFrameNumber);
 
-    while(!done() && (runTillFrameNumber==osg::UNINITIALIZED_FRAME_NUMBER || getViewerFrameStamp()->getFrameNumber()<runTillFrameNumber))
+    while(!done() && 
+            (runTillFrameNumber==osg::UNINITIALIZED_FRAME_NUMBER || 
+            getViewerFrameStamp()->getFrameNumber()<runTillFrameNumber) )
     {
         double minFrameTime = _runMaxFrameRate>0.0 ? 1.0/_runMaxFrameRate : 0.0;
         osg::Timer_t startFrameTick = osg::Timer::instance()->tick();
@@ -707,7 +747,8 @@ int ViewerBase::run()
                 // we don't need to render a frame but we don't want to spin the run loop so make sure the minimum
                 // loop time is 1/100th of second, if not otherwise set, so enabling the frame microSleep below to
                 // avoid consume excessive CPU resources.
-                if (minFrameTime==0.0) minFrameTime=0.01;
+                if (minFrameTime==0.0) 
+                    minFrameTime=0.01;
             }
         }
         else
@@ -718,7 +759,8 @@ int ViewerBase::run()
         // work out if we need to force a sleep to hold back the frame rate
         osg::Timer_t endFrameTick = osg::Timer::instance()->tick();
         double frameTime = osg::Timer::instance()->delta_s(startFrameTick, endFrameTick);
-        if (frameTime < minFrameTime) OpenThreads::Thread::microSleep(static_cast<unsigned int>(1000000.0*(minFrameTime-frameTime)));
+        if (frameTime < minFrameTime) 
+            OpenThreads::Thread::microSleep(static_cast<unsigned int>(1000000.0*(minFrameTime-frameTime)));
     }
 
     return 0;
@@ -726,7 +768,8 @@ int ViewerBase::run()
 
 void ViewerBase::frame(double simulationTime)
 {
-    if (_done) return;
+    if (_done) 
+        return;
 
     // OSG_NOTICE<<std::endl<<"CompositeViewer::frame()"<<std::endl<<std::endl;
 
@@ -756,7 +799,8 @@ void ViewerBase::renderingTraversals()
 
     // check to see if windows are still valid
     checkWindowStatus(contexts);
-    if (_done) return;
+    if (_done) 
+        return;
 
     double beginRenderingTraversals = elapsedTime();
 
@@ -831,13 +875,16 @@ void ViewerBase::renderingTraversals()
         ++sitr)
     {
         Scene* scene = *sitr;
-        if (!scene) continue;
+        if (!scene) 
+            continue;
 
         osgDB::DatabasePager* dp = scene->getDatabasePager();
-        if (dp) dp->signalBeginFrame(frameStamp);
+        if (dp) 
+            dp->signalBeginFrame(frameStamp);
 
         osgDB::ImagePager* ip = scene->getImagePager();
-        if (ip) ip->signalBeginFrame(frameStamp);
+        if (ip) 
+            ip->signalBeginFrame(frameStamp);
 
         if (scene->getSceneData())
         {
@@ -863,7 +910,8 @@ void ViewerBase::renderingTraversals()
     }
 
     // dispatch the rendering threads
-    if (_startRenderingBarrier.valid()) _startRenderingBarrier->block();
+    if (_startRenderingBarrier.valid()) 
+        _startRenderingBarrier->block();
 
     // reset any double buffer graphics objects
     for(Cameras::iterator camItr = cameras.begin();
@@ -896,7 +944,8 @@ void ViewerBase::renderingTraversals()
     // OSG_NOTICE<<"Joing _endRenderingDispatchBarrier block "<<_endRenderingDispatchBarrier.get()<<std::endl;
 
     // wait till the rendering dispatch is done.
-    if (_endRenderingDispatchBarrier.valid()) _endRenderingDispatchBarrier->block();
+    if (_endRenderingDispatchBarrier.valid()) 
+        _endRenderingDispatchBarrier->block();
 
     for(itr = contexts.begin();
         itr != contexts.end() && !_done;
@@ -915,13 +964,16 @@ void ViewerBase::renderingTraversals()
         ++sitr)
     {
         Scene* scene = *sitr;
-        if (!scene) continue;
+        if (!scene) 
+            continue;
 
         osgDB::DatabasePager* dp = scene->getDatabasePager();
-        if (dp) dp->signalEndFrame();
+        if (dp) 
+            dp->signalEndFrame();
 
         osgDB::ImagePager* ip = scene->getImagePager();
-        if (ip) ip->signalEndFrame();
+        if (ip) 
+            ip->signalEndFrame();
     }
 
     // wait till the dynamic draw is complete.

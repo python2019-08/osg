@@ -54,7 +54,8 @@ struct SceneSingleton
             ++itr)
         {
             Scene* scene = itr->get();
-            if (scene && scene->getSceneData()==node) return scene;
+            if (scene && scene->getSceneData()==node) 
+                return scene;
         }
         return 0;
     }
@@ -116,20 +117,28 @@ void Scene::setImagePager(osgDB::ImagePager* ip)
 bool Scene::requiresUpdateSceneGraph() const
 {
     // check if the database pager needs to update the scene
-    if (getDatabasePager()->requiresUpdateSceneGraph()) return true;
+    if (getDatabasePager()->requiresUpdateSceneGraph()) 
+        return true;
 
     // check if the image pager needs to update the scene
-    if (getImagePager()->requiresUpdateSceneGraph()) return true;
+    if (getImagePager()->requiresUpdateSceneGraph()) 
+        return true;
 
     // check if scene graph needs update traversal
-    if (_sceneData.valid() && (_sceneData->getUpdateCallback() || (_sceneData->getNumChildrenRequiringUpdateTraversal()>0))) return true;
+    if (_sceneData.valid() && 
+          (_sceneData->getUpdateCallback() || 
+           (_sceneData->getNumChildrenRequiringUpdateTraversal()>0)
+          )
+    ) 
+        return true;
 
     return false;
 }
 
 void Scene::updateSceneGraph(osg::NodeVisitor& updateVisitor)
 {
-    if (!_sceneData) return;
+    if (!_sceneData) 
+        return;
 
     if (getDatabasePager())
     {
@@ -153,7 +162,8 @@ void Scene::updateSceneGraph(osg::NodeVisitor& updateVisitor)
 bool Scene::requiresRedraw() const
 {
     // check if the database pager needs a redraw
-    if (getDatabasePager()->requiresRedraw()) return true;
+    if (getDatabasePager()->requiresRedraw()) 
+        return true;
 
     return false;
 }
@@ -167,7 +177,8 @@ Scene* Scene::getScene(osg::Node* node)
 
 Scene* Scene::getOrCreateScene(osg::Node* node)
 {
-    if (!node) return 0;
+    if (!node) 
+        return 0;
 
     osgViewer::Scene* scene = getScene(node);
     if (!scene)

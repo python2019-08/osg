@@ -40,14 +40,26 @@ class OSG_EXPORT FrameStamp : public Referenced
 
         FrameStamp& operator = (const FrameStamp& fs);
 
-        void setFrameNumber(unsigned int fnum) { _frameNumber = fnum; }
-        unsigned int getFrameNumber() const { return _frameNumber; }
+        void setFrameNumber(unsigned int fnum) { 
+          _frameNumber = fnum; 
+        }
+        unsigned int getFrameNumber() const { 
+          return _frameNumber; 
+        }
 
-        void setReferenceTime(double refTime) { _referenceTime = refTime; }
-        double getReferenceTime() const { return _referenceTime; }
+        void setReferenceTime(double refTime) { 
+          _referenceTime = refTime; 
+        }
+        double getReferenceTime() const { 
+          return _referenceTime; 
+        }
 
-        void setSimulationTime(double refTime) { _simulationTime = refTime; }
-        double getSimulationTime() const { return _simulationTime; }
+        void setSimulationTime(double refTime) { 
+          _simulationTime = refTime; 
+        }
+        double getSimulationTime() const { 
+          return _simulationTime; 
+        }
 
         void setCalendarTime(const tm& calendarTime);
         void getCalendarTime(tm& calendarTime) const;

@@ -93,7 +93,8 @@ namespace OpenThreads {
             Win32ThreadPrivateData *pd =
                 static_cast<Win32ThreadPrivateData *>(thread->_prvData);
 
-            if (thread->_prvData==0) return 0;
+            if (thread->_prvData==0) 
+                return 0;
 
             TlsSetValue(Win32ThreadPrivateData::TLS.getId(), data);
             //---------------------------------------------------------------------
@@ -356,7 +357,11 @@ int Thread::start() {
 
     pd->threadStartedBlock.reset();
 
-    pd->tid.set( (void*)_beginthreadex(NULL,static_cast<unsigned>(pd->stackSize),ThreadPrivateActions::StartThread,static_cast<void *>(this),CREATE_SUSPENDED,&ID));
+    pd->tid.set( (void*)_beginthreadex(NULL,static_cast<unsigned>(pd->stackSize),
+            ThreadPrivateActions::StartThread,
+            static_cast<void *>(this),
+            CREATE_SUSPENDED,
+            &ID) );
     ResumeThread(pd->tid.get());
 
     pd->uniqueId = (size_t)ID;
@@ -374,8 +379,10 @@ int Thread::start() {
 
 int Thread::startThread()
 {
-    if (_prvData) return start();
-    else return 0;
+    if (_prvData) 
+        return start();
+    else 
+        return 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -444,7 +451,8 @@ int Thread::testCancel()
 {
     Win32ThreadPrivateData *pd = static_cast<Win32ThreadPrivateData *> (_prvData);
 
-    if(WaitForSingleObject(pd->cancelEvent.get(),0) != WAIT_OBJECT_0) return 0;
+    if(WaitForSingleObject(pd->cancelEvent.get(),0) != WAIT_OBJECT_0) 
+        return 0;
 
     if(pd->cancelMode == 2)
         return 0;
@@ -613,7 +621,8 @@ static int SetThreadAffinity(HANDLE tid, const Affinity& affinity)
 	DWORD_PTR res = SetThreadAffinityMask ( tid, affinityMask );
 
 	// return value 1 means call is ignored ( 9x/ME/SE )
-	if (res == 1) return -1;
+	if (res == 1) 
+        return -1;
 	// return value 0 is failure
 	return (res == 0) ? GetLastError() : 0;
 }

@@ -449,7 +449,8 @@ void GraphicsContext::close(bool callCloseImplementation)
     if (_state.valid())
     {
         osg::ContextData* cd = osg::getContextData(_state->getContextID());
-        if (cd && cd->getNumContexts()>1) sharedContextExists = true;
+        if (cd && cd->getNumContexts()>1) 
+            sharedContextExists = true;
     }
 
     // release all the OpenGL objects in the scene graphs associated with this
@@ -502,7 +503,8 @@ void GraphicsContext::close(bool callCloseImplementation)
         }
     }
 
-    if (callCloseImplementation) closeImplementation();
+    if (callCloseImplementation) 
+        closeImplementation();
 
 
     // now discard any deleted deleted OpenGL objects that the are still hanging around - such as due to
@@ -600,7 +602,8 @@ void GraphicsContext::createGraphicsThread()
 
 void GraphicsContext::setGraphicsThread(GraphicsThread* gt)
 {
-    if (_graphicsThread==gt) return;
+    if (_graphicsThread==gt) 
+        return;
 
     if (_graphicsThread.valid())
     {
@@ -640,8 +643,10 @@ void GraphicsContext::remove(Operation* operation)
     for(GraphicsOperationQueue::iterator itr = _operations.begin();
         itr!=_operations.end();)
     {
-        if ((*itr)==operation) itr = _operations.erase(itr);
-        else ++itr;
+        if ((*itr)==operation) 
+            itr = _operations.erase(itr);
+        else 
+            ++itr;
     }
 
     if (_operations.empty())
@@ -661,8 +666,10 @@ void GraphicsContext::remove(const std::string& name)
     for(GraphicsOperationQueue::iterator itr = _operations.begin();
         itr!=_operations.end();)
     {
-        if ((*itr)->getName()==name) itr = _operations.erase(itr);
-        else ++itr;
+        if ((*itr)->getName()==name) 
+            itr = _operations.erase(itr);
+        else 
+            ++itr;
     }
 
     if (_operations.empty())
@@ -693,7 +700,8 @@ void GraphicsContext::runOperations()
         ++itr)
     {
         osg::Camera* camera = *itr;
-        if (camera->getRenderer()) (*(camera->getRenderer()))(this);
+        if (camera->getRenderer()) 
+            (*(camera->getRenderer()))(this);
     }
 
     for(GraphicsOperationQueue::iterator itr = _operations.begin();
@@ -763,7 +771,8 @@ void GraphicsContext::removeCamera(osg::Camera* camera)
                 for(unsigned int i=0; i<otherCamera->getNumChildren(); ++i)
                 {
                     NodeSet::iterator nitr = nodes.find(otherCamera->getChild(i));
-                    if (nitr != nodes.end()) nodes.erase(nitr);
+                    if (nitr != nodes.end()) 
+                        nodes.erase(nitr);
                 }
             }
         }
@@ -791,7 +800,8 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
 {
     std::set<osg::Viewport*> processedViewports;
 
-    if (!_traits) return;
+    if (!_traits) 
+        return;
 
     double widthChangeRatio = double(width) / double(_traits->width);
     double heigtChangeRatio = double(height) / double(_traits->height);
@@ -805,7 +815,8 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
         Camera* camera = (*itr);
 
         // resize doesn't affect Cameras set up with FBO's.
-        if (camera->getRenderTargetImplementation()==osg::Camera::FRAME_BUFFER_OBJECT) continue;
+        if (camera->getRenderTargetImplementation()==osg::Camera::FRAME_BUFFER_OBJECT) 
+            continue;
 
         Viewport* viewport = camera->getViewport();
         if (viewport)
@@ -815,8 +826,10 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
             {
                 processedViewports.insert(viewport);
 
-                if (viewport->x()==0 && viewport->y()==0 &&
-                    viewport->width()>=_traits->width && viewport->height()>=_traits->height)
+                if (viewport->x()==0 && 
+                    viewport->y()==0 &&
+                    viewport->width()>=_traits->width && 
+                    viewport->height()>=_traits->height)
                 {
                     viewport->setViewport(0,0,width,height);
                 }
@@ -843,8 +856,12 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
                 {
                     switch(view->getCamera()->getProjectionResizePolicy())
                     {
-                        case(osg::Camera::HORIZONTAL): slave->_projectionOffset *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); break;
-                        case(osg::Camera::VERTICAL): slave->_projectionOffset *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); break;
+                        case(osg::Camera::HORIZONTAL): 
+                            slave->_projectionOffset *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); 
+                            break;
+                        case(osg::Camera::VERTICAL): 
+                            slave->_projectionOffset *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); 
+                            break;
                         default: break;
                     }
                 }
@@ -852,19 +869,29 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
                 {
                     switch(camera->getProjectionResizePolicy())
                     {
-                        case(osg::Camera::HORIZONTAL): camera->getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); break;
-                        case(osg::Camera::VERTICAL): camera->getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); break;
+                        case(osg::Camera::HORIZONTAL): 
+                            camera->getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); 
+                            break;
+                        case(osg::Camera::VERTICAL): 
+                            camera->getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); 
+                            break;
                         default: break;
                     }
                 }
             }
             else
             {
-                Camera::ProjectionResizePolicy policy = view ? view->getCamera()->getProjectionResizePolicy() : camera->getProjectionResizePolicy();
+                Camera::ProjectionResizePolicy policy = view 
+                            ? view->getCamera()->getProjectionResizePolicy() 
+                            : camera->getProjectionResizePolicy();
                 switch(policy)
                 {
-                    case(osg::Camera::HORIZONTAL): camera->getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); break;
-                    case(osg::Camera::VERTICAL): camera->getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); break;
+                    case(osg::Camera::HORIZONTAL): 
+                        camera->getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); 
+                        break;
+                    case(osg::Camera::VERTICAL): 
+                        camera->getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); 
+                        break;
                     default: break;
                 }
 
@@ -874,15 +901,20 @@ void GraphicsContext::resizedImplementation(int x, int y, int width, int height)
                     for(unsigned int i=0; i<view->getNumSlaves(); ++i)
                     {
                         osg::View::Slave& child = view->getSlave(i);
-                        if (child._camera.valid() && child._camera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
+                        if (child._camera.valid() && 
+                            child._camera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
                         {
                             // scale the slaves by the inverse of the change that has been applied to master, to avoid them be
                             // scaled twice (such as when both master and slave are on the same GraphicsContexts) or by the wrong scale
                             // when master and slave are on different GraphicsContexts.
                             switch(policy)
                             {
-                                case(osg::Camera::HORIZONTAL): child._projectionOffset *= osg::Matrix::scale(aspectRatioChange,1.0,1.0); break;
-                                case(osg::Camera::VERTICAL): child._projectionOffset *= osg::Matrix::scale(1.0, 1.0/aspectRatioChange,1.0); break;
+                                case(osg::Camera::HORIZONTAL): 
+                                    child._projectionOffset *= osg::Matrix::scale(aspectRatioChange,1.0,1.0); 
+                                    break;
+                                case(osg::Camera::VERTICAL): 
+                                    child._projectionOffset *= osg::Matrix::scale(1.0, 1.0/aspectRatioChange,1.0); 
+                                    break;
                                 default: break;
                             }
                         }

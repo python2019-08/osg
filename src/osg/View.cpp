@@ -150,7 +150,8 @@ void View::updateSlaves()
 
 void View::Slave::updateSlaveImplementation(View& view)
 {
-    if (!view.getCamera()) return;
+    if (!view.getCamera()) 
+        return;
 
     if (_camera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
     {

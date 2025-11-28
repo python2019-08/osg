@@ -35,7 +35,8 @@ bool Popup::handleImplementation(osgGA::EventVisitor* /*ev*/, osgGA::Event* even
 //    OSG_NOTICE<<"Popup::handleImplementation"<<std::endl;
 
     osgGA::GUIEventAdapter* ea = event->asGUIEventAdapter();
-    if (!ea) return false;
+    if (!ea) 
+        return false;
 
     switch(ea->getEventType())
     {
@@ -75,7 +76,10 @@ void Popup::createGraphicsImplementation()
     _transform->addChild( style->createPanel(_extents, dialogBackgroundColor) );
 
     bool requiresFrame = (getFrameSettings() && getFrameSettings()->getShape()!=osgUI::FrameSettings::NO_FRAME);
-    if (requiresFrame) { _transform->addChild(style->createFrame(_extents, getFrameSettings(), dialogBackgroundColor)); }
+    if (requiresFrame) { 
+        _transform->addChild( 
+            style->createFrame(_extents, getFrameSettings(), dialogBackgroundColor) ); 
+    }
 #if 1
     style->setupDialogStateSet(getOrCreateWidgetStateSet(),6);
 #else

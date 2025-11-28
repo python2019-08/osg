@@ -112,51 +112,75 @@ class OSG_EXPORT NodeVisitor : public virtual Object
 
         /** Convert 'this' into a NodeVisitor pointer if Object is a NodeVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<NodeVisitor*>(this).*/
-        virtual NodeVisitor* asNodeVisitor() { return this; }
+        virtual NodeVisitor* asNodeVisitor() { 
+          return this; 
+        }
 
         /** convert 'const this' into a const NodeVisitor pointer if Object is a NodeVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<const NodeVisitor*>(this).*/
-        virtual const NodeVisitor* asNodeVisitor() const { return this; }
+        virtual const NodeVisitor* asNodeVisitor() const { 
+          return this; 
+        }
 
         /** Convert 'this' into a osgUtil::UpdateVisitor pointer if Object is a osgUtil::UpdateVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<osgUtil::UpdateVisitor*>(this).*/
-        virtual osgUtil::UpdateVisitor* asUpdateVisitor() { return 0; }
+        virtual osgUtil::UpdateVisitor* asUpdateVisitor() { 
+          return 0; 
+        }
 
         /** convert 'const this' into a const osgUtil::UpdateVisitor pointer if Object is a osgUtil::UpdateVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<const osgUtil::UpdateVisitor*>(this).*/
-        virtual const osgUtil::UpdateVisitor* asUpdateVisitor() const { return 0; }
+        virtual const osgUtil::UpdateVisitor* asUpdateVisitor() const { 
+          return 0; 
+        }
 
         /** Convert 'this' into a osgUtil::CullVisitor pointer if Object is a osgUtil::CullVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<osgUtil::CullVisitor*>(this).*/
-        virtual osgUtil::CullVisitor* asCullVisitor() { return 0; }
+        virtual osgUtil::CullVisitor* asCullVisitor() { 
+          return 0; 
+        }
 
         /** convert 'const this' into a const osgUtil::CullVisitor pointer if Object is a osgUtil::CullVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<const osgUtil::CullVisitor*>(this).*/
-        virtual const osgUtil::CullVisitor* asCullVisitor() const { return 0; }
+        virtual const osgUtil::CullVisitor* asCullVisitor() const { 
+          return 0; 
+        }
 
         /** Convert 'this' into a osgGA::EventVisitor pointer if Object is a osgGA::EventVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<osgGA::EventVisitor*>(this).*/
-        virtual osgGA::EventVisitor* asEventVisitor() { return 0; }
+        virtual osgGA::EventVisitor* asEventVisitor() { 
+          return 0; 
+        }
 
         /** convert 'const this' into a const osgGA::EventVisitor pointer if Object is a osgGA::EventVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<const osgGA::EventVisitor*>(this).*/
-        virtual const osgGA::EventVisitor* asEventVisitor() const { return 0; }
+        virtual const osgGA::EventVisitor* asEventVisitor() const { 
+          return 0; 
+        }
 
         /** Convert 'this' into a osgUtil::IntersectionVisitor pointer if Object is a IntersectionVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<osgUtil::IntersectionVisitor*>(this).*/
-        virtual osgUtil::IntersectionVisitor* asIntersectionVisitor() { return 0; }
+        virtual osgUtil::IntersectionVisitor* asIntersectionVisitor() { 
+          return 0; 
+        }
 
         /** convert 'const this' into a const osgUtil::IntersectionVisitor pointer if Object is a IntersectionVisitor, otherwise return 0.
           * Equivalent to dynamic_cast<const osgUtil::IntersectionVisitor*>(this).*/
-        virtual const osgUtil::IntersectionVisitor* asIntersectionVisitor() const { return 0; }
+        virtual const osgUtil::IntersectionVisitor* asIntersectionVisitor() const { 
+          return 0; 
+        }
 
         /** Convert 'this' into a osg::CullStack pointer if Object is a osg::CullStack, otherwise return 0.
           * Equivalent to dynamic_cast<osg::CullStack*>(this).*/
-        virtual osg::CullStack* asCullStack() { return 0; }
+        virtual osg::CullStack* asCullStack() { 
+          return 0; 
+        }
 
         /** convert 'const this' into a const osg::CullStack pointer if Object is a osg::CullStack, otherwise return 0.
           * Equivalent to dynamic_cast<const osg::CullStack*>(this).*/
-        virtual const osg::CullStack* asCullStack() const { return 0; }
+        virtual const osg::CullStack* asCullStack() const { 
+          return 0; 
+        }
 
 
 
@@ -170,22 +194,34 @@ class OSG_EXPORT NodeVisitor : public virtual Object
         /** Set the VisitorType, used to distinguish different visitors during
           * traversal of the scene, typically used in the Node::traverse() method
           * to select which behaviour to use for different types of traversal/visitors.*/
-        inline void setVisitorType(VisitorType type) { _visitorType = type; }
+        inline void setVisitorType(VisitorType type) { 
+          _visitorType = type; 
+        }
 
         /** Get the VisitorType.*/
-        inline VisitorType getVisitorType() const { return _visitorType; }
+        inline VisitorType getVisitorType() const { 
+          return _visitorType; 
+        }
 
         /** Set the traversal number. Typically used to denote the frame count.*/
-        inline void setTraversalNumber(unsigned int fn) { _traversalNumber = fn; }
+        inline void setTraversalNumber(unsigned int fn) { 
+          _traversalNumber = fn; 
+        }
 
         /** Get the traversal number. Typically used to denote the frame count.*/
-        inline unsigned int getTraversalNumber() const { return _traversalNumber; }
+        inline unsigned int getTraversalNumber() const { 
+          return _traversalNumber; 
+        }
 
         /** Set the FrameStamp that this traversal is associated with.*/
-        inline void setFrameStamp(FrameStamp* fs) { _frameStamp = fs; }
+        inline void setFrameStamp(FrameStamp* fs) { 
+          _frameStamp = fs; 
+        }
 
         /** Get the FrameStamp that this traversal is associated with.*/
-        inline const FrameStamp* getFrameStamp() const { return _frameStamp.get(); }
+        inline const FrameStamp* getFrameStamp() const { 
+          return _frameStamp.get(); 
+        }
 
 
         /** Set the TraversalMask of this NodeVisitor.
@@ -197,20 +233,28 @@ class OSG_EXPORT NodeVisitor : public virtual Object
           * will be switched off for all nodes.  Whereas setting both _traversalMask and
           * _nodeMaskOverride to 0xffffffff will allow a visitor to work on all nodes
           * regardless of their own Node::_nodeMask state.*/
-        inline void setTraversalMask(Node::NodeMask mask) { _traversalMask = mask; }
+        inline void setTraversalMask(Node::NodeMask mask) { 
+          _traversalMask = mask; 
+        }
 
         /** Get the TraversalMask.*/
-        inline Node::NodeMask getTraversalMask() const { return _traversalMask; }
+        inline Node::NodeMask getTraversalMask() const { 
+          return _traversalMask; 
+        }
 
         /** Set the NodeMaskOverride mask.
           * Used in validNodeMask() to determine whether to operate on a node or its
           * subgraph, by OR'ing NodeVisitor::_nodeMaskOverride with the Node's own Node::_nodeMask.
           * Typically used to force on nodes which may have
           * been switched off by their own Node::_nodeMask.*/
-        inline void setNodeMaskOverride(Node::NodeMask mask) { _nodeMaskOverride = mask; }
+        inline void setNodeMaskOverride(Node::NodeMask mask) { 
+          _nodeMaskOverride = mask; 
+        }
 
         /** Get the NodeMaskOverride mask.*/
-        inline Node::NodeMask getNodeMaskOverride() const { return _nodeMaskOverride; }
+        inline Node::NodeMask getNodeMaskOverride() const { 
+          return _nodeMaskOverride; 
+        }
 
         /** Method to called by Node and its subclass' Node::accept() method, if the result is true
           * it is used to cull operations of nodes and their subgraphs.
@@ -231,39 +275,57 @@ class OSG_EXPORT NodeVisitor : public virtual Object
         inline void setTraversalMode(TraversalMode mode) { _traversalMode = mode; }
 
         /** Get the traversal mode.*/
-        inline TraversalMode getTraversalMode() const { return _traversalMode; }
+        inline TraversalMode getTraversalMode() const { 
+          return _traversalMode; 
+        }
 
 
         /** Set the ValueMap used to store Values that can be reused over a series of traversals. */
-        inline void setValueMap(ValueMap* ps) { _valueMap = ps; }
+        inline void setValueMap(ValueMap* ps) { 
+          _valueMap = ps; 
+        }
 
         /** Get the ValueMap. */
-        inline ValueMap* getValueMap() { return _valueMap.get(); }
+        inline ValueMap* getValueMap() { 
+          return _valueMap.get(); 
+        }
 
         /** Get the ValueMap. */
-        inline const ValueMap* getValueMap() const { return _valueMap.get(); }
+        inline const ValueMap* getValueMap() const { 
+          return _valueMap.get(); 
+        }
 
         /** Get the ValueMap. */
         inline ValueMap* getOrCreateValueMap()
         {
-            if (!_valueMap) _valueMap = new ValueMap;
-            return _valueMap.get();
+            if (!_valueMap) 
+              _valueMap = new ValueMap;
+            return 
+              _valueMap.get();
         }
 
         /** Set the ValueStack used to stack Values during traversal. */
-        inline void setValueStack(ValueStack* ps) { _valueStack = ps; }
+        inline void setValueStack(ValueStack* ps) { 
+          _valueStack = ps; 
+        }
 
         /** Get the ValueStack. */
-        inline ValueStack* getValueStack() { return _valueStack.get(); }
+        inline ValueStack* getValueStack() { 
+          return _valueStack.get(); 
+        }
 
         /** Get the const ValueStack. */
-        inline const ValueStack* getValueStack() const { return _valueStack.get(); }
+        inline const ValueStack* getValueStack() const { 
+          return _valueStack.get(); 
+        }
 
         /** Get the ValueStack. */
         inline ValueStack* getOrCreateValueStack()
         {
-            if (!_valueStack) _valueStack = new ValueStack;
-            return _valueStack.get();
+            if (!_valueStack) 
+              _valueStack = new ValueStack;
+            return 
+              _valueStack.get();
         }
 
 
@@ -273,8 +335,10 @@ class OSG_EXPORT NodeVisitor : public virtual Object
             this method unless they handle traversal directly.*/
         inline void traverse(Node& node)
         {
-            if (_traversalMode==TRAVERSE_PARENTS) node.ascend(*this);
-            else if (_traversalMode!=TRAVERSE_NONE) node.traverse(*this);
+            if (_traversalMode==TRAVERSE_PARENTS) 
+              node.ascend(*this);
+            else if (_traversalMode!=TRAVERSE_NONE) 
+              node.traverse(*this);
         }
 
         /** Method called by osg::Node::accept() method before
@@ -284,44 +348,68 @@ class OSG_EXPORT NodeVisitor : public virtual Object
           * from the top most node applied down the graph to the current node.
           * Note, the user does not typically call pushNodeOnPath() as it
           * will be called automatically by the Node::accept() method.*/
-        inline void pushOntoNodePath(Node* node) { if (_traversalMode!=TRAVERSE_PARENTS) _nodePath.push_back(node); else _nodePath.insert(_nodePath.begin(),node); }
+        inline void pushOntoNodePath(Node* node) { 
+          if (_traversalMode!=TRAVERSE_PARENTS) 
+            _nodePath.push_back(node); 
+          else 
+            _nodePath.insert(_nodePath.begin(),node); 
+        }
 
         /** Method called by osg::Node::accept() method after
           * a call to NodeVisitor::apply(..).
           * Note, the user does not typically call popFromNodePath() as it
           * will be called automatically by the Node::accept() method.*/
-        inline void popFromNodePath()            { if (_traversalMode!=TRAVERSE_PARENTS) _nodePath.pop_back(); else _nodePath.erase(_nodePath.begin()); }
+        inline void popFromNodePath()            { 
+          if (_traversalMode!=TRAVERSE_PARENTS) 
+            _nodePath.pop_back(); 
+          else 
+            _nodePath.erase(_nodePath.begin()); 
+        }
 
         /** Get the non const NodePath from the top most node applied down
           * to the current Node being visited.*/
-        NodePath& getNodePath() { return _nodePath; }
+        NodePath& getNodePath() { 
+          return _nodePath; 
+        }
 
         /** Get the const NodePath from the top most node applied down
           * to the current Node being visited.*/
-        const NodePath& getNodePath() const { return _nodePath; }
+        const NodePath& getNodePath() const { 
+          return _nodePath; 
+        }
 
         /** Get the eye point in local coordinates.
           * Note, not all NodeVisitor implement this method, it is mainly cull visitors which will implement.*/
-        virtual osg::Vec3 getEyePoint() const { return Vec3(0.0f,0.0f,0.0f); }
+        virtual osg::Vec3 getEyePoint() const { 
+          return Vec3(0.0f,0.0f,0.0f); 
+        }
 
         /** Get the view point in local coordinates.
           * Note, not all NodeVisitor implement this method, it is mainly cull visitors which will implement.*/
-        virtual osg::Vec3 getViewPoint() const { return getEyePoint(); }
+        virtual osg::Vec3 getViewPoint() const { 
+          return getEyePoint(); 
+        }
 
         /** Get the distance from a point to the eye point, distance value in local coordinate system.
           * Note, not all NodeVisitor implement this method, it is mainly cull visitors which will implement.
           * If the getDistanceFromEyePoint(pos) is not implemented then a default value of 0.0 is returned.*/
-        virtual float getDistanceToEyePoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { return 0.0f; }
+        virtual float getDistanceToEyePoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { 
+          return 0.0f; 
+        }
 
         /** Get the distance of a point from the eye point, distance value in the eye coordinate system.
           * Note, not all NodeVisitor implement this method, it is mainly cull visitors which will implement.
           * If the getDistanceFromEyePoint(pos) is not implemented than a default value of 0.0 is returned.*/
-        virtual float getDistanceFromEyePoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { return 0.0f; }
+        virtual float getDistanceFromEyePoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { 
+          return 0.0f; 
+        }
 
         /** Get the distance from a point to the view point, distance value in local coordinate system.
           * Note, not all NodeVisitor implement this method, it is mainly cull visitors which will implement.
           * If the getDistanceToViewPoint(pos) is not implemented then a default value of 0.0 is returned.*/
-        virtual float getDistanceToViewPoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { return 0.0f; }
+        virtual float getDistanceToViewPoint(const Vec3& /*pos*/, bool /*useLODScale*/) const { 
+          return 0.0f; 
+        }
 
         virtual void apply(Drawable& drawable);
         virtual void apply(Geometry& geometry);
@@ -367,20 +455,31 @@ class OSG_EXPORT NodeVisitor : public virtual Object
             DatabaseRequestHandler():
                 Referenced(true) {}
 
-             virtual void requestNodeFile(const std::string& fileName, osg::NodePath& nodePath, float priority, const FrameStamp* framestamp, osg::ref_ptr<osg::Referenced>& databaseRequest, const osg::Referenced* options=0) = 0;
+             virtual void requestNodeFile(const std::string& fileName, 
+                osg::NodePath& nodePath, 
+                float priority, 
+                const FrameStamp* framestamp, 
+                osg::ref_ptr<osg::Referenced>& databaseRequest, 
+                const osg::Referenced* options=0) = 0;
 
         protected:
             virtual ~DatabaseRequestHandler() {}
         };
 
         /** Set the handler for database requests.*/
-        void setDatabaseRequestHandler(DatabaseRequestHandler* handler) { _databaseRequestHandler = handler; }
+        void setDatabaseRequestHandler(DatabaseRequestHandler* handler) { 
+          _databaseRequestHandler = handler; 
+        }
 
         /** Get the handler for database requests.*/
-        DatabaseRequestHandler* getDatabaseRequestHandler() { return _databaseRequestHandler.get(); }
+        DatabaseRequestHandler* getDatabaseRequestHandler() { 
+          return _databaseRequestHandler.get(); 
+        }
 
         /** Get the const handler for database requests.*/
-        const DatabaseRequestHandler* getDatabaseRequestHandler() const { return _databaseRequestHandler.get(); }
+        const DatabaseRequestHandler* getDatabaseRequestHandler() const { 
+          return _databaseRequestHandler.get(); 
+        }
 
 
         /** Callback for managing image paging, such as generated by PagedLOD nodes.*/
@@ -395,20 +494,33 @@ class OSG_EXPORT NodeVisitor : public virtual Object
 
             virtual osg::ref_ptr<osg::Image> readRefImageFile(const std::string& fileName, const osg::Referenced* options=0) = 0;
 
-            virtual void requestImageFile(const std::string& fileName,osg::Object* attachmentPoint, int attachmentIndex, double timeToMergeBy, const FrameStamp* framestamp, osg::ref_ptr<osg::Referenced>& imageRequest, const osg::Referenced* options=0) = 0;
+            virtual void requestImageFile(const std::string& fileName,
+                osg::Object* attachmentPoint, 
+                int attachmentIndex, 
+                double timeToMergeBy, 
+                const FrameStamp* framestamp, 
+                osg::ref_ptr<osg::Referenced>& imageRequest, 
+                const osg::Referenced* options=0) = 0;
 
         protected:
             virtual ~ImageRequestHandler() {}
         };
 
         /** Set the handler for image requests.*/
-        void setImageRequestHandler(ImageRequestHandler* handler) { _imageRequestHandler = handler; }
+        void setImageRequestHandler(ImageRequestHandler* handler) { 
+          _imageRequestHandler = handler; 
+        }
 
         /** Get the handler for image requests.*/
-        ImageRequestHandler* getImageRequestHandler() { return _imageRequestHandler.get(); }
+        ImageRequestHandler* getImageRequestHandler() { 
+          return _imageRequestHandler.get(); 
+        }
 
         /** Get the const handler for image requests.*/
-        const ImageRequestHandler* getImageRequestHandler() const { return _imageRequestHandler.get(); }
+        const ImageRequestHandler* getImageRequestHandler() const { 
+          return _imageRequestHandler.get(); 
+        }
+
 
 
 
@@ -441,12 +553,18 @@ class NodeAcceptOp
         NodeAcceptOp(NodeVisitor& nv):_nv(nv) {}
         NodeAcceptOp(const NodeAcceptOp& naop):_nv(naop._nv) {}
 
-        void operator () (Node* node) { node->accept(_nv); }
-        void operator () (ref_ptr<Node> node) { node->accept(_nv); }
+        void operator () (Node* node) { 
+          node->accept(_nv); 
+        }
+        void operator () (ref_ptr<Node> node) { 
+          node->accept(_nv); 
+        }
 
     protected:
 
-        NodeAcceptOp& operator = (const NodeAcceptOp&) { return *this; }
+        NodeAcceptOp& operator = (const NodeAcceptOp&) { 
+          return *this; 
+        }
 
         NodeVisitor& _nv;
 };
@@ -482,7 +600,8 @@ public:
 
     inline ~PushPopObject()
     {
-        if (_valueStack) _valueStack->pop(_key);
+        if (_valueStack) 
+          _valueStack->pop(_key);
     }
 
 protected:
@@ -522,7 +641,8 @@ public:
 
     inline ~PushPopValue()
     {
-        if (_valueStack) _valueStack->pop(_key);
+        if (_valueStack) 
+          _valueStack->pop(_key);
     }
 
 protected:

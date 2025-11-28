@@ -313,8 +313,10 @@ void Drawable::setThreadSafeRefUnref(bool threadSafe)
 {
     Object::setThreadSafeRefUnref(threadSafe);
 
-    if (_stateset.valid()) _stateset->setThreadSafeRefUnref(threadSafe);
-    if (_drawCallback.valid()) _drawCallback->setThreadSafeRefUnref(threadSafe);
+    if (_stateset.valid()) 
+        _stateset->setThreadSafeRefUnref(threadSafe);
+    if (_drawCallback.valid()) 
+        _drawCallback->setThreadSafeRefUnref(threadSafe);
 }
 
 void Drawable::resizeGLObjectBuffers(unsigned int maxSize)

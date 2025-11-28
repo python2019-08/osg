@@ -99,11 +99,16 @@ class OSG_EXPORT ImageSequence : public ImageStream
                       GLenum pixelFormat,GLenum type,
                       unsigned char* data,
                       AllocationMode mode,
-                      int packing=1) { Image::setImage(s,t,r,internalTextureformat, pixelFormat, type, data, mode, packing); }
+                      int packing=1) 
+        { 
+            Image::setImage(s,t,r,internalTextureformat, pixelFormat, type, data, mode, packing); 
+        }
 
         void setImage(unsigned int pos, osg::Image* image);
 
-        template<class  T> void setImage(unsigned int pos, const osg::ref_ptr<T>& image) { setImage(pos, image.get()); }
+        template<class  T> void setImage(unsigned int pos, const osg::ref_ptr<T>& image) { 
+            setImage(pos, image.get()); 
+        }
 
         Image* getImage(unsigned int pos);
         const Image* getImage(unsigned int pos) const;

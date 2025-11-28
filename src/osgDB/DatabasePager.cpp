@@ -340,7 +340,9 @@ public:
 
 protected:
 
-    FindCompileableGLObjectsVisitor& operator = (const FindCompileableGLObjectsVisitor&) { return *this; }
+    FindCompileableGLObjectsVisitor& operator = (const FindCompileableGLObjectsVisitor&) { 
+        return *this; 
+    }
 };
 
 
@@ -350,11 +352,15 @@ protected:
 //
 struct DatabasePager::SortFileRequestFunctor
 {
-    bool operator() (const osg::ref_ptr<DatabasePager::DatabaseRequest>& lhs,const osg::ref_ptr<DatabasePager::DatabaseRequest>& rhs) const
+    bool operator() (const osg::ref_ptr<DatabasePager::DatabaseRequest>& lhs,
+                     const osg::ref_ptr<DatabasePager::DatabaseRequest>& rhs) const
     {
-        if (lhs->_timestampLastRequest>rhs->_timestampLastRequest) return true;
-        else if (lhs->_timestampLastRequest<rhs->_timestampLastRequest) return false;
-        else return (lhs->_priorityLastRequest>rhs->_priorityLastRequest);
+        if (lhs->_timestampLastRequest>rhs->_timestampLastRequest) 
+            return true;
+        else if (lhs->_timestampLastRequest<rhs->_timestampLastRequest) 
+            return false;
+        else 
+            return (lhs->_priorityLastRequest>rhs->_priorityLastRequest);
     }
 };
 
@@ -677,7 +683,8 @@ void DatabasePager::DatabaseThread::run()
 
         _active = true;
 
-        OSG_INFO<<_name<<": _pager->size()= "<<read_queue->size()<<" to delete = "<<read_queue->_childrenToDeleteList.size()<<std::endl;
+        OSG_INFO<<_name<<": _pager->size()= "<<read_queue->size()
+                <<" to delete = "<<read_queue->_childrenToDeleteList.size()<<std::endl;
 
 
 
@@ -716,7 +723,9 @@ void DatabasePager::DatabaseThread::run()
         {
             {
                 OpenThreads::ScopedLock<OpenThreads::Mutex> drLock(_pager->_dr_mutex);
-                dr_loadOptions = databaseRequest->_loadOptions.valid() ? databaseRequest->_loadOptions->cloneOptions() : new osgDB::Options;
+                dr_loadOptions = databaseRequest->_loadOptions.valid() 
+                               ? databaseRequest->_loadOptions->cloneOptions() 
+                               : new osgDB::Options;
                 dr_loadOptions->setTerrain(databaseRequest->_terrain);
                 dr_loadOptions->setParentGroup(databaseRequest->_group);
                 fileName = databaseRequest->_fileName;
@@ -724,11 +733,14 @@ void DatabasePager::DatabaseThread::run()
             }
 
 
-            if (dr_loadOptions->getFileCache()) fileCache = dr_loadOptions->getFileCache();
-            if (dr_loadOptions->getFileLocationCallback()) fileLocationCallback = dr_loadOptions->getFileLocationCallback();
+            if (dr_loadOptions->getFileCache()) 
+                fileCache = dr_loadOptions->getFileCache();
+            if (dr_loadOptions->getFileLocationCallback()) 
+                fileLocationCallback = dr_loadOptions->getFileLocationCallback();
 
             // disable the FileCache if the fileLocationCallback tells us that it isn't required for this request.
-            if (fileLocationCallback.valid() && !fileLocationCallback->useFileCache()) fileCache = 0;
+            if (fileLocationCallback.valid() && !fileLocationCallback->useFileCache()) 
+                fileCache = 0;
 
 
             cacheNodes = (dr_loadOptions->getObjectCacheHint() & osgDB::Options::CACHE_NODES)!=0;
@@ -860,8 +872,10 @@ void DatabasePager::DatabaseThread::run()
                         Registry::instance()->readNode(fileName, dr_loadOptions.get(), false);
 
             osg::ref_ptr<osg::Node> loadedModel;
-            if (rr.validNode()) loadedModel = rr.getNode();
-            if (!rr.success()) OSG_WARN<<"Error in reading file "<<fileName<<" : "<<rr.statusMessage() << std::endl;
+            if (rr.validNode()) 
+                loadedModel = rr.getNode();
+            if (!rr.success()) 
+                OSG_WARN<<"Error in reading file "<<fileName<<" : "<<rr.statusMessage() << std::endl;
 
             if (loadedModel.valid() &&
                 fileCache.valid() &&
@@ -1155,7 +1169,8 @@ DatabasePager::DatabasePager(const DatabasePager& rhs)
 void DatabasePager::setIncrementalCompileOperation(osgUtil::IncrementalCompileOperation* ico)
 {
     _incrementalCompileOperation = ico;
-    if (_incrementalCompileOperation.valid()) _markerObject = _incrementalCompileOperation->getMarkerObject();
+    if (_incrementalCompileOperation.valid()) 
+        _markerObject = _incrementalCompileOperation->getMarkerObject();
 }
 
 DatabasePager::~DatabasePager()
@@ -1274,7 +1289,8 @@ bool DatabasePager::isRunning() const
         dt_itr != _databaseThreads.end();
         ++dt_itr)
     {
-        if ((*dt_itr)->isRunning()) return true;
+        if ((*dt_itr)->isRunning()) 
+            return true;
     }
 
     return false;
@@ -1334,17 +1350,21 @@ void DatabasePager::resetStats()
 
 bool DatabasePager::getRequestsInProgress() const
 {
-    if (getFileRequestListSize()>0) return true;
+    if (getFileRequestListSize()>0) 
+        return true;
 
-    if (getDataToCompileListSize()>0) return true;
+    if (getDataToCompileListSize()>0) 
+        return true;
 
-    if (getDataToMergeListSize()>0) return true;
+    if (getDataToMergeListSize()>0) 
+        return true;
 
     for(DatabaseThreadList::const_iterator itr = _databaseThreads.begin();
         itr != _databaseThreads.end();
         ++itr)
     {
-        if ((*itr)->getActive()) return true;
+        if ((*itr)->getActive()) 
+            return true;
     }
     return false;
 }
@@ -1366,7 +1386,8 @@ void DatabasePager::requestNodeFile(const std::string& fileName, osg::NodePath& 
     }
 
 
-    if (!_acceptNewRequests) return;
+    if (!_acceptNewRequests) 
+        return;
 
 
     if (nodePath.empty())
@@ -1387,7 +1408,8 @@ void DatabasePager::requestNodeFile(const std::string& fileName, osg::NodePath& 
         itr != nodePath.rend();
         ++itr)
     {
-        if ((*itr)->asTerrain()) terrain = *itr;
+        if ((*itr)->asTerrain()) 
+            terrain = *itr;
     }
 
     double timestamp = framestamp?framestamp->getReferenceTime():0.0;
@@ -1542,7 +1564,8 @@ void DatabasePager::signalEndFrame()
 
 void DatabasePager::setDatabasePagerThreadPause(bool pause)
 {
-    if (_databasePagerThreadPaused == pause) return;
+    if (_databasePagerThreadPaused == pause) 
+        return;
 
     _databasePagerThreadPaused = pause;
     {
@@ -1672,8 +1695,10 @@ void DatabasePager::addLoadedDataToSceneGraph(const osg::FrameStamp &frameStamp)
 
             double timeToMerge = timeStamp-databaseRequest->_timestampFirstRequest;
 
-            if (timeToMerge<_minimumTimeToMergeTile) _minimumTimeToMergeTile = timeToMerge;
-            if (timeToMerge>_maximumTimeToMergeTile) _maximumTimeToMergeTile = timeToMerge;
+            if (timeToMerge<_minimumTimeToMergeTile) 
+                _minimumTimeToMergeTile = timeToMerge;
+            if (timeToMerge>_maximumTimeToMergeTile) 
+                _maximumTimeToMergeTile = timeToMerge;
 
             _totalTimeToMergeTiles += timeToMerge;
             ++_numTilesMerges;
@@ -1684,7 +1709,8 @@ void DatabasePager::addLoadedDataToSceneGraph(const osg::FrameStamp &frameStamp)
         }
 
 
-        if (databaseRequest->_objectCache.valid() && osgDB::Registry::instance()->getObjectCache())
+        if (databaseRequest->_objectCache.valid() && 
+            osgDB::Registry::instance()->getObjectCache())
         {
             // insert loaded model into Registry ObjectCache
             osgDB::Registry::instance()->getObjectCache()->addObjectCache( databaseRequest->_objectCache.get());
@@ -1776,7 +1802,8 @@ void DatabasePager::removeExpiredSubgraphs(const osg::FrameStamp& frameStamp)
 
     s_total_iter_stage_b += 1.0;
     s_total_time_stage_b += time_b;
-    if (s_total_max_stage_b<time_b) s_total_max_stage_b = time_b;
+    if (s_total_max_stage_b<time_b) 
+        s_total_max_stage_b = time_b;
 
     //OSG_NOTICE<<" childrenRemoved.size()="<<childrenRemoved.size()<<std::endl;
 
