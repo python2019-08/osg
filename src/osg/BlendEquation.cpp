@@ -51,7 +51,8 @@ void BlendEquation::apply(State& state) const
         return;
     }
 
-    if((_equationRGB == ALPHA_MIN || _equationRGB == ALPHA_MAX) && !extensions->isSGIXMinMaxSupported)
+    if((_equationRGB == ALPHA_MIN || _equationRGB == ALPHA_MAX) && 
+        !extensions->isSGIXMinMaxSupported)
     {
         OSG_WARN<<"Warning: BlendEquation::apply(..) failed, SGIX_blend_alpha_minmax extension is not supported by OpenGL driver." << std::endl;
         return;
@@ -71,7 +72,8 @@ void BlendEquation::apply(State& state) const
     {
         if (extensions->isBlendEquationSeparateSupported)
         {
-            extensions->glBlendEquationSeparate(static_cast<GLenum>(_equationRGB), static_cast<GLenum>(_equationAlpha));
+            extensions->glBlendEquationSeparate(static_cast<GLenum>(_equationRGB), 
+                                                static_cast<GLenum>(_equationAlpha));
         }
         else
         {

@@ -26,7 +26,8 @@ void AnimationPath::insert(double time,const ControlPoint& controlPoint)
 
 bool AnimationPath::getInterpolatedControlPoint(double time,ControlPoint& controlPoint) const
 {
-    if (_timeControlPointMap.empty()) return false;
+    if (_timeControlPointMap.empty()) 
+        return false;
 
     switch(_loopMode)
     {
@@ -34,7 +35,8 @@ bool AnimationPath::getInterpolatedControlPoint(double time,ControlPoint& contro
         {
             double modulated_time = (time - getFirstTime())/(getPeriod()*2.0);
             double fraction_part = modulated_time - floor(modulated_time);
-            if (fraction_part>0.5) fraction_part = 1.0-fraction_part;
+            if (fraction_part>0.5) 
+                fraction_part = 1.0-fraction_part;
 
             time = getFirstTime()+(fraction_part*2.0) * getPeriod();
             break;
@@ -92,7 +94,8 @@ void AnimationPath::read(std::istream& in)
         double time;
         osg::Vec3d position;
         osg::Quat rotation;
-        in >> time >> position.x() >> position.y() >> position.z() >> rotation.x() >> rotation.y() >> rotation.z() >> rotation.w();
+        in >> time >> position.x() >> position.y() >> position.z() 
+           >> rotation.x() >> rotation.y() >> rotation.z() >> rotation.w();
         if(!in.eof())
             insert(time,osg::AnimationPath::ControlPoint(position,rotation));
     }
@@ -120,7 +123,9 @@ void AnimationPath::write(std::ostream& fout) const
     fout.precision(prec);
 }
 
-AnimationPathCallback::AnimationPathCallback(const osg::Vec3d& pivot,const osg::Vec3d& axis,float angularVelocity):
+AnimationPathCallback::AnimationPathCallback(const osg::Vec3d& pivot,
+    const osg::Vec3d& axis,
+    float angularVelocity):
             _pivotPoint(pivot),
             _useInverseMatrix(false),
             _timeOffset(0.0),
@@ -156,7 +161,9 @@ class AnimationPathCallbackVisitor : public NodeVisitor
 {
     public:
 
-        AnimationPathCallbackVisitor(const AnimationPath::ControlPoint& cp, const osg::Vec3d& pivotPoint, bool useInverseMatrix):
+        AnimationPathCallbackVisitor(const AnimationPath::ControlPoint& cp, 
+            const osg::Vec3d& pivotPoint, 
+            bool useInverseMatrix):
             _cp(cp),
             _pivotPoint(pivotPoint),
             _useInverseMatrix(useInverseMatrix) {}
@@ -241,7 +248,8 @@ void AnimationPathCallback::operator()(Node* node, NodeVisitor* nv)
         if (!_pause)
         {
             // Only update _firstTime the first time, when its value is still DBL_MAX
-            if (_firstTime==DBL_MAX) _firstTime = time;
+            if (_firstTime==DBL_MAX) 
+                _firstTime = time;
             update(*node);
         }
     }
@@ -286,7 +294,8 @@ void AnimationPathCallback::setPause(bool pause)
 
     _pause = pause;
 
-    if (_firstTime==DBL_MAX) return;
+    if (_firstTime==DBL_MAX) 
+        return;
 
     if (_pause)
     {

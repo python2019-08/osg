@@ -28,7 +28,8 @@ ClusterCullingCallback::ClusterCullingCallback():
 {
 }
 
-ClusterCullingCallback::ClusterCullingCallback(const ClusterCullingCallback& ccc,const CopyOp& copyop):
+ClusterCullingCallback::ClusterCullingCallback(const ClusterCullingCallback& ccc,
+                                                const CopyOp& copyop):
     Object(ccc, copyop),
     Callback(ccc, copyop),
     DrawableCullCallback(ccc, copyop),
@@ -40,7 +41,10 @@ ClusterCullingCallback::ClusterCullingCallback(const ClusterCullingCallback& ccc
 {
 }
 
-ClusterCullingCallback::ClusterCullingCallback(const osg::Vec3& controlPoint, const osg::Vec3& normal, float deviation, float radius):
+ClusterCullingCallback::ClusterCullingCallback(const osg::Vec3& controlPoint, 
+    const osg::Vec3& normal, 
+    float deviation, 
+    float radius):
     _controlPoint(controlPoint),
     _normal(normal),
     _radius(radius),
@@ -57,7 +61,9 @@ struct ComputeAveragesFunctor
 {
 
     ComputeAveragesFunctor():
-        _num(0) {}
+        _num(0) {
+
+    }
 
     inline void operator() ( const osg::Vec3 &v1, const osg::Vec3 &v2, const osg::Vec3 &v3)
     {
@@ -75,8 +81,13 @@ struct ComputeAveragesFunctor
 
     }
 
-    osg::Vec3 center() { return _center /  (double)(3*_num); }
-    osg::Vec3 normal() { _normal.normalize(); return _normal; }
+    osg::Vec3 center() { 
+        return _center /  (double)(3*_num); 
+    }
+    osg::Vec3 normal() { 
+        _normal.normalize(); 
+        return _normal; 
+    }
 
     unsigned int _num;
     Vec3d _center;
@@ -88,7 +99,9 @@ struct ComputeDeviationFunctor
 
     ComputeDeviationFunctor():
         _deviation(1.0),
-        _radius2(0.0) {}
+        _radius2(0.0) {
+
+    }
 
     void set(const osg::Vec3& center,const osg::Vec3& normal)
     {
@@ -133,18 +146,24 @@ void ClusterCullingCallback::computeFrom(const osg::Drawable* drawable)
 //    OSG_NOTICE<<"                                      cdf._deviation="<<cdf._deviation<<std::endl;
 
 
-    if (_normal.length2()==0.0) _deviation = -1.0f;
+    if (_normal.length2()==0.0) 
+        _deviation = -1.0f;
     else
     {
         float angle = acosf(cdf._deviation)+osg::PI*0.5f;
-        if (angle<osg::PI) _deviation = cosf(angle);
-        else _deviation = -1.0f;
+        if (angle<osg::PI) 
+            _deviation = cosf(angle);
+        else 
+            _deviation = -1.0f;
     }
 
     _radius = sqrtf(cdf._radius2);
 }
 
-void ClusterCullingCallback::set(const osg::Vec3& controlPoint, const osg::Vec3& normal, float deviation, float radius)
+void ClusterCullingCallback::set(const osg::Vec3& controlPoint, 
+    const osg::Vec3& normal, 
+    float deviation, 
+    float radius)
 {
     _controlPoint = controlPoint;
     _normal = normal;
@@ -197,7 +216,8 @@ void ClusterCullingCallback::operator()(Node* node, NodeVisitor* nv)
 {
     if (nv)
     {
-        if (cull(nv,0,static_cast<State *>(0))) return;
+        if (cull(nv,0,static_cast<State *>(0))) 
+            return;
 
         traverse(node,nv);
     }

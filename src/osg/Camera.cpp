@@ -88,7 +88,8 @@ Camera::~Camera()
 {
     setCameraThread(0);
 
-    if (_graphicsContext.valid()) _graphicsContext->removeCamera(this);
+    if (_graphicsContext.valid()) 
+        _graphicsContext->removeCamera(this);
 }
 
 void Camera::DrawCallback::operator () (osg::RenderInfo& renderInfo) const
@@ -106,13 +107,16 @@ void Camera::DrawCallback::operator () (osg::RenderInfo& renderInfo) const
 
 void Camera::setGraphicsContext(GraphicsContext* context)
 {
-    if (_graphicsContext == context) return;
+    if (_graphicsContext == context) 
+        return;
 
-    if (_graphicsContext.valid()) _graphicsContext->removeCamera(this);
+    if (_graphicsContext.valid()) 
+        _graphicsContext->removeCamera(this);
 
     _graphicsContext = context;
 
-    if (_graphicsContext.valid()) _graphicsContext->addCamera(this);
+    if (_graphicsContext.valid()) 
+        _graphicsContext->addCamera(this);
 }
 
 
@@ -124,8 +128,10 @@ bool Camera::isRenderToTextureCamera() const
 void Camera::setRenderTargetImplementation(RenderTargetImplementation impl)
 {
     _renderTargetImplementation = impl;
-    if (impl<FRAME_BUFFER) _renderTargetFallback = (RenderTargetImplementation)(impl+1);
-    else _renderTargetFallback = impl;
+    if (impl<FRAME_BUFFER) 
+        _renderTargetFallback = (RenderTargetImplementation)(impl+1);
+    else 
+        _renderTargetFallback = impl;
 }
 
 void Camera::setRenderTargetImplementation(RenderTargetImplementation impl, RenderTargetImplementation fallback)
@@ -144,7 +150,8 @@ void Camera::setRenderTargetImplementation(RenderTargetImplementation impl, Rend
 
 void Camera::setColorMask(osg::ColorMask* colorMask)
 {
-    if (_colorMask == colorMask) return;
+    if (_colorMask == colorMask) 
+        return;
 
     osg::StateSet* stateset = getOrCreateStateSet();
     if (_colorMask.valid() && stateset)
@@ -162,13 +169,16 @@ void Camera::setColorMask(osg::ColorMask* colorMask)
 
 void Camera::setColorMask(bool red, bool green, bool blue, bool alpha)
 {
-    if (!_colorMask) setColorMask(new osg::ColorMask);
-    if (_colorMask.valid()) _colorMask->setMask(red,green,blue,alpha);
+    if (!_colorMask) 
+        setColorMask(new osg::ColorMask);
+    if (_colorMask.valid()) 
+        _colorMask->setMask(red,green,blue,alpha);
 }
 
 void Camera::setViewport(osg::Viewport* viewport)
 {
-    if (_viewport == viewport) return;
+    if (_viewport == viewport) 
+        return;
 
     osg::StateSet* stateset = getOrCreateStateSet();
     if (_viewport.valid() && stateset)
@@ -186,8 +196,10 @@ void Camera::setViewport(osg::Viewport* viewport)
 
 void Camera::setViewport(int x,int y,int width,int height)
 {
-    if (!_viewport) setViewport(new osg::Viewport);
-    if (_viewport.valid()) _viewport->setViewport(x,y,width,height);
+    if (!_viewport) 
+        setViewport(new osg::Viewport);
+    if (_viewport.valid()) 
+        _viewport->setViewport(x,y,width,height);
 }
 
 Matrixd Camera::getInverseViewMatrix() const
@@ -330,26 +342,38 @@ void Camera::detach(BufferComponent buffer)
 
 void Camera::resizeGLObjectBuffers(unsigned int maxSize)
 {
-    if (_renderer.valid()) _renderer->resizeGLObjectBuffers(maxSize);
-    if (_renderingCache.valid()) _renderingCache->resizeGLObjectBuffers(maxSize);
+    if (_renderer.valid()) 
+        _renderer->resizeGLObjectBuffers(maxSize);
+    if (_renderingCache.valid()) 
+        _renderingCache->resizeGLObjectBuffers(maxSize);
 
-    if (_initialDrawCallback.valid()) _initialDrawCallback->resizeGLObjectBuffers(maxSize);
-    if (_preDrawCallback.valid()) _preDrawCallback->resizeGLObjectBuffers(maxSize);
-    if (_postDrawCallback.valid()) _postDrawCallback->resizeGLObjectBuffers(maxSize);
-    if (_finalDrawCallback.valid()) _finalDrawCallback->resizeGLObjectBuffers(maxSize);
+    if (_initialDrawCallback.valid()) 
+        _initialDrawCallback->resizeGLObjectBuffers(maxSize);
+    if (_preDrawCallback.valid()) 
+        _preDrawCallback->resizeGLObjectBuffers(maxSize);
+    if (_postDrawCallback.valid()) 
+        _postDrawCallback->resizeGLObjectBuffers(maxSize);
+    if (_finalDrawCallback.valid()) 
+        _finalDrawCallback->resizeGLObjectBuffers(maxSize);
 
     Transform::resizeGLObjectBuffers(maxSize);
 }
 
 void Camera::releaseGLObjects(osg::State* state) const
 {
-    if (_renderer.valid()) _renderer->releaseGLObjects(state);
-    if (_renderingCache.valid()) _renderingCache->releaseGLObjects(state);
+    if (_renderer.valid()) 
+        _renderer->releaseGLObjects(state);
+    if (_renderingCache.valid()) 
+        _renderingCache->releaseGLObjects(state);
 
-    if (_initialDrawCallback.valid()) _initialDrawCallback->releaseGLObjects(state);
-    if (_preDrawCallback.valid()) _preDrawCallback->releaseGLObjects(state);
-    if (_postDrawCallback.valid()) _postDrawCallback->releaseGLObjects(state);
-    if (_finalDrawCallback.valid()) _finalDrawCallback->releaseGLObjects(state);
+    if (_initialDrawCallback.valid()) 
+        _initialDrawCallback->releaseGLObjects(state);
+    if (_preDrawCallback.valid()) 
+        _preDrawCallback->releaseGLObjects(state);
+    if (_postDrawCallback.valid()) 
+        _postDrawCallback->releaseGLObjects(state);
+    if (_finalDrawCallback.valid()) 
+        _finalDrawCallback->releaseGLObjects(state);
 
     Transform::releaseGLObjects(state);
 }
@@ -508,9 +532,14 @@ void Camera::resize(int width, int height, int resizeMask)
                 {
                     switch(getProjectionResizePolicy())
                     {
-                        case(HORIZONTAL): getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); break;
-                        case(VERTICAL): getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); break;
-                        case(FIXED): break;
+                        case(HORIZONTAL): 
+                            getProjectionMatrix() *= osg::Matrix::scale(1.0/aspectRatioChange,1.0,1.0); 
+                            break;
+                        case(VERTICAL): 
+                            getProjectionMatrix() *= osg::Matrix::scale(1.0, aspectRatioChange,1.0); 
+                            break;
+                        case(FIXED): 
+                            break;
                     }
                 }
             }
@@ -532,7 +561,8 @@ void Camera::setProcessorAffinity(const OpenThreads::Affinity& affinity)
 {
     _affinity = affinity;
 
-    if (_cameraThread.valid()) _cameraThread->setProcessorAffinity(affinity);
+    if (_cameraThread.valid()) 
+        _cameraThread->setProcessorAffinity(affinity);
 }
 
 void Camera::createCameraThread()
@@ -545,7 +575,8 @@ void Camera::createCameraThread()
 
 void Camera::setCameraThread(OperationThread* gt)
 {
-    if (_cameraThread==gt) return;
+    if (_cameraThread==gt) 
+        return;
 
     if (_cameraThread.valid())
     {

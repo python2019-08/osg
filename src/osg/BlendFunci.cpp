@@ -28,7 +28,8 @@ BlendFunci::~BlendFunci()
 
 void BlendFunci::setIndex(unsigned int buf)
 {
-    if (_index==buf) return;
+    if (_index==buf) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 
@@ -43,7 +44,11 @@ void BlendFunci::apply(State& state) const
     {
         if (extensions->glBlendFuncSeparatei)
         {
-            extensions->glBlendFuncSeparatei(static_cast<GLuint>(_index), _source_factor, _destination_factor, _source_factor_alpha, _destination_factor_alpha);
+            extensions->glBlendFuncSeparatei(static_cast<GLuint>(_index), 
+                                            _source_factor, 
+                                            _destination_factor, 
+                                            _source_factor_alpha, 
+                                            _destination_factor_alpha);
         }
         else
         {

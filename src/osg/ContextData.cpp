@@ -42,7 +42,8 @@ void ContextData::newFrame(osg::FrameStamp* frameStamp)
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->newFrame(frameStamp);
+        if (gom) 
+            gom->newFrame(frameStamp);
     }
 }
 
@@ -53,7 +54,8 @@ void ContextData::resetStats()
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->resetStats();
+        if (gom) 
+            gom->resetStats();
     }
 }
 
@@ -64,7 +66,8 @@ void ContextData::reportStats(std::ostream& out)
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->reportStats(out);
+        if (gom) 
+            gom->reportStats(out);
     }
 }
 
@@ -75,7 +78,8 @@ void ContextData::recomputeStats(std::ostream& out) const
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->recomputeStats(out);
+        if (gom) 
+            gom->recomputeStats(out);
     }
 }
 
@@ -88,7 +92,8 @@ void ContextData::flushDeletedGLObjects(double currentTime, double& availableTim
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->flushDeletedGLObjects(currentTime, availableTime);
+        if (gom) 
+            gom->flushDeletedGLObjects(currentTime, availableTime);
     }
 }
 
@@ -100,7 +105,8 @@ void ContextData::flushAllDeletedGLObjects()
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->flushAllDeletedGLObjects();
+        if (gom) 
+            gom->flushAllDeletedGLObjects();
     }
 }
 
@@ -112,7 +118,8 @@ void ContextData::deleteAllGLObjects()
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->deleteAllGLObjects();
+        if (gom) 
+            gom->deleteAllGLObjects();
     }
 }
 
@@ -124,7 +131,8 @@ void ContextData::discardAllGLObjects()
         ++itr)
     {
         osg::GraphicsObjectManager* gom = dynamic_cast<osg::GraphicsObjectManager*>(itr->second.get());
-        if (gom) gom->discardAllGLObjects();
+        if (gom) 
+            gom->discardAllGLObjects();
     }
 }
 
@@ -189,7 +197,8 @@ unsigned int ContextData::getMaxContextID()
         itr != s_contextIDMap.end();
         ++itr)
     {
-        if (itr->first > maxContextID) maxContextID = itr->first;
+        if (itr->first > maxContextID) 
+            maxContextID = itr->first;
     }
     return maxContextID;
 }
@@ -199,7 +208,8 @@ void ContextData::incrementContextIDUsageCount(unsigned int contextID)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_contextIDMapMutex);
 
-    if (!s_contextIDMap[contextID]) s_contextIDMap[contextID] = new ContextData(contextID);
+    if (!s_contextIDMap[contextID]) 
+        s_contextIDMap[contextID] = new ContextData(contextID);
 
     s_contextIDMap[contextID]->incrementUsageCount();
 
@@ -229,12 +239,14 @@ void ContextData::registerGraphicsContext(GraphicsContext* gc)
 {
     OSG_INFO<<"ContextData::registerGraphicsContext "<<gc<<std::endl;
 
-    if (!gc) return;
+    if (!gc) 
+        return;
 
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_contextIDMapMutex);
 
     GraphicsContexts::iterator itr = std::find(s_registeredContexts.begin(), s_registeredContexts.end(), gc);
-    if (itr != s_registeredContexts.end()) s_registeredContexts.erase(itr);
+    if (itr != s_registeredContexts.end()) 
+        s_registeredContexts.erase(itr);
 
     s_registeredContexts.push_back(gc);
 }
@@ -243,12 +255,14 @@ void ContextData::unregisterGraphicsContext(GraphicsContext* gc)
 {
     OSG_INFO<<"ContextData::unregisterGraphicsContext "<<gc<<std::endl;
 
-    if (!gc) return;
+    if (!gc) 
+        return;
 
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_contextIDMapMutex);
 
     GraphicsContexts::iterator itr = std::find(s_registeredContexts.begin(), s_registeredContexts.end(), gc);
-    if (itr != s_registeredContexts.end()) s_registeredContexts.erase(itr);
+    if (itr != s_registeredContexts.end()) 
+        s_registeredContexts.erase(itr);
 }
 
 ContextData::GraphicsContexts ContextData::getAllRegisteredGraphicsContexts()
@@ -268,7 +282,8 @@ ContextData::GraphicsContexts ContextData::getRegisteredGraphicsContexts(unsigne
         ++itr)
     {
         GraphicsContext* gc = *itr;
-        if (gc->getState() && gc->getState()->getContextID()==contextID) contexts.push_back(gc);
+        if (gc->getState() && gc->getState()->getContextID()==contextID) 
+            contexts.push_back(gc);
     }
 
     OSG_INFO<<"ContextData::getRegisteredGraphicsContexts "<<contextID<<" contexts.size()="<<contexts.size()<<std::endl;
@@ -282,11 +297,13 @@ GraphicsContext* ContextData::getOrCreateCompileContext(unsigned int contextID)
 
     {
         OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_contextIDMapMutex);
-        if (s_contextIDMap[contextID]->getCompileContext()) return s_contextIDMap[contextID]->getCompileContext();
+        if (s_contextIDMap[contextID]->getCompileContext()) 
+            return s_contextIDMap[contextID]->getCompileContext();
     }
 
     GraphicsContexts contexts = ContextData::getRegisteredGraphicsContexts(contextID);
-    if (contexts.empty()) return 0;
+    if (contexts.empty()) 
+        return 0;
 
     GraphicsContext* src_gc = contexts.front();
     const osg::GraphicsContext::Traits* src_traits = src_gc->getTraits();
@@ -331,6 +348,8 @@ GraphicsContext* ContextData::getCompileContext(unsigned int contextID)
     // OSG_NOTICE<<"ContextData::getCompileContext "<<contextID<<std::endl;
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_contextIDMapMutex);
     ContextIDMap::iterator itr = s_contextIDMap.find(contextID);
-    if (itr != s_contextIDMap.end()) return itr->second->getCompileContext();
-    else return 0;
+    if (itr != s_contextIDMap.end()) 
+        return itr->second->getCompileContext();
+    else 
+        return 0;
 }

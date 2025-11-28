@@ -44,7 +44,8 @@ void DeleteHandler::flush()
             itr != _objectsToDelete.end();
             ++itr)
         {
-            if (itr->first > frameNumberToClearTo) break;
+            if (itr->first > frameNumberToClearTo) 
+                break;
 
             deletionList.push_back(itr->second);
 
@@ -100,7 +101,8 @@ void DeleteHandler::flushAll()
 
 void DeleteHandler::requestDelete(const osg::Referenced* object)
 {
-    if (_numFramesToRetainObjects==0) doDelete(object);
+    if (_numFramesToRetainObjects==0) 
+        doDelete(object);
     else
     {
         OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);

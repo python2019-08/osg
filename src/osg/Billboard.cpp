@@ -85,18 +85,25 @@ void Billboard::updateCache()
 {
     if (_mode==AXIAL_ROT)
     {
-        if      (_axis==Vec3(1.0f,0.0,0.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) _cachedMode = AXIAL_ROT_X_AXIS;
-        else if (_axis==Vec3(0.0f,1.0,0.0f) && _normal==Vec3(1.0f, 0.0,0.0f)) _cachedMode = AXIAL_ROT_Y_AXIS;
-        else if (_axis==Vec3(0.0f,0.0,1.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) _cachedMode = AXIAL_ROT_Z_AXIS;
-        else                                                                  _cachedMode = AXIAL_ROT;
+        if      (_axis==Vec3(1.0f,0.0,0.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_X_AXIS;
+        else if (_axis==Vec3(0.0f,1.0,0.0f) && _normal==Vec3(1.0f, 0.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_Y_AXIS;
+        else if (_axis==Vec3(0.0f,0.0,1.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_Z_AXIS;
+        else                                                                  
+            _cachedMode = AXIAL_ROT;
     }
     else if( _mode == POINT_ROT_WORLD )
     {
-        if(_axis==Vec3(0.0f, 0.0, 1.0f) && _normal==Vec3(0.0f, -1.0f, 0.0f))  _cachedMode = POINT_ROT_WORLD_Z_AXIS;
-        else _cachedMode = _mode;
+        if(_axis==Vec3(0.0f, 0.0, 1.0f) && _normal==Vec3(0.0f, -1.0f, 0.0f))  
+            _cachedMode = POINT_ROT_WORLD_Z_AXIS;
+        else 
+            _cachedMode = _mode;
 
     }
-    else _cachedMode = _mode;
+    else 
+        _cachedMode = _mode;
 
     _side = _axis^_normal;
     _side.normalize();
@@ -278,10 +285,12 @@ bool Billboard::computeMatrix(Matrix& modelview, const Vec3& eye_local, const Ve
            // float rotation_from_xy = atan2( xy_distance, -ev.z() );
 
            Vec2   about_z( -ev.y(), ev.x() );
-           if( about_z.normalize() == 0.0f ) about_z.x() = 1.0f;
+           if( about_z.normalize() == 0.0f ) 
+            about_z.x() = 1.0f;
            float  xy_distance = sqrt( ev.x()*ev.x() + ev.y()*ev.y() );
            Vec2   from_xy( xy_distance, -ev.z() );
-           if( from_xy.normalize() == 0.0f ) from_xy.x() = 1.0f;
+           if( from_xy.normalize() == 0.0f ) 
+            from_xy.x() = 1.0f;
 
            matrix(0,0) =  about_z.x();
            matrix(0,1) =  about_z.y();
@@ -309,7 +318,8 @@ BoundingSphere Billboard::computeBound() const
     int i;
     int ngsets = _children.size();
 
-    if( ngsets == 0 ) return BoundingSphere();
+    if( ngsets == 0 ) 
+        return BoundingSphere();
 
     BoundingSphere bsphere;
     bsphere._center.set(0.0f,0.0f,0.0f);
@@ -339,7 +349,8 @@ BoundingSphere Billboard::computeBound() const
             for(unsigned int c=0;c<8;++c)
             {
                 float d = (bbox.corner(c)-local_center).length2();
-                if( d > maxd ) maxd = d;
+                if( d > maxd ) 
+                    maxd = d;
             }
         }
     }

@@ -66,7 +66,8 @@ DisplaySettings::~DisplaySettings()
 
  DisplaySettings& DisplaySettings::operator = (const DisplaySettings& vs)
 {
-    if (this==&vs) return *this;
+    if (this==&vs) 
+        return *this;
     setDisplaySettings(vs);
     return *this;
 }
@@ -137,29 +138,43 @@ void DisplaySettings::setDisplaySettings(const DisplaySettings& vs)
 
 void DisplaySettings::merge(const DisplaySettings& vs)
 {
-    if (_stereo       || vs._stereo)        _stereo = true;
+    if (_stereo       || vs._stereo)        
+        _stereo = true;
 
     // need to think what to do about merging the stereo mode.
 
-    if (_doubleBuffer || vs._doubleBuffer)  _doubleBuffer = true;
-    if (_RGB          || vs._RGB)           _RGB = true;
-    if (_depthBuffer  || vs._depthBuffer)   _depthBuffer = true;
+    if (_doubleBuffer || vs._doubleBuffer)  
+        _doubleBuffer = true;
+    if (_RGB          || vs._RGB)           
+        _RGB = true;
+    if (_depthBuffer  || vs._depthBuffer)   
+        _depthBuffer = true;
 
-    if (vs._minimumNumberAlphaBits>_minimumNumberAlphaBits) _minimumNumberAlphaBits = vs._minimumNumberAlphaBits;
-    if (vs._minimumNumberStencilBits>_minimumNumberStencilBits) _minimumNumberStencilBits = vs._minimumNumberStencilBits;
-    if (vs._numMultiSamples>_numMultiSamples) _numMultiSamples = vs._numMultiSamples;
+    if (vs._minimumNumberAlphaBits>_minimumNumberAlphaBits) 
+        _minimumNumberAlphaBits = vs._minimumNumberAlphaBits;
+    if (vs._minimumNumberStencilBits>_minimumNumberStencilBits) 
+        _minimumNumberStencilBits = vs._minimumNumberStencilBits;
+    if (vs._numMultiSamples>_numMultiSamples) 
+        _numMultiSamples = vs._numMultiSamples;
 
-    if (vs._compileContextsHint) _compileContextsHint = vs._compileContextsHint;
-    if (vs._serializeDrawDispatch) _serializeDrawDispatch = vs._serializeDrawDispatch;
-    if (vs._useSceneViewForStereoHint) _useSceneViewForStereoHint = vs._useSceneViewForStereoHint;
+    if (vs._compileContextsHint) 
+        _compileContextsHint = vs._compileContextsHint;
+    if (vs._serializeDrawDispatch) 
+        _serializeDrawDispatch = vs._serializeDrawDispatch;
+    if (vs._useSceneViewForStereoHint) 
+        _useSceneViewForStereoHint = vs._useSceneViewForStereoHint;
 
-    if (vs._numDatabaseThreadsHint>_numDatabaseThreadsHint) _numDatabaseThreadsHint = vs._numDatabaseThreadsHint;
-    if (vs._numHttpDatabaseThreadsHint>_numHttpDatabaseThreadsHint) _numHttpDatabaseThreadsHint = vs._numHttpDatabaseThreadsHint;
+    if (vs._numDatabaseThreadsHint>_numDatabaseThreadsHint) 
+        _numDatabaseThreadsHint = vs._numDatabaseThreadsHint;
+    if (vs._numHttpDatabaseThreadsHint>_numHttpDatabaseThreadsHint) 
+        _numHttpDatabaseThreadsHint = vs._numHttpDatabaseThreadsHint;
 
     if (_application.empty()) _application = vs._application;
 
-    if (vs._maxTexturePoolSize>_maxTexturePoolSize) _maxTexturePoolSize = vs._maxTexturePoolSize;
-    if (vs._maxBufferObjectPoolSize>_maxBufferObjectPoolSize) _maxBufferObjectPoolSize = vs._maxBufferObjectPoolSize;
+    if (vs._maxTexturePoolSize>_maxTexturePoolSize) 
+        _maxTexturePoolSize = vs._maxTexturePoolSize;
+    if (vs._maxBufferObjectPoolSize>_maxBufferObjectPoolSize) 
+        _maxBufferObjectPoolSize = vs._maxBufferObjectPoolSize;
 
     // these are bit masks so merging them is like logical or
     _implicitBufferAttachmentRenderMask |= vs._implicitBufferAttachmentRenderMask;
@@ -178,7 +193,8 @@ void DisplaySettings::merge(const DisplaySettings& vs)
     {
         const std::string& filename = *itr;
         FileNames::iterator found_itr = std::find(_keystoneFileNames.begin(), _keystoneFileNames.end(), filename);
-        if (found_itr == _keystoneFileNames.end()) _keystoneFileNames.push_back(filename);
+        if (found_itr == _keystoneFileNames.end()) 
+            _keystoneFileNames.push_back(filename);
     }
 
     // insert unique Keystone object into local list
@@ -188,7 +204,8 @@ void DisplaySettings::merge(const DisplaySettings& vs)
     {
         const osg::Object* object = itr->get();
         Objects::iterator found_itr = std::find(_keystones.begin(), _keystones.end(), object);
-        if (found_itr == _keystones.end()) _keystones.push_back(const_cast<osg::Object*>(object));
+        if (found_itr == _keystones.end()) 
+            _keystones.push_back(const_cast<osg::Object*>(object));
     }
 
     if (vs._OSXMenubarBehavior > _OSXMenubarBehavior)
@@ -604,19 +621,28 @@ void DisplaySettings::readEnvironmentalVariables()
             std::string str;
             if (getEnvVar(variable[n], str))
             {
-                if(str.find("OFF")!=std::string::npos) *mask[n] = 0;
+                if(str.find("OFF")!=std::string::npos) 
+                    *mask[n] = 0;
 
-                if(str.find("~DEFAULT")!=std::string::npos) *mask[n] ^= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
-                else if(str.find("DEFAULT")!=std::string::npos) *mask[n] |= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
+                if(str.find("~DEFAULT")!=std::string::npos) 
+                    *mask[n] ^= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
+                else if(str.find("DEFAULT")!=std::string::npos) 
+                    *mask[n] |= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
 
-                if(str.find("~COLOR")!=std::string::npos) *mask[n] ^= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
-                else if(str.find("COLOR")!=std::string::npos) *mask[n] |= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
+                if(str.find("~COLOR")!=std::string::npos) 
+                    *mask[n] ^= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
+                else if(str.find("COLOR")!=std::string::npos) 
+                    *mask[n] |= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
 
-                if(str.find("~DEPTH")!=std::string::npos) *mask[n] ^= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
-                else if(str.find("DEPTH")!=std::string::npos) *mask[n] |= (int)IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
+                if(str.find("~DEPTH")!=std::string::npos) 
+                    *mask[n] ^= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
+                else if(str.find("DEPTH")!=std::string::npos) 
+                    *mask[n] |= (int)IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
 
-                if(str.find("~STENCIL")!=std::string::npos) *mask[n] ^= (int)IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
-                else if(str.find("STENCIL")!=std::string::npos) *mask[n] |= (int)IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
+                if(str.find("~STENCIL")!=std::string::npos) 
+                    *mask[n] ^= (int)IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
+                else if(str.find("STENCIL")!=std::string::npos) 
+                    *mask[n] |= (int)IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
             }
         }
     }
@@ -836,7 +862,8 @@ void DisplaySettings::readEnvironmentalVariables()
 
 void DisplaySettings::readCommandLine(ArgumentParser& arguments)
 {
-    if (_application.empty()) _application = arguments[0];
+    if (_application.empty()) 
+        _application = arguments[0];
 
     // report the usage options.
     if (arguments.getApplicationUsage())
@@ -867,27 +894,76 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
     std::string str;
     while(arguments.read("--display",str))
     {
-        if (str=="MONITOR") _displayType = MONITOR;
-        else if (str=="POWERWALL") _displayType = POWERWALL;
-        else if (str=="REALITY_CENTER") _displayType = REALITY_CENTER;
-        else if (str=="HEAD_MOUNTED_DISPLAY") _displayType = HEAD_MOUNTED_DISPLAY;
+        if (str=="MONITOR") 
+            _displayType = MONITOR;
+        else if (str=="POWERWALL") 
+            _displayType = POWERWALL;
+        else if (str=="REALITY_CENTER") 
+            _displayType = REALITY_CENTER;
+        else if (str=="HEAD_MOUNTED_DISPLAY") 
+            _displayType = HEAD_MOUNTED_DISPLAY;
     }
 
     int pos;
     while ((pos=arguments.find("--stereo"))>0)
     {
-        if (arguments.match(pos+1,"ANAGLYPHIC"))            { arguments.remove(pos,2); _stereo = true;_stereoMode = ANAGLYPHIC; }
-        else if (arguments.match(pos+1,"QUAD_BUFFER"))      { arguments.remove(pos,2); _stereo = true;_stereoMode = QUAD_BUFFER; }
-        else if (arguments.match(pos+1,"HORIZONTAL_SPLIT")) { arguments.remove(pos,2); _stereo = true;_stereoMode = HORIZONTAL_SPLIT; }
-        else if (arguments.match(pos+1,"VERTICAL_SPLIT"))   { arguments.remove(pos,2); _stereo = true;_stereoMode = VERTICAL_SPLIT; }
-        else if (arguments.match(pos+1,"HORIZONTAL_INTERLACE")) { arguments.remove(pos,2); _stereo = true;_stereoMode = HORIZONTAL_INTERLACE; }
-        else if (arguments.match(pos+1,"VERTICAL_INTERLACE"))   { arguments.remove(pos,2); _stereo = true;_stereoMode = VERTICAL_INTERLACE; }
-        else if (arguments.match(pos+1,"CHECKERBOARD"))     { arguments.remove(pos,2); _stereo = true;_stereoMode = CHECKERBOARD; }
-        else if (arguments.match(pos+1,"LEFT_EYE"))         { arguments.remove(pos,2); _stereo = true;_stereoMode = LEFT_EYE; }
-        else if (arguments.match(pos+1,"RIGHT_EYE"))        { arguments.remove(pos,2); _stereo = true;_stereoMode = RIGHT_EYE; }
-        else if (arguments.match(pos+1,"ON"))               { arguments.remove(pos,2); _stereo = true; }
-        else if (arguments.match(pos+1,"OFF"))              { arguments.remove(pos,2); _stereo = false; }
-        else                                                { arguments.remove(pos); _stereo = true; }
+        if (arguments.match(pos+1,"ANAGLYPHIC"))            { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = ANAGLYPHIC; 
+        }
+        else if (arguments.match(pos+1,"QUAD_BUFFER"))      { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = QUAD_BUFFER; 
+        }
+        else if (arguments.match(pos+1,"HORIZONTAL_SPLIT")) { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = HORIZONTAL_SPLIT; 
+        }
+        else if (arguments.match(pos+1,"VERTICAL_SPLIT"))   { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = VERTICAL_SPLIT; 
+        }
+        else if (arguments.match(pos+1,"HORIZONTAL_INTERLACE")) { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = HORIZONTAL_INTERLACE; 
+        }
+        else if (arguments.match(pos+1,"VERTICAL_INTERLACE"))   { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = VERTICAL_INTERLACE; 
+        }
+        else if (arguments.match(pos+1,"CHECKERBOARD"))     { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = CHECKERBOARD; 
+        }
+        else if (arguments.match(pos+1,"LEFT_EYE"))         { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = LEFT_EYE; 
+        }
+        else if (arguments.match(pos+1,"RIGHT_EYE"))        { 
+            arguments.remove(pos,2); 
+            _stereo = true;
+            _stereoMode = RIGHT_EYE; 
+        }
+        else if (arguments.match(pos+1,"ON"))               { 
+            arguments.remove(pos,2); 
+            _stereo = true; 
+        }
+        else if (arguments.match(pos+1,"OFF"))              { 
+            arguments.remove(pos,2); 
+            _stereo = false; 
+        }
+        else                                                { 
+            arguments.remove(pos); 
+            _stereo = true; 
+        }
     }
 
     while (arguments.read("--rgba"))
@@ -925,7 +1001,8 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
     {
         _keystoneHint = true;
 
-        if (!_keystoneFileNames.empty()) _keystoneFileNames.clear();
+        if (!_keystoneFileNames.empty()) 
+            _keystoneFileNames.clear();
         _keystoneFileNames.push_back(str);
 
         while(arguments.read("--keystone",str))
@@ -951,8 +1028,10 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
 
     while(arguments.read("--serialize-draw",str))
     {
-        if (str=="ON") _serializeDrawDispatch = true;
-        else if (str=="OFF") _serializeDrawDispatch = false;
+        if (str=="ON") 
+            _serializeDrawDispatch = true;
+        else if (str=="OFF") 
+            _serializeDrawDispatch = false;
     }
 
     while(arguments.read("--num-db-threads",_numDatabaseThreadsHint)) {}
@@ -976,19 +1055,28 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
         {
             while(arguments.read( option[n],str))
             {
-                if(str.find("OFF")!=std::string::npos) *mask[n] = 0;
+                if(str.find("OFF")!=std::string::npos) 
+                    *mask[n] = 0;
 
-                if(str.find("~DEFAULT")!=std::string::npos) *mask[n] ^= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
-                else if(str.find("DEFAULT")!=std::string::npos) *mask[n] |= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
+                if(str.find("~DEFAULT")!=std::string::npos) 
+                    *mask[n] ^= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
+                else if(str.find("DEFAULT")!=std::string::npos) 
+                    *mask[n] |= DEFAULT_IMPLICIT_BUFFER_ATTACHMENT;
 
-                if(str.find("~COLOR")!=std::string::npos) *mask[n] ^= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
-                else if(str.find("COLOR")!=std::string::npos) *mask[n] |= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
+                if(str.find("~COLOR")!=std::string::npos) 
+                    *mask[n] ^= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
+                else if(str.find("COLOR")!=std::string::npos) 
+                    *mask[n] |= IMPLICIT_COLOR_BUFFER_ATTACHMENT;
 
-                if(str.find("~DEPTH")!=std::string::npos) *mask[n] ^= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
-                else if(str.find("DEPTH")!=std::string::npos) *mask[n] |= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
+                if(str.find("~DEPTH")!=std::string::npos) 
+                    *mask[n] ^= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
+                else if(str.find("DEPTH")!=std::string::npos) 
+                    *mask[n] |= IMPLICIT_DEPTH_BUFFER_ATTACHMENT;
 
-                if(str.find("~STENCIL")!=std::string::npos) *mask[n] ^= IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
-                else if(str.find("STENCIL")!=std::string::npos) *mask[n] |= IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
+                if(str.find("~STENCIL")!=std::string::npos) 
+                    *mask[n] ^= IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
+                else if(str.find("STENCIL")!=std::string::npos) 
+                    *mask[n] |= IMPLICIT_STENCIL_BUFFER_ATTACHMENT;
             }
         }
     }
@@ -999,17 +1087,24 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
 
     while(arguments.read("--swap-method",str))
     {
-        if (str=="DEFAULT") _swapMethod = SWAP_DEFAULT;
-        else if (str=="EXCHANGE") _swapMethod = SWAP_EXCHANGE;
-        else if (str=="COPY") _swapMethod = SWAP_COPY;
-        else if (str=="UNDEFINED") _swapMethod = SWAP_UNDEFINED;
+        if (str=="DEFAULT") 
+            _swapMethod = SWAP_DEFAULT;
+        else if (str=="EXCHANGE") 
+            _swapMethod = SWAP_EXCHANGE;
+        else if (str=="COPY") 
+            _swapMethod = SWAP_COPY;
+        else if (str=="UNDEFINED") 
+            _swapMethod = SWAP_UNDEFINED;
     }
 
     while(arguments.read("--menubar-behavior",str))
     {
-        if (str=="AUTO_HIDE") _OSXMenubarBehavior = MENUBAR_AUTO_HIDE;
-        else if (str=="FORCE_HIDE") _OSXMenubarBehavior = MENUBAR_FORCE_HIDE;
-        else if (str=="FORCE_SHOW") _OSXMenubarBehavior = MENUBAR_FORCE_SHOW;
+        if (str=="AUTO_HIDE") 
+            _OSXMenubarBehavior = MENUBAR_AUTO_HIDE;
+        else if (str=="FORCE_HIDE") 
+            _OSXMenubarBehavior = MENUBAR_FORCE_HIDE;
+        else if (str=="FORCE_SHOW") 
+            _OSXMenubarBehavior = MENUBAR_FORCE_SHOW;
     }
 
 }
@@ -1189,7 +1284,8 @@ bool DisplaySettings::getValue(const std::string& name, std::string& value, bool
         return true;
     }
 
-    if (!use_env_fallback) return false;
+    if (!use_env_fallback) 
+        return false;
 
     std::string str;
     if (getEnvVar(name.c_str(), str))

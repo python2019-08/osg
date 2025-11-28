@@ -28,7 +28,8 @@ void BindImageTexture::apply(osg::State& state) const
             to = _target->getTextureObject( contextID );
         }
 
-        state.get<osg::GLExtensions>()->glBindImageTexture(_imageunit, to->id(), _level, _layered, _layer, _access, _format);
+        state.get<osg::GLExtensions>()->glBindImageTexture(_imageunit, to->id(), 
+            _level, _layered, _layer, _access, _format);
     }
 
 }

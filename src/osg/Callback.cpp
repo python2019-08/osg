@@ -25,7 +25,8 @@ using namespace osg;
 //
 bool Callback::traverse(Object* object, Object* data)
 {
-    if (_nestedCallback.valid()) return _nestedCallback->run(object, data);
+    if (_nestedCallback.valid()) 
+        return _nestedCallback->run(object, data);
     else
     {
         osg::Node* node = object ? object->asNode() : 0;
@@ -35,7 +36,8 @@ bool Callback::traverse(Object* object, Object* data)
             nv->traverse(*node);
             return true;
         }
-        else return false;
+        else 
+            return false;
     }
 }
 
@@ -55,7 +57,9 @@ bool CallbackObject::run(osg::Object* object, osg::Object* data)
     return run(object,inputParameters, outputParameters);
 }
 
-bool CallbackObject::run(osg::Object* object, osg::Parameters& /*inputParameters*/, osg::Parameters& /*outputParameters*/) const
+bool CallbackObject::run(osg::Object* object, 
+    osg::Parameters& /*inputParameters*/, 
+    osg::Parameters& /*outputParameters*/) const
 {
     OSG_NOTICE<<"CallbackObject::run(object="<<object<<")"<<std::endl;
     return false;
@@ -171,5 +175,6 @@ bool DrawableCullCallback::cull(osg::NodeVisitor* nv, osg::Drawable* drawable, o
 void UniformCallback::operator () (UniformBase* ub, NodeVisitor* nv)
 {
     Uniform* uniform = ub->asUniform();
-    if (uniform) this->operator()(uniform, nv);
+    if (uniform) 
+        this->operator()(uniform, nv);
 }

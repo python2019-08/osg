@@ -51,7 +51,8 @@ void ComputeBoundsVisitor::getBase(osg::Polytope& polytope, float margin) const
 void ComputeBoundsVisitor::apply(osg::Transform& transform)
 {
     osg::Matrix matrix;
-    if (!_matrixStack.empty()) matrix = _matrixStack.back();
+    if (!_matrixStack.empty()) 
+        matrix = _matrixStack.back();
 
     transform.computeLocalToWorldMatrix(matrix,this);
 
@@ -69,7 +70,8 @@ void ComputeBoundsVisitor::apply(osg::Drawable& drawable)
 
 void ComputeBoundsVisitor::applyBoundingBox(const osg::BoundingBox& bbox)
 {
-    if (_matrixStack.empty()) _bb.expandBy(bbox);
+    if (_matrixStack.empty()) 
+        _bb.expandBy(bbox);
     else if (bbox.valid())
     {
         const osg::Matrix& matrix = _matrixStack.back();

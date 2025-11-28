@@ -56,7 +56,8 @@ AutoTransform::AutoTransform(const AutoTransform& pat,const CopyOp& copyop):
 void AutoTransform::setAutoScaleToScreen(bool autoScaleToScreen)
 {
     _autoScaleToScreen = autoScaleToScreen;
-    if (_autoScaleToScreen) setCullingActive(false);
+    if (_autoScaleToScreen) 
+        setCullingActive(false);
 }
 
 
@@ -85,10 +86,14 @@ void AutoTransform::updateCache()
 {
     if (_autoRotateMode==ROTATE_TO_AXIS)
     {
-        if      (_axis==Vec3(1.0f,0.0,0.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) _cachedMode = AXIAL_ROT_X_AXIS;
-        else if (_axis==Vec3(0.0f,1.0,0.0f) && _normal==Vec3(1.0f, 0.0,0.0f)) _cachedMode = AXIAL_ROT_Y_AXIS;
-        else if (_axis==Vec3(0.0f,0.0,1.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) _cachedMode = AXIAL_ROT_Z_AXIS;
-        else                                                                  _cachedMode = ROTATE_TO_AXIS;
+        if      (_axis==Vec3(1.0f,0.0,0.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_X_AXIS;
+        else if (_axis==Vec3(0.0f,1.0,0.0f) && _normal==Vec3(1.0f, 0.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_Y_AXIS;
+        else if (_axis==Vec3(0.0f,0.0,1.0f) && _normal==Vec3(0.0f,-1.0,0.0f)) 
+            _cachedMode = AXIAL_ROT_Z_AXIS;
+        else                                                                  
+            _cachedMode = ROTATE_TO_AXIS;
     }
     else _cachedMode = _autoRotateMode;
 
@@ -99,13 +104,19 @@ void AutoTransform::updateCache()
 void AutoTransform::setScale(const Vec3d& scale)
 {
     _scale = scale;
-    if (_scale.x()<_minimumScale) _scale.x() = _minimumScale;
-    if (_scale.y()<_minimumScale) _scale.y() = _minimumScale;
-    if (_scale.z()<_minimumScale) _scale.z() = _minimumScale;
+    if (_scale.x()<_minimumScale) 
+        _scale.x() = _minimumScale;
+    if (_scale.y()<_minimumScale) 
+        _scale.y() = _minimumScale;
+    if (_scale.z()<_minimumScale) 
+        _scale.z() = _minimumScale;
 
-    if (_scale.x()>_maximumScale) _scale.x() = _maximumScale;
-    if (_scale.y()>_maximumScale) _scale.y() = _maximumScale;
-    if (_scale.z()>_maximumScale) _scale.z() = _maximumScale;
+    if (_scale.x()>_maximumScale) 
+        _scale.x() = _maximumScale;
+    if (_scale.y()>_maximumScale) 
+        _scale.y() = _maximumScale;
+    if (_scale.z()>_maximumScale) 
+        _scale.z() = _maximumScale;
 
     dirtyBound();
 }
@@ -166,8 +177,10 @@ osg::Matrixd AutoTransform::computeMatrix(const osg::NodeVisitor* nv) const
                     double a = j + b*b / (4.0*c);
                     double k = -b / (2.0*c);
 
-                    if (size<k) size = _minimumScale;
-                    else if (size<i) size = a + b*size + c*(size*size);
+                    if (size<k) 
+                        size = _minimumScale;
+                    else if (size<i) 
+                        size = a + b*size + c*(size*size);
                 }
 
                 if (_maximumScale<DBL_MAX)
@@ -181,8 +194,10 @@ osg::Matrixd AutoTransform::computeMatrix(const osg::NodeVisitor* nv) const
                     double a = n + b*b/(4.0*c);
                     double p = -b / (2.0*c);
 
-                    if (size>p) size = _maximumScale;
-                    else if (size>m) size = a + b*size + c*(size*size);
+                    if (size>p) 
+                        size = _maximumScale;
+                    else if (size>m) 
+                        size = a + b*size + c*(size*size);
                 }
             }
             else

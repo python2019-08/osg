@@ -27,7 +27,8 @@ ColorMaski::~ColorMaski()
 
 void ColorMaski::setIndex(unsigned int buf)
 {
-    if (_index==buf) return;
+    if (_index==buf) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 

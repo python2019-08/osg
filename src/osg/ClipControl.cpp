@@ -38,7 +38,8 @@ void ClipControl::apply(State& state) const
 {
     const GLExtensions* extensions = state.get<GLExtensions>();
     
-    if (!extensions->isClipControlSupported) return;
+    if (!extensions->isClipControlSupported) 
+        return;
 
     extensions->glClipControl((GLenum)_origin, (GLenum)_depthMode);
 }

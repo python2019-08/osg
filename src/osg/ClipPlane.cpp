@@ -29,7 +29,8 @@ ClipPlane::~ClipPlane()
 
 void ClipPlane::setClipPlaneNum(unsigned int num)
 {
-    if (_clipPlaneNum==num) return;
+    if (_clipPlaneNum==num) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 

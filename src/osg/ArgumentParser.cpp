@@ -31,14 +31,16 @@ bool ArgumentParser::isOption(const char* str)
 
 bool ArgumentParser::isString(const char* str)
 {
-    if (!str) return false;
+    if (!str) 
+        return false;
     return true;
     //return !isOption(str);
 }
 
 bool ArgumentParser::isBool(const char* str)
 {
-    if (!str) return false;
+    if (!str) 
+        return false;
 
     return (strcmp(str,"True")==0 || strcmp(str,"true")==0 || strcmp(str,"TRUE")==0 ||
             strcmp(str,"False")==0 || strcmp(str,"false")==0 || strcmp(str,"FALSE")==0 ||
@@ -47,7 +49,8 @@ bool ArgumentParser::isBool(const char* str)
 
 bool ArgumentParser::isNumber(const char* str)
 {
-    if (!str) return false;
+    if (!str) 
+        return false;
 
     bool hadPlusMinus = false;
     bool hadDecimalPlace = false;
@@ -75,7 +78,8 @@ bool ArgumentParser::isNumber(const char* str)
         }
 
         // got to end of string without failure, therefore must be a hex integer.
-        if (*ptr==0) return true;
+        if (*ptr==0) 
+            return true;
     }
 
     ptr = str;
@@ -89,7 +93,9 @@ bool ArgumentParser::isNumber(const char* str)
             {
                 couldBeInt = false;
                 couldBeFloat = false;
-            } else hadPlusMinus = true;
+            } 
+            else 
+                hadPlusMinus = true;
         }
         else if (*ptr>='0' && *ptr<='9')
         {
@@ -132,8 +138,10 @@ bool ArgumentParser::isNumber(const char* str)
         ++ptr;
     }
 
-    if (couldBeInt && noZeroToNine>0) return true;
-    if (couldBeFloat && noZeroToNine>0) return true;
+    if (couldBeInt && noZeroToNine>0) 
+        return true;
+    if (couldBeFloat && noZeroToNine>0) 
+        return true;
 
     return false;
 
@@ -143,12 +151,24 @@ bool ArgumentParser::Parameter::valid(const char* str) const
 {
     switch(_type)
     {
-    case Parameter::BOOL_PARAMETER:         return isBool(str); break;
-    case Parameter::FLOAT_PARAMETER:        return isNumber(str); break;
-    case Parameter::DOUBLE_PARAMETER:       return isNumber(str); break;
-    case Parameter::INT_PARAMETER:          return isNumber(str); break;
-    case Parameter::UNSIGNED_INT_PARAMETER: return isNumber(str); break;
-    case Parameter::STRING_PARAMETER:       return isString(str); break;
+    case Parameter::BOOL_PARAMETER:         
+        return isBool(str); 
+        break;
+    case Parameter::FLOAT_PARAMETER:        
+        return isNumber(str); 
+        break;
+    case Parameter::DOUBLE_PARAMETER:       
+        return isNumber(str); 
+        break;
+    case Parameter::INT_PARAMETER:          
+        return isNumber(str); 
+        break;
+    case Parameter::UNSIGNED_INT_PARAMETER: 
+        return isNumber(str); 
+        break;
+    case Parameter::STRING_PARAMETER:       
+        return isString(str); 
+        break;
     }
     return false;
 }
@@ -164,11 +184,21 @@ bool ArgumentParser::Parameter::assign(const char* str)
             *_value._bool =  (strcmp(str,"True")==0 || strcmp(str,"true")==0 || strcmp(str,"TRUE")==0);
             break;
         }
-        case Parameter::FLOAT_PARAMETER:        *_value._float = osg::asciiToFloat(str); break;
-        case Parameter::DOUBLE_PARAMETER:       *_value._double = osg::asciiToDouble(str); break;
-        case Parameter::INT_PARAMETER:          *_value._int = atoi(str); break;
-        case Parameter::UNSIGNED_INT_PARAMETER: *_value._uint = atoi(str); break;
-        case Parameter::STRING_PARAMETER:       *_value._string = str; break;
+        case Parameter::FLOAT_PARAMETER:        
+            *_value._float = osg::asciiToFloat(str); 
+            break;
+        case Parameter::DOUBLE_PARAMETER:       
+            *_value._double = osg::asciiToDouble(str); 
+            break;
+        case Parameter::INT_PARAMETER:          
+            *_value._int = atoi(str); 
+            break;
+        case Parameter::UNSIGNED_INT_PARAMETER: 
+            *_value._uint = atoi(str); 
+            break;
+        case Parameter::STRING_PARAMETER:       
+            *_value._string = str; 
+            break;
         }
         return true;
     }
@@ -204,14 +234,16 @@ ArgumentParser::ArgumentParser(int* argc,char **argv):
     if (lastline)
     {
         int len = strlen(lastline);
-        if (len>0 && lastline[len-1] == '\n') lastline[len-1]= '\0';
+        if (len>0 && lastline[len-1] == '\n') 
+            lastline[len-1]= '\0';
     }
 #endif
 }
 
 std::string ArgumentParser::getApplicationName() const
 {
-    if (_argc && *_argc>0 ) return std::string(_argv[0]);
+    if (_argc && *_argc>0 ) 
+        return std::string(_argv[0]);
     return "";
 }
 
@@ -254,7 +286,8 @@ bool ArgumentParser::containsOptions() const
 {
     for(int pos=1;pos<*_argc;++pos)
     {
-        if (isOption(pos)) return true;
+        if (isOption(pos)) 
+            return true;
     }
     return false;
 }
@@ -262,7 +295,8 @@ bool ArgumentParser::containsOptions() const
 
 void ArgumentParser::remove(int pos,int num)
 {
-    if (num==0) return;
+    if (num==0) 
+        return;
 
     for(;pos+num<*_argc;++pos)
     {
@@ -278,7 +312,8 @@ void ArgumentParser::remove(int pos,int num)
 bool ArgumentParser::read(const std::string& str)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     remove(pos);
     return true;
 }
@@ -286,56 +321,99 @@ bool ArgumentParser::read(const std::string& str)
 bool ArgumentParser::read(const std::string& str, Parameter value1)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3, value4);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3, value4, value5);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5, 
+    Parameter value6)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3, value4, value5, value6);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5, 
+    Parameter value6, 
+    Parameter value7)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3, value4, value5, value6, value7);
 }
 
-bool ArgumentParser::read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7, Parameter value8)
+bool ArgumentParser::read(const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5, 
+    Parameter value6, 
+    Parameter value7, 
+    Parameter value8)
 {
     int pos=find(str);
-    if (pos<=0) return false;
+    if (pos<=0) 
+        return false;
     return read(pos,str,value1, value2, value3, value4, value5, value6, value7, value8);
 }
 
@@ -372,7 +450,10 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1)
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2)
 {
     if (match(pos,str))
     {
@@ -395,7 +476,11 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3)
 {
     if (match(pos,str))
     {
@@ -420,7 +505,12 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4)
 {
     if (match(pos,str))
     {
@@ -447,7 +537,13 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5)
 {
     if (match(pos,str))
     {
@@ -476,7 +572,14 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5, 
+    Parameter value6)
 {
     if (match(pos,str))
     {
@@ -507,7 +610,14 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5,  Parameter value6,  Parameter value7)
+bool ArgumentParser::read(int pos, const std::string& str, 
+        Parameter value1, 
+        Parameter value2, 
+        Parameter value3, 
+        Parameter value4, 
+        Parameter value5,  
+        Parameter value6,  
+        Parameter value7)
 {
     if (match(pos,str))
     {
@@ -540,7 +650,16 @@ bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Par
     return false;
 }
 
-bool ArgumentParser::read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5,  Parameter value6,  Parameter value7,  Parameter value8)
+bool ArgumentParser::read(int pos, 
+    const std::string& str, 
+    Parameter value1, 
+    Parameter value2, 
+    Parameter value3, 
+    Parameter value4, 
+    Parameter value5,  
+    Parameter value6,  
+    Parameter value7,  
+    Parameter value8)
 {
     if (match(pos,str))
     {
@@ -581,7 +700,8 @@ bool ArgumentParser::errors(ErrorSeverity severity) const
         itr!=_errorMessageMap.end();
         ++itr)
     {
-        if (itr->second>=severity) return true;
+        if (itr->second>=severity) 
+            return true;
     }
     return false;
 }
@@ -650,10 +770,14 @@ ApplicationUsage::Type ArgumentParser::readHelpType()
     getApplicationUsage()->addCommandLineOption("--help-all","Display all command line, env vars and keyboard & mouse bindings.");
 
     // if user request help write it out to cout.
-    if (read("--help-all"))             return ApplicationUsage::HELP_ALL;
-    if (read("-h") || read("--help"))   return ApplicationUsage::COMMAND_LINE_OPTION;
-    if (read("--help-env"))             return ApplicationUsage::ENVIRONMENTAL_VARIABLE;
-    if (read("--help-keys"))            return ApplicationUsage::KEYBOARD_MOUSE_BINDING;
+    if (read("--help-all"))             
+        return ApplicationUsage::HELP_ALL;
+    if (read("-h") || read("--help"))   
+        return ApplicationUsage::COMMAND_LINE_OPTION;
+    if (read("--help-env"))             
+        return ApplicationUsage::ENVIRONMENTAL_VARIABLE;
+    if (read("--help-keys"))            
+        return ApplicationUsage::KEYBOARD_MOUSE_BINDING;
 
     return ApplicationUsage::NO_HELP;
 }

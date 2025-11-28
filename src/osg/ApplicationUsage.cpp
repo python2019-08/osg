@@ -37,7 +37,9 @@ ApplicationUsage* ApplicationUsage::instance()
 
 OSG_INIT_SINGLETON_PROXY(ApplicationUsageSingletonProxy, ApplicationUsage::instance())
 
-void ApplicationUsage::addUsageExplanation(Type type,const std::string& option,const std::string& explanation)
+void ApplicationUsage::addUsageExplanation(Type type,
+    const std::string& option,
+    const std::string& explanation)
 {
     switch(type)
     {
@@ -55,19 +57,25 @@ void ApplicationUsage::addUsageExplanation(Type type,const std::string& option,c
     }
 }
 
-void ApplicationUsage::addCommandLineOption(const std::string& option,const std::string& explanation,const std::string& defaultValue)
+void ApplicationUsage::addCommandLineOption(const std::string& option,
+    const std::string& explanation,
+    const std::string& defaultValue)
 {
     _commandLineOptions[option]=explanation;
     _commandLineOptionsDefaults[option]=defaultValue;
 }
 
-void ApplicationUsage::addEnvironmentalVariable(const std::string& option,const std::string& explanation, const std::string& defaultValue)
+void ApplicationUsage::addEnvironmentalVariable(const std::string& option,
+    const std::string& explanation, 
+    const std::string& defaultValue)
 {
     _environmentalVariables[option]=explanation;
     _environmentalVariablesDefaults[option]=defaultValue;
 }
 
-void ApplicationUsage::addKeyboardMouseBinding(const std::string& prefix, int key, const std::string& explanation)
+void ApplicationUsage::addKeyboardMouseBinding(const std::string& prefix, 
+    int key, 
+    const std::string& explanation)
 {
     if (key!=0)
     {
@@ -98,7 +106,11 @@ void ApplicationUsage::addKeyboardMouseBinding(const std::string& option,const s
     _keyboardMouse[option]=explanation;
 }
 
-void ApplicationUsage::getFormattedString(std::string& str, const UsageMap& um,unsigned int widthOfOutput,bool showDefaults,const UsageMap& ud)
+void ApplicationUsage::getFormattedString(std::string& str, 
+    const UsageMap& um,
+    unsigned int widthOfOutput,
+    bool showDefaults,
+    const UsageMap& ud)
 {
 
     unsigned int maxNumCharsInOptions = 0;
@@ -183,12 +195,14 @@ void ApplicationUsage::getFormattedString(std::string& str, const UsageMap& um,u
 
             while (pos<explanation.length())
             {
-                if (firstInLine) offset = 0;
+                if (firstInLine) 
+                    offset = 0;
 
                 // skip any leading white space.
                 while (pos<explanation.length() && explanation[pos]==' ')
                 {
-                    if (firstInLine) ++offset;
+                    if (firstInLine) 
+                        ++offset;
                     ++pos;
                 }
 
@@ -233,8 +247,14 @@ void ApplicationUsage::getFormattedString(std::string& str, const UsageMap& um,u
 
                 line.replace(explanationPos+offset,explanationWidth, explanation, pos, width);
 
-                if (concatenated) { str += line; str += "-\n"; }
-                else { str += line; str += "\n"; }
+                if (concatenated) { 
+                    str += line; 
+                    str += "-\n"; 
+                }
+                else { 
+                    str += line; 
+                    str += "\n"; 
+                }
 
                 // move to the next line of output.
                 line.assign(fullWidth,' ');
@@ -250,14 +270,21 @@ void ApplicationUsage::getFormattedString(std::string& str, const UsageMap& um,u
     }
 }
 
-void ApplicationUsage::write(std::ostream& output, const ApplicationUsage::UsageMap& um,unsigned int widthOfOutput,bool showDefaults,const ApplicationUsage::UsageMap& ud)
+void ApplicationUsage::write(std::ostream& output, 
+    const ApplicationUsage::UsageMap& um,
+    unsigned int widthOfOutput,
+    bool showDefaults,
+    const ApplicationUsage::UsageMap& ud)
 {
     std::string str;
     getFormattedString(str, um, widthOfOutput, showDefaults, ud);
     output << str << std::endl;
 }
 
-void ApplicationUsage::write(std::ostream& output, unsigned int type, unsigned int widthOfOutput, bool showDefaults)
+void ApplicationUsage::write(std::ostream& output, 
+    unsigned int type, 
+    unsigned int widthOfOutput, 
+    bool showDefaults)
 {
 
     output << "Usage: "<<getCommandLineUsage()<<std::endl;
@@ -265,7 +292,8 @@ void ApplicationUsage::write(std::ostream& output, unsigned int type, unsigned i
     if ((type&COMMAND_LINE_OPTION) && !getCommandLineOptions().empty())
     {
         output << "Options";
-        if (showDefaults) output << " [and default value]";
+        if (showDefaults) 
+            output << " [and default value]";
         output << ":"<<std::endl;
         write(output,getCommandLineOptions(),widthOfOutput,showDefaults,getCommandLineOptionsDefaults());
         needspace = true;
@@ -273,9 +301,11 @@ void ApplicationUsage::write(std::ostream& output, unsigned int type, unsigned i
 
     if ((type&ENVIRONMENTAL_VARIABLE) && !getEnvironmentalVariables().empty())
     {
-        if (needspace) output << std::endl;
+        if (needspace) 
+            output << std::endl;
         output << "Environmental Variables";
-        if (showDefaults) output << " [and default value]";
+        if (showDefaults) 
+            output << " [and default value]";
         output << ":"<<std::endl;
         write(output,getEnvironmentalVariables(),widthOfOutput,showDefaults,getEnvironmentalVariablesDefaults());
         needspace = true;
@@ -283,7 +313,8 @@ void ApplicationUsage::write(std::ostream& output, unsigned int type, unsigned i
 
     if ((type&KEYBOARD_MOUSE_BINDING) && !getKeyboardMouseBindings().empty())
     {
-        if (needspace) output << std::endl;
+        if (needspace) 
+            output << std::endl;
         output << "Keyboard and Mouse Bindings:"<<std::endl;
         write(output,getKeyboardMouseBindings(),widthOfOutput);
         needspace = true;
@@ -303,7 +334,8 @@ void ApplicationUsage::writeEnvironmentSettings(std::ostream& output)
         ++citr)
     {
         std::string::size_type len = citr->first.find_first_of("\n\r\t ");
-        if (len == std::string::npos) len = citr->first.size();
+        if (len == std::string::npos) 
+            len = citr->first.size();
         maxNumCharsInOptions = maximum( maxNumCharsInOptions,static_cast<unsigned int>(len));
     }
 
@@ -316,7 +348,8 @@ void ApplicationUsage::writeEnvironmentSettings(std::ostream& output)
     {
         line.assign(optionPos+maxNumCharsInOptions+2,' ');
         std::string::size_type len = citr->first.find_first_of("\n\r\t ");
-        if (len == std::string::npos) len = citr->first.size();
+        if (len == std::string::npos) 
+            len = citr->first.size();
         line.replace(optionPos,len,citr->first.substr(0,len));
 
         std::string value;

@@ -38,7 +38,8 @@ BufferIndexBinding::BufferIndexBinding(GLenum target, GLuint index, BufferData* 
     setBufferData(bo);
 }
 
-BufferIndexBinding::BufferIndexBinding(const BufferIndexBinding& rhs, const CopyOp& copyop):StateAttribute(rhs,copyop),
+BufferIndexBinding::BufferIndexBinding(const BufferIndexBinding& rhs, const CopyOp& copyop)
+:StateAttribute(rhs,copyop),
     _target(rhs._target),
     _bufferData(static_cast<BufferData*>(copyop(rhs._bufferData.get()))),
     _index(rhs._index),
@@ -53,7 +54,8 @@ BufferIndexBinding::~BufferIndexBinding()
 
 void BufferIndexBinding::setIndex(unsigned int index)
 {
-    if (_index==index) return;
+    if (_index==index) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 
@@ -66,7 +68,8 @@ void BufferIndexBinding::apply(State& state) const
     {
         GLBufferObject* glObject
             = _bufferData->getBufferObject()->getOrCreateGLBufferObject(state.getContextID());
-        if (glObject->isDirty()) glObject->compileBuffer();
+        if (glObject->isDirty()) 
+            glObject->compileBuffer();
         glObject->_extensions->glBindBufferRange(_target, _index,
                 glObject->getGLObjectID(), glObject->getOffset(_bufferData->getBufferIndex())+_offset, _size-_offset);
     }
@@ -101,13 +104,17 @@ TransformFeedbackBufferBinding::TransformFeedbackBufferBinding(GLuint index)
 {
 }
 
-TransformFeedbackBufferBinding::TransformFeedbackBufferBinding(GLuint index, BufferData* bo, GLintptr offset, GLsizeiptr size)
+TransformFeedbackBufferBinding::TransformFeedbackBufferBinding(GLuint index, 
+        BufferData* bo, 
+        GLintptr offset, 
+        GLsizeiptr size)
     : BufferIndexBinding(GL_TRANSFORM_FEEDBACK_BUFFER, index, bo, offset, size)
 {
 
 }
 
-TransformFeedbackBufferBinding::TransformFeedbackBufferBinding(const TransformFeedbackBufferBinding& rhs, const CopyOp& copyop)
+TransformFeedbackBufferBinding::TransformFeedbackBufferBinding(const TransformFeedbackBufferBinding& rhs, 
+    const CopyOp& copyop)
     : BufferIndexBinding(rhs, copyop)
 {
 }
@@ -118,23 +125,29 @@ AtomicCounterBufferBinding::AtomicCounterBufferBinding(GLuint index)
 {
 }
 
-AtomicCounterBufferBinding::AtomicCounterBufferBinding(GLuint index, BufferData* bo, GLintptr offset, GLsizeiptr size)
+AtomicCounterBufferBinding::AtomicCounterBufferBinding(GLuint index, 
+    BufferData* bo, 
+    GLintptr offset, 
+    GLsizeiptr size)
     : BufferIndexBinding(GL_ATOMIC_COUNTER_BUFFER, index, bo, offset, size)
 {
 
 }
 
-AtomicCounterBufferBinding::AtomicCounterBufferBinding(const AtomicCounterBufferBinding& rhs, const CopyOp& copyop)
+AtomicCounterBufferBinding::AtomicCounterBufferBinding(const AtomicCounterBufferBinding& rhs, 
+    const CopyOp& copyop)
     : BufferIndexBinding(rhs, copyop)
 {
 }
 
 void AtomicCounterBufferBinding::readData(osg::State & state, osg::UIntArray & uintArray) const
 {
-    if (!_bufferData) return;
+    if (!_bufferData) 
+        return;
 
     GLBufferObject* bo = _bufferData->getBufferObject()->getOrCreateGLBufferObject( state.getContextID() );
-    if (!bo) return;
+    if (!bo) 
+        return;
 
 
     GLint previousID = 0;

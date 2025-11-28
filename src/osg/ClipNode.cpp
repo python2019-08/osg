@@ -55,7 +55,8 @@ void ClipNode::setReferenceFrame(ReferenceFrame rf)
 void ClipNode::createClipBox(const BoundingBox& bb,unsigned int clipPlaneNumberBase)
 {
     _planes.clear();
-    if (!_stateset.valid()) _stateset = new osg::StateSet;
+    if (!_stateset.valid()) 
+        _stateset = new osg::StateSet;
 
     _planes.push_back(new ClipPlane(clipPlaneNumberBase  ,1.0,0.0,0.0,-bb.xMin()));
     _stateset->setAssociatedModes(_planes.back().get(), _value);
@@ -77,13 +78,15 @@ void ClipNode::createClipBox(const BoundingBox& bb,unsigned int clipPlaneNumberB
 // return false if plane already exists in ClipNode, or clipplane is false.
 bool ClipNode::addClipPlane(ClipPlane* clipplane)
 {
-    if (!clipplane) return false;
+    if (!clipplane) 
+        return false;
 
     if (std::find(_planes.begin(),_planes.end(),clipplane)==_planes.end())
     {
         // cliplane doesn't exist in list so add it.
         _planes.push_back(clipplane);
-        if (!_stateset.valid()) _stateset = new osg::StateSet;
+        if (!_stateset.valid()) 
+            _stateset = new osg::StateSet;
         _stateset->setAssociatedModes(clipplane, _value);
         return true;
     }
@@ -97,7 +100,8 @@ bool ClipNode::addClipPlane(ClipPlane* clipplane)
 // return false if plane does not exists in ClipNode.
 bool ClipNode::removeClipPlane(ClipPlane* clipplane)
 {
-    if (!clipplane) return false;
+    if (!clipplane) 
+        return false;
 
     ClipPlaneList::iterator itr = std::find(_planes.begin(),_planes.end(),clipplane);
     if (itr!=_planes.end())
@@ -145,7 +149,8 @@ void ClipNode::setStateSetModes(StateSet& stateset,StateAttribute::GLModeValue v
 void ClipNode::setLocalStateSetModes(StateAttribute::GLModeValue value)
 {
     _value = value;
-    if (!_stateset) setStateSet(new StateSet);
+    if (!_stateset) 
+        setStateSet(new StateSet);
 
     setStateSetModes(*_stateset,value);
 }

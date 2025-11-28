@@ -52,12 +52,16 @@ Referenced* CopyOp::operator() (const Referenced* ref) const
 
 Node* CopyOp::operator() (const Node* node) const
 {
-    if (!node) return 0;
+    if (!node) 
+        return 0;
 
     const Drawable* drawable = node->asDrawable();
-    if (drawable) return operator()(drawable);
-    else if (_flags&DEEP_COPY_NODES) return osg::clone(node, *this);
-    else return const_cast<Node*>(node);
+    if (drawable) 
+        return operator()(drawable);
+    else if (_flags&DEEP_COPY_NODES) 
+        return osg::clone(node, *this);
+    else 
+        return const_cast<Node*>(node);
 }
 
 StateAttribute* CopyOp::operator() (const StateAttribute* attr) const
@@ -84,7 +88,8 @@ Callback* CopyOp::operator() (const Callback* nc) const
     {
         // deep copy the full chain of callback
         Callback* first = osg::clone(nc, *this);
-        if (!first) return 0;
+        if (!first) 
+            return 0;
 
         first->setNestedCallback(0);
         nc = nc->getNestedCallback();

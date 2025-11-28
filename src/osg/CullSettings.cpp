@@ -75,19 +75,32 @@ void CullSettings::setCullSettings(const CullSettings& rhs)
 
 void CullSettings::inheritCullSettings(const CullSettings& settings, unsigned int inheritanceMask)
 {
-    if (inheritanceMask & COMPUTE_NEAR_FAR_MODE) _computeNearFar = settings._computeNearFar;
-    if (inheritanceMask & NEAR_FAR_RATIO) _nearFarRatio = settings._nearFarRatio;
-    if (inheritanceMask & IMPOSTOR_ACTIVE) _impostorActive = settings._impostorActive;
-    if (inheritanceMask & DEPTH_SORT_IMPOSTOR_SPRITES) _depthSortImpostorSprites = settings._depthSortImpostorSprites;
-    if (inheritanceMask & IMPOSTOR_PIXEL_ERROR_THRESHOLD) _impostorPixelErrorThreshold = settings._impostorPixelErrorThreshold;
-    if (inheritanceMask & NUM_FRAMES_TO_KEEP_IMPOSTORS_SPRITES) _numFramesToKeepImpostorSprites = settings._numFramesToKeepImpostorSprites;
-    if (inheritanceMask & CULL_MASK) _cullMask = settings._cullMask;
-    if (inheritanceMask & CULL_MASK_LEFT) _cullMaskLeft = settings._cullMaskLeft;
-    if (inheritanceMask & CULL_MASK_RIGHT) _cullMaskRight = settings._cullMaskRight;
-    if (inheritanceMask & CULLING_MODE) _cullingMode = settings._cullingMode;
-    if (inheritanceMask & LOD_SCALE) _LODScale = settings._LODScale;
-    if (inheritanceMask & SMALL_FEATURE_CULLING_PIXEL_SIZE) _smallFeatureCullingPixelSize = settings._smallFeatureCullingPixelSize;
-    if (inheritanceMask & CLAMP_PROJECTION_MATRIX_CALLBACK) _clampProjectionMatrixCallback = settings._clampProjectionMatrixCallback;
+    if (inheritanceMask & COMPUTE_NEAR_FAR_MODE) 
+        _computeNearFar = settings._computeNearFar;
+    if (inheritanceMask & NEAR_FAR_RATIO) 
+        _nearFarRatio = settings._nearFarRatio;
+    if (inheritanceMask & IMPOSTOR_ACTIVE) 
+        _impostorActive = settings._impostorActive;
+    if (inheritanceMask & DEPTH_SORT_IMPOSTOR_SPRITES) 
+        _depthSortImpostorSprites = settings._depthSortImpostorSprites;
+    if (inheritanceMask & IMPOSTOR_PIXEL_ERROR_THRESHOLD) 
+        _impostorPixelErrorThreshold = settings._impostorPixelErrorThreshold;
+    if (inheritanceMask & NUM_FRAMES_TO_KEEP_IMPOSTORS_SPRITES) 
+        _numFramesToKeepImpostorSprites = settings._numFramesToKeepImpostorSprites;
+    if (inheritanceMask & CULL_MASK) 
+        _cullMask = settings._cullMask;
+    if (inheritanceMask & CULL_MASK_LEFT) 
+        _cullMaskLeft = settings._cullMaskLeft;
+    if (inheritanceMask & CULL_MASK_RIGHT) 
+        _cullMaskRight = settings._cullMaskRight;
+    if (inheritanceMask & CULLING_MODE) 
+        _cullingMode = settings._cullingMode;
+    if (inheritanceMask & LOD_SCALE) 
+        _LODScale = settings._LODScale;
+    if (inheritanceMask & SMALL_FEATURE_CULLING_PIXEL_SIZE) 
+        _smallFeatureCullingPixelSize = settings._smallFeatureCullingPixelSize;
+    if (inheritanceMask & CLAMP_PROJECTION_MATRIX_CALLBACK) 
+        _clampProjectionMatrixCallback = settings._clampProjectionMatrixCallback;
 }
 
 
@@ -101,9 +114,12 @@ void CullSettings::readEnvironmentalVariables()
     std::string value;
     if (getEnvVar("OSG_COMPUTE_NEAR_FAR_MODE", value))
     {
-        if (value=="DO_NOT_COMPUTE_NEAR_FAR") _computeNearFar = DO_NOT_COMPUTE_NEAR_FAR;
-        else if (value=="COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES") _computeNearFar = COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES;
-        else if (value=="COMPUTE_NEAR_FAR_USING_PRIMITIVES") _computeNearFar = COMPUTE_NEAR_FAR_USING_PRIMITIVES;
+        if (value=="DO_NOT_COMPUTE_NEAR_FAR") 
+            _computeNearFar = DO_NOT_COMPUTE_NEAR_FAR;
+        else if (value=="COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES") 
+            _computeNearFar = COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES;
+        else if (value=="COMPUTE_NEAR_FAR_USING_PRIMITIVES") 
+            _computeNearFar = COMPUTE_NEAR_FAR_USING_PRIMITIVES;
 
         OSG_INFO<<"Set compute near far mode to "<<_computeNearFar<<std::endl;
 
@@ -126,17 +142,23 @@ void CullSettings::readCommandLine(ArgumentParser& arguments)
         arguments.getApplicationUsage()->addCommandLineOption("--NEAR_FAR_RATIO <float>","Set the ratio between near and far planes - must greater than 0.0 but less than 1.0.");
     }
 
-    while(arguments.read("--NO_CULLING")) setCullingMode(NO_CULLING);
-    while(arguments.read("--VIEW_FRUSTUM")) setCullingMode(VIEW_FRUSTUM_CULLING);
-    while(arguments.read("--VIEW_FRUSTUM_SIDES") || arguments.read("--vfs") ) setCullingMode(VIEW_FRUSTUM_SIDES_CULLING);
+    while(arguments.read("--NO_CULLING")) 
+        setCullingMode(NO_CULLING);
+    while(arguments.read("--VIEW_FRUSTUM")) 
+        setCullingMode(VIEW_FRUSTUM_CULLING);
+    while(arguments.read("--VIEW_FRUSTUM_SIDES") || arguments.read("--vfs") ) 
+        setCullingMode(VIEW_FRUSTUM_SIDES_CULLING);
 
 
     std::string str;
     while(arguments.read("--COMPUTE_NEAR_FAR_MODE",str))
     {
-        if (str=="DO_NOT_COMPUTE_NEAR_FAR") _computeNearFar = DO_NOT_COMPUTE_NEAR_FAR;
-        else if (str=="COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES") _computeNearFar = COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES;
-        else if (str=="COMPUTE_NEAR_FAR_USING_PRIMITIVES") _computeNearFar = COMPUTE_NEAR_FAR_USING_PRIMITIVES;
+        if (str=="DO_NOT_COMPUTE_NEAR_FAR") 
+            _computeNearFar = DO_NOT_COMPUTE_NEAR_FAR;
+        else if (str=="COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES") 
+            _computeNearFar = COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES;
+        else if (str=="COMPUTE_NEAR_FAR_USING_PRIMITIVES") 
+            _computeNearFar = COMPUTE_NEAR_FAR_USING_PRIMITIVES;
 
         OSG_INFO<<"Set compute near far mode to "<<_computeNearFar<<std::endl;
     }

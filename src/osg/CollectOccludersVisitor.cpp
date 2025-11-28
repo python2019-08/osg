@@ -48,14 +48,18 @@ void CollectOccludersVisitor::reset()
 
 float CollectOccludersVisitor::getDistanceToEyePoint(const Vec3& pos, bool withLODScale) const
 {
-    if (withLODScale) return (pos-getEyeLocal()).length()*getLODScale();
-    else return (pos-getEyeLocal()).length();
+    if (withLODScale) 
+        return (pos-getEyeLocal()).length()*getLODScale();
+    else 
+        return (pos-getEyeLocal()).length();
 }
 
 float CollectOccludersVisitor::getDistanceToViewPoint(const Vec3& pos, bool withLODScale) const
 {
-    if (withLODScale) return (pos-getViewPointLocal()).length()*getLODScale();
-    else return (pos-getViewPointLocal()).length();
+    if (withLODScale) 
+        return (pos-getViewPointLocal()).length()*getLODScale();
+    else 
+        return (pos-getViewPointLocal()).length();
 }
 
 float CollectOccludersVisitor::getDistanceFromEyePoint(const Vec3& pos, bool withLODScale) const
@@ -68,7 +72,8 @@ float CollectOccludersVisitor::getDistanceFromEyePoint(const Vec3& pos, bool wit
 
 void CollectOccludersVisitor::apply(osg::Node& node)
 {
-    if (isCulled(node)) return;
+    if (isCulled(node)) 
+        return;
 
     // push the culling mode.
     pushCurrentMask();
@@ -81,7 +86,8 @@ void CollectOccludersVisitor::apply(osg::Node& node)
 
 void CollectOccludersVisitor::apply(osg::Transform& node)
 {
-    if (isCulled(node)) return;
+    if (isCulled(node)) 
+        return;
 
     // push the culling mode.
     pushCurrentMask();
@@ -100,7 +106,8 @@ void CollectOccludersVisitor::apply(osg::Transform& node)
 
 void CollectOccludersVisitor::apply(osg::Projection& node)
 {
-    if (isCulled(node)) return;
+    if (isCulled(node)) 
+        return;
 
     // push the culling mode.
     pushCurrentMask();
@@ -123,7 +130,8 @@ void CollectOccludersVisitor::apply(osg::Switch& node)
 
 void CollectOccludersVisitor::apply(osg::LOD& node)
 {
-    if (isCulled(node)) return;
+    if (isCulled(node)) 
+        return;
 
     // push the culling mode.
     pushCurrentMask();
@@ -188,7 +196,8 @@ void CollectOccludersVisitor::apply(osg::OccluderNode& node)
 
 void CollectOccludersVisitor::removeOccludedOccluders()
 {
-    if (_occluderSet.empty()) return;
+    if (_occluderSet.empty()) 
+        return;
 
     ShadowVolumeOccluderSet::iterator occludeeItr=_occluderSet.begin();
 
@@ -250,7 +259,8 @@ void CollectOccludersVisitor::removeOccludedOccluders()
     }
 
 
-    if (_occluderSet.size()<=_maximumNumberOfActiveOccluders) return;
+    if (_occluderSet.size()<=_maximumNumberOfActiveOccluders) 
+        return;
 
     // move the iterator to the _maximumNumberOfActiveOccluders th occluder.
     occludeeItr = _occluderSet.begin();

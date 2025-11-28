@@ -28,7 +28,8 @@ BlendEquationi::~BlendEquationi()
 
 void BlendEquationi::setIndex(unsigned int buf)
 {
-    if (_index==buf) return;
+    if (_index==buf) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 
@@ -42,7 +43,8 @@ void BlendEquationi::apply(State& state) const
     {
         if (extensions->glBlendEquationi)
         {
-            extensions->glBlendEquationi(static_cast<GLuint>(_index), static_cast<GLenum>(_equationRGB));
+            extensions->glBlendEquationi(static_cast<GLuint>(_index), 
+                                         static_cast<GLenum>(_equationRGB));
         }
         else
         {
@@ -53,7 +55,9 @@ void BlendEquationi::apply(State& state) const
     {
         if (extensions->glBlendEquationSeparatei)
         {
-            extensions->glBlendEquationSeparatei(static_cast<GLuint>(_index), static_cast<GLenum>(_equationRGB), static_cast<GLenum>(_equationAlpha));
+            extensions->glBlendEquationSeparatei(static_cast<GLuint>(_index), 
+                                                 static_cast<GLenum>(_equationRGB), 
+                                                 static_cast<GLenum>(_equationAlpha));
         }
         else
         {

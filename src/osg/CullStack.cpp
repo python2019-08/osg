@@ -138,7 +138,8 @@ void CullStack::popCullingSet()
     _MVPW_Stack.pop_back();
 
     --_index_modelviewCullingStack;
-    if (_index_modelviewCullingStack>0) _back_modelviewCullingStack = &_modelviewCullingStack[_index_modelviewCullingStack-1];
+    if (_index_modelviewCullingStack>0) 
+        _back_modelviewCullingStack = &_modelviewCullingStack[_index_modelviewCullingStack-1];
 
 }
 

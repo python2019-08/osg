@@ -68,7 +68,9 @@ class TemplateTargetAttributeDispatch : public AttributeDispatch
         typedef void (GL_APIENTRY * F) (I, const T*);
 
         TemplateTargetAttributeDispatch(I target, F functionPtr, unsigned int stride):
-            _functionPtr(functionPtr), _target(target), _stride(stride), _array(0) {}
+            _functionPtr(functionPtr), _target(target), _stride(stride), _array(0) {
+
+        }
 
         virtual void assign(const GLvoid* array)
         {
@@ -96,14 +98,21 @@ public:
     template<typename T>
     void assign(Array::Type type, void (GL_APIENTRY *functionPtr) (const T*), unsigned int stride)
     {
-        if ((unsigned int)type >= _attributeDispatchList.size()) _attributeDispatchList.resize(type+1);
+        if ((unsigned int)type >= _attributeDispatchList.size()) 
+            _attributeDispatchList.resize(type+1);
+
         _attributeDispatchList[type] = functionPtr ? new TemplateAttributeDispatch<T>(functionPtr, stride) : 0;
     }
 
     template<typename I, typename T>
-    void targetAssign(I target, Array::Type type, void (GL_APIENTRY *functionPtr) (I, const T*), unsigned int stride)
+    void targetAssign(I target, 
+        Array::Type type, 
+        void (GL_APIENTRY *functionPtr) (I, const T*), 
+        unsigned int stride)
     {
-        if ((unsigned int)type >= _attributeDispatchList.size()) _attributeDispatchList.resize(type+1);
+        if ((unsigned int)type >= _attributeDispatchList.size()) 
+            _attributeDispatchList.resize(type+1);
+
         _attributeDispatchList[type] = functionPtr ? new TemplateTargetAttributeDispatch<I,T>(target, functionPtr, stride) : 0;
     }
 
@@ -111,7 +120,8 @@ public:
     {
         // OSG_NOTICE<<"dispatcher("<<array<<")"<<std::endl;
 
-        if (!array) return 0;
+        if (!array) 
+            return 0;
 
         Array::Type type = array->getType();
         AttributeDispatch* dispatcher = 0;
@@ -175,7 +185,8 @@ void AttributeDispatchers::setState(osg::State* state)
 
 void AttributeDispatchers::init()
 {
-    if (_initialized) return;
+    if (_initialized) 
+        return;
 
     _initialized = true;
 
@@ -243,7 +254,8 @@ AttributeDispatch* AttributeDispatchers::fogCoordDispatcher(Array* array)
 
 AttributeDispatch* AttributeDispatchers::vertexAttribDispatcher(unsigned int unit, Array* array)
 {
-    if (unit>=_vertexAttribDispatchers.size()) assignVertexAttribDispatchers(unit);
+    if (unit>=_vertexAttribDispatchers.size()) 
+        assignVertexAttribDispatchers(unit);
     return _vertexAttribDispatchers[unit]->dispatcher(array);
 }
 
@@ -264,7 +276,8 @@ void AttributeDispatchers::assignVertexAttribDispatchers(unsigned int unit)
 
 void AttributeDispatchers::reset()
 {
-    if (!_initialized) init();
+    if (!_initialized) 
+        init();
 
     _useVertexAttribAlias = false;
 
