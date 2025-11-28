@@ -124,7 +124,8 @@ GraphicsContext* GraphicsContext::createGraphicsContext(Traits* traits)
     if ( wsref.valid())
     {
         // catch any undefined values.
-        if (traits) traits->setUndefinedScreenDetailsToDefaultScreen();
+        if (traits) 
+            traits->setUndefinedScreenDetailsToDefaultScreen();
 
         return wsref->createGraphicsContext(traits);
     }
@@ -251,7 +252,9 @@ GraphicsContext::Traits::Traits(DisplaySettings* ds):
     {
         alpha = ds->getMinimumNumAlphaBits();
         stencil = ds->getMinimumNumStencilBits();
-        if (ds->getMultiSamples()!=0) sampleBuffers = 1;
+        if (ds->getMultiSamples()!=0) 
+            sampleBuffers = 1;
+
         samples = ds->getNumMultiSamples();
         if (ds->getStereo())
         {
@@ -275,7 +278,8 @@ GraphicsContext::Traits::Traits(DisplaySettings* ds):
 
 bool GraphicsContext::Traits::getContextVersion(unsigned int& major, unsigned int& minor) const
 {
-    if (glContextVersion.empty()) return false;
+    if (glContextVersion.empty()) 
+        return false;
 
     std::istringstream istr( glContextVersion );
     unsigned char dot;
@@ -414,7 +418,8 @@ void GraphicsContext::clear()
 {
     _lastClearTick = osg::Timer::instance()->tick();
 
-    if (_clearMask==0 || !_traits) return;
+    if (_clearMask==0 || !_traits) 
+        return;
 
     glViewport(0, 0, _traits->width, _traits->height);
     glScissor(0, 0, _traits->width, _traits->height);

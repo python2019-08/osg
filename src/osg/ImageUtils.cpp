@@ -92,7 +92,8 @@ struct OffsetAndScaleOperator
 
 bool computeMinMax(const osg::Image* image, osg::Vec4& minValue, osg::Vec4& maxValue)
 {
-    if (!image) return false;
+    if (!image) 
+        return false;
 
     osg::FindRangeOperator rangeOp;
     readImage(image, rangeOp);
@@ -114,7 +115,8 @@ bool computeMinMax(const osg::Image* image, osg::Vec4& minValue, osg::Vec4& maxV
 
 bool offsetAndScaleImage(osg::Image* image, const osg::Vec4& offset, const osg::Vec4& scale)
 {
-    if (!image) return false;
+    if (!image) 
+        return false;
 
     modifyImage(image,OffsetAndScaleOperator(offset, scale));
 
@@ -147,13 +149,27 @@ void _copyRowAndScale(const unsigned char* src, GLenum srcDataType, DEST* dest, 
 {
     switch(srcDataType)
     {
-        case(GL_BYTE):              _copyRowAndScale((char*)src, dest, num, scale); break;
-        case(GL_UNSIGNED_BYTE):     _copyRowAndScale((unsigned char*)src, dest, num, scale); break;
-        case(GL_SHORT):             _copyRowAndScale((short*)src, dest, num, scale); break;
-        case(GL_UNSIGNED_SHORT):    _copyRowAndScale((unsigned short*)src, dest, num, scale); break;
-        case(GL_INT):               _copyRowAndScale((int*)src, dest, num, scale); break;
-        case(GL_UNSIGNED_INT):      _copyRowAndScale((unsigned int*)src, dest, num, scale); break;
-        case(GL_FLOAT):             _copyRowAndScale((float*)src, dest, num, scale); break;
+        case(GL_BYTE):              
+            _copyRowAndScale((char*)src, dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_BYTE):     
+            _copyRowAndScale((unsigned char*)src, dest, num, scale); 
+            break;
+        case(GL_SHORT):             
+            _copyRowAndScale((short*)src, dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_SHORT):    
+            _copyRowAndScale((unsigned short*)src, dest, num, scale); 
+            break;
+        case(GL_INT):               
+            _copyRowAndScale((int*)src, dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_INT):      
+            _copyRowAndScale((unsigned int*)src, dest, num, scale); 
+            break;
+        case(GL_FLOAT):             
+            _copyRowAndScale((float*)src, dest, num, scale); 
+            break;
     }
 }
 
@@ -161,13 +177,27 @@ void _copyRowAndScale(const unsigned char* src, GLenum srcDataType, unsigned cha
 {
     switch(dstDataType)
     {
-        case(GL_BYTE):              _copyRowAndScale(src, srcDataType, (char*)dest, num, scale); break;
-        case(GL_UNSIGNED_BYTE):     _copyRowAndScale(src, srcDataType, (unsigned char*)dest, num, scale); break;
-        case(GL_SHORT):             _copyRowAndScale(src, srcDataType, (short*)dest, num, scale); break;
-        case(GL_UNSIGNED_SHORT):    _copyRowAndScale(src, srcDataType, (unsigned short*)dest, num, scale); break;
-        case(GL_INT):               _copyRowAndScale(src, srcDataType, (int*)dest, num, scale); break;
-        case(GL_UNSIGNED_INT):      _copyRowAndScale(src, srcDataType, (unsigned int*)dest, num, scale); break;
-        case(GL_FLOAT):             _copyRowAndScale(src, srcDataType, (float*)dest, num, scale); break;
+        case(GL_BYTE):              
+            _copyRowAndScale(src, srcDataType, (char*)dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_BYTE):     
+            _copyRowAndScale(src, srcDataType, (unsigned char*)dest, num, scale); 
+            break;
+        case(GL_SHORT):             
+            _copyRowAndScale(src, srcDataType, (short*)dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_SHORT):    
+            _copyRowAndScale(src, srcDataType, (unsigned short*)dest, num, scale); 
+            break;
+        case(GL_INT):               
+            _copyRowAndScale(src, srcDataType, (int*)dest, num, scale); 
+            break;
+        case(GL_UNSIGNED_INT):      
+            _copyRowAndScale(src, srcDataType, (unsigned int*)dest, num, scale); 
+            break;
+        case(GL_FLOAT):             
+            _copyRowAndScale(src, srcDataType, (float*)dest, num, scale); 
+            break;
     }
 }
 
@@ -178,11 +208,21 @@ struct RecordRowOperator : public CastAndScaleToFloatOperation
     mutable std::vector<osg::Vec4>  _colours;
     mutable unsigned int            _pos;
 
-    inline void luminance(float l) const { rgba(l,l,l,1.0f); }
-    inline void alpha(float a) const { rgba(1.0f,1.0f,1.0f,a); }
-    inline void luminance_alpha(float l,float a) const { rgba(l,l,l,a);  }
-    inline void rgb(float r,float g,float b) const { rgba(r,g,b,1.0f); }
-    inline void rgba(float r,float g,float b,float a) const { _colours[_pos++].set(r,g,b,a); }
+    inline void luminance(float l) const { 
+        rgba(l,l,l,1.0f); 
+    }
+    inline void alpha(float a) const { 
+        rgba(1.0f,1.0f,1.0f,a); 
+    }
+    inline void luminance_alpha(float l,float a) const { 
+        rgba(l,l,l,a);  
+    }
+    inline void rgb(float r,float g,float b) const { 
+        rgba(r,g,b,1.0f); 
+    }
+    inline void rgba(float r,float g,float b,float a) const { 
+        _colours[_pos++].set(r,g,b,a); 
+    }
 };
 
 struct WriteRowOperator
@@ -193,11 +233,24 @@ struct WriteRowOperator
     std::vector<osg::Vec4>  _colours;
     mutable unsigned int    _pos;
 
-    inline void luminance(float& l) const { l = _colours[_pos++].r(); }
-    inline void alpha(float& a) const { a = _colours[_pos++].a(); }
-    inline void luminance_alpha(float& l,float& a) const { l = _colours[_pos].r(); a = _colours[_pos++].a(); }
-    inline void rgb(float& r,float& g,float& b) const { r = _colours[_pos].r(); g = _colours[_pos].g(); b = _colours[_pos].b(); }
-    inline void rgba(float& r,float& g,float& b,float& a) const {  r = _colours[_pos].r(); g = _colours[_pos].g(); b = _colours[_pos].b(); a = _colours[_pos++].a(); }
+    inline void luminance(float& l) const { 
+        l = _colours[_pos++].r(); }
+    inline void alpha(float& a) const { 
+        a = _colours[_pos++].a(); }
+    inline void luminance_alpha(float& l,float& a) const { 
+        l = _colours[_pos].r(); 
+        a = _colours[_pos++].a(); }
+    inline void rgb(float& r,float& g,float& b) const { 
+        r = _colours[_pos].r(); 
+        g = _colours[_pos].g(); 
+        b = _colours[_pos].b(); 
+    }
+    inline void rgba(float& r,float& g,float& b,float& a) const {  
+        r = _colours[_pos].r(); 
+        g = _colours[_pos].g(); 
+        b = _colours[_pos].b(); 
+        a = _colours[_pos++].a(); 
+    }
 };
 
 bool copyImage(const osg::Image* srcImage, int src_s, int src_t, int src_r, int width, int height, int depth,
@@ -330,18 +383,35 @@ struct SetToColourOperator
     SetToColourOperator(const osg::Vec4& colour):
         _colour(colour) {}
 
-    inline void luminance(float& l) const { l = (_colour.r()+_colour.g()+_colour.b())*0.333333; }
-    inline void alpha(float& a) const { a = _colour.a(); }
-    inline void luminance_alpha(float& l,float& a) const { l = (_colour.r()+_colour.g()+_colour.b())*0.333333; a = _colour.a(); }
-    inline void rgb(float& r,float& g,float& b) const { r = _colour.r(); g = _colour.g(); b = _colour.b(); }
-    inline void rgba(float& r,float& g,float& b,float& a) const { r = _colour.r(); g = _colour.g(); b = _colour.b(); a = _colour.a(); }
+    inline void luminance(float& l) const { 
+        l = (_colour.r()+_colour.g()+_colour.b())*0.333333; 
+    }
+    inline void alpha(float& a) const { 
+        a = _colour.a(); 
+    }
+    inline void luminance_alpha(float& l,float& a) const { 
+        l = (_colour.r()+_colour.g()+_colour.b())*0.333333; 
+        a = _colour.a(); 
+    }
+    inline void rgb(float& r,float& g,float& b) const { 
+        r = _colour.r();
+        g = _colour.g(); 
+        b = _colour.b(); 
+    }
+    inline void rgba(float& r,float& g,float& b,float& a) const { 
+        r = _colour.r(); 
+        g = _colour.g(); 
+        b = _colour.b(); 
+        a = _colour.a(); 
+    }
 
     osg::Vec4 _colour;
 };
 
 bool clearImageToColor(osg::Image* image, const osg::Vec4& colour)
 {
-    if (!image) return false;
+    if (!image) 
+        return false;
 
     modifyImage(image, SetToColourOperator(colour));
 
@@ -435,7 +505,8 @@ osg::Image* createImage3D(const ImageList& imageList,
             break;
         }
     }
-    if (desiredPixelFormat==0) return 0;
+    if (desiredPixelFormat==0) 
+        return 0;
 
     // compute nearest powers of two for each axis.
 
@@ -445,9 +516,12 @@ osg::Image* createImage3D(const ImageList& imageList,
 
     if (resizeToPowerOfTwo)
     {
-        while(isize_s<max_s && isize_s<s_maximumImageSize) isize_s*=2;
-        while(isize_t<max_t && isize_t<t_maximumImageSize) isize_t*=2;
-        while(isize_r<total_r && isize_r<r_maximumImageSize) isize_r*=2;
+        while(isize_s<max_s && isize_s<s_maximumImageSize) 
+            isize_s*=2;
+        while(isize_t<max_t && isize_t<t_maximumImageSize) 
+            isize_t*=2;
+        while(isize_r<total_r && isize_r<r_maximumImageSize) 
+            isize_r*=2;
     }
     else
     {
@@ -570,7 +644,8 @@ static void fillSpotLightImage(unsigned char* ptr, const osg::Vec4& centerColour
             float dx = (float(col) - mid)*div;
             float dy = (float(row) - mid)*div;
             float r = powf(1.0f-sqrtf(dx*dx+dy*dy),power);
-            if (r<0.0f) r=0.0f;
+            if (r<0.0f) 
+                r=0.0f;
             osg::Vec4 color = centerColour*r+backgroudColour*(1.0f-r);
             *ptr++ = (unsigned char)((color[0])*255.0f);
             *ptr++ = (unsigned char)((color[1])*255.0f);
@@ -597,7 +672,8 @@ osg::Image* createSpotLightImage(const osg::Vec4& centerColour, const osg::Vec4&
     unsigned i;
     for(i=0; s>0; s>>=1, ++i)
     {
-        if (i>0) mipmapData.push_back(totalSize);
+        if (i>0) 
+            mipmapData.push_back(totalSize);
         totalSize += s*s*4;
     }
 
@@ -628,9 +704,13 @@ struct ModulateAlphaByColorOperator
 
     inline void luminance(float&) const {}
     inline void alpha(float&) const {}
-    inline void luminance_alpha(float& l,float& a) const { a*= l*_lum; }
+    inline void luminance_alpha(float& l,float& a) const { 
+        a*= l*_lum; 
+    }
     inline void rgb(float&,float&,float&) const {}
-    inline void rgba(float& r,float& g,float& b,float& a) const { a = (r*_colour.r()+g*_colour.g()+b*_colour.b()+a*_colour.a()); }
+    inline void rgba(float& r,float& g,float& b,float& a) const { 
+        a = (r*_colour.r()+g*_colour.g()+b*_colour.b()+a*_colour.a()); 
+    }
 };
 
 struct ReplaceAlphaWithLuminanceOperator
@@ -639,9 +719,14 @@ struct ReplaceAlphaWithLuminanceOperator
 
     inline void luminance(float&) const {}
     inline void alpha(float&) const {}
-    inline void luminance_alpha(float& l,float& a) const { a = l; }
+    inline void luminance_alpha(float& l,float& a) const { 
+        a = l; 
+    }
     inline void rgb(float&,float&,float&) const { }
-    inline void rgba(float& r,float& g,float& b,float& a) const { float l = (r+g+b)*0.3333333; a = l; }
+    inline void rgba(float& r,float& g,float& b,float& a) const { 
+        float l = (r+g+b)*0.3333333; 
+        a = l; 
+    }
 };
 
 osg::Image* colorSpaceConversion(ColorSpaceOperation op, osg::Image* image, const osg::Vec4& colour)
@@ -652,10 +737,12 @@ osg::Image* colorSpaceConversion(ColorSpaceOperation op, osg::Image* image, cons
         case (MODULATE_ALPHA_BY_LUMINANCE):
         case (MODULATE_ALPHA_BY_COLOR):
         case (REPLACE_ALPHA_WITH_LUMINANCE):
-            if (image->getPixelFormat()==GL_RGB || image->getPixelFormat()==GL_BGR) requiredPixelFormat = GL_RGBA;
+            if (image->getPixelFormat()==GL_RGB || image->getPixelFormat()==GL_BGR) 
+                requiredPixelFormat = GL_RGBA;
             break;
         case (REPLACE_RGB_WITH_LUMINANCE):
-            if (image->getPixelFormat()==GL_RGB || image->getPixelFormat()==GL_BGR) requiredPixelFormat = GL_LUMINANCE;
+            if (image->getPixelFormat()==GL_RGB || image->getPixelFormat()==GL_BGR) 
+                requiredPixelFormat = GL_LUMINANCE;
             break;
         default:
             break;
@@ -703,7 +790,11 @@ osg::Image* colorSpaceConversion(ColorSpaceOperation op, osg::Image* image, cons
 }
 
 
-OSG_EXPORT osg::Image* createImageWithOrientationConversion(const osg::Image* srcImage, const osg::Vec3i& srcOrigin, const osg::Vec3i& srcRow, const osg::Vec3i& srcColumn, const osg::Vec3i& srcLayer)
+OSG_EXPORT osg::Image* createImageWithOrientationConversion(const osg::Image* srcImage, 
+    const osg::Vec3i& srcOrigin, 
+    const osg::Vec3i& srcRow, 
+    const osg::Vec3i& srcColumn, 
+    const osg::Vec3i& srcLayer)
 {
     osg::ref_ptr<osg::Image> dstImage = new osg::Image;
     int width  = osg::maximum(osg::maximum(osg::absolute(srcRow.x()), osg::absolute(srcRow.y())), osg::absolute(srcRow.z()));
@@ -720,7 +811,10 @@ OSG_EXPORT osg::Image* createImageWithOrientationConversion(const osg::Image* sr
     if (dxtc_tool::isDXTC(srcImage->getPixelFormat()))
     {
         unsigned int DXTblockSize = 8;
-        if ((srcImage->getPixelFormat() == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT) || (srcImage->getPixelFormat() == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)) DXTblockSize = 16;
+        if ((srcImage->getPixelFormat() == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT) || 
+            (srcImage->getPixelFormat() == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+        ) 
+            DXTblockSize = 16;
         unsigned int DXTblocksWidht = (srcImage->s() + 3) / 4;//width in 4x4 blocks
         unsigned int DXTblocksHeight = (srcImage->t() + 3) / 4;//height in 4x4 blocks
         unsigned int dst_DXTblocksWidht = (width + 3) / 4;//width in 4x4 blocks

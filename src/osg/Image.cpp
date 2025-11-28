@@ -170,10 +170,12 @@ void Image::DataIterator::assign()
         const unsigned char* ptr = _image->getMipmapData(_mipmapNum);
 
         int rowLength = _image->getRowLength()>>_mipmapNum;
-        if (rowLength==0) rowLength = 1;
+        if (rowLength==0) 
+            rowLength = 1;
 
         int imageHeight = _image->t()>>_mipmapNum;
-        if (imageHeight==0) imageHeight = 1;
+        if (imageHeight==0) 
+            imageHeight = 1;
 
         unsigned int rowWidthInBytes = Image::computeRowWidthInBytes(rowLength,_image->getPixelFormat(),_image->getDataType(),_image->getPacking());
         unsigned int imageSizeInBytes = rowWidthInBytes*imageHeight;
@@ -264,8 +266,11 @@ Image::~Image()
 void Image::deallocateData()
 {
     if (_data) {
-        if (_allocationMode==USE_NEW_DELETE) delete [] _data;
-        else if (_allocationMode==USE_MALLOC_FREE) ::free(_data);
+        if (_allocationMode==USE_NEW_DELETE) 
+            delete [] _data;
+        else if (_allocationMode==USE_MALLOC_FREE) 
+            ::free(_data);
+
         _data = 0;
     }
 }
@@ -278,8 +283,10 @@ int Image::compare(const Image& rhs) const
     // comparison
     if (getFileName().empty() || rhs.getFileName().empty())
     {
-        if (_data<rhs._data) return -1;
-        if (_data>rhs._data) return 1;
+        if (_data<rhs._data) 
+            return -1;
+        if (_data>rhs._data) 
+            return 1;
     }
 
     // need to test against image contents here...
@@ -293,7 +300,8 @@ int Image::compare(const Image& rhs) const
     COMPARE_StateAttribute_Parameter(_modifiedCount)
 
     // same buffer + same parameters = same image
-    if ((_data || rhs._data) && (_data == rhs._data)) return 0;
+    if ((_data || rhs._data) && (_data == rhs._data)) 
+        return 0;
 
     // slowest comparison at the bottom!
     COMPARE_StateAttribute_Parameter(getFileName())
@@ -330,7 +338,8 @@ bool Image::isPackedType(GLenum type)
         case(GL_UNSIGNED_INT_8_8_8_8):
         case(GL_UNSIGNED_INT_8_8_8_8_REV):
         case(GL_UNSIGNED_INT_10_10_10_2):
-        case(GL_UNSIGNED_INT_2_10_10_10_REV): return true;
+        case(GL_UNSIGNED_INT_2_10_10_10_REV): 
+            return true;
         default: return false;
     }
 }
@@ -432,7 +441,8 @@ GLenum Image::computePixelFormat(GLenum format)
         case(GL_INTENSITY8UI_EXT):
         case(GL_INTENSITY16UI_EXT):
         case(GL_INTENSITY32UI_EXT):
-            OSG_WARN<<"Image::computePixelFormat("<<std::hex<<format<<std::dec<<") intensity pixel format is not correctly specified, so assume GL_LUMINANCE_INTEGER."<<std::endl;
+            OSG_WARN<<"Image::computePixelFormat("<<std::hex<<format<<std::dec
+                    <<") intensity pixel format is not correctly specified, so assume GL_LUMINANCE_INTEGER."<<std::endl;
             return GL_LUMINANCE_INTEGER_EXT;
 
         case(GL_LUMINANCE_ALPHA8I_EXT):
@@ -484,37 +494,44 @@ GLenum Image::computeFormatDataType(GLenum pixelFormat)
         case GL_RGB32F_ARB:
         case GL_RGB16F_ARB:
         case GL_RGBA32F_ARB:
-        case GL_RGBA16F_ARB: return GL_FLOAT;
+        case GL_RGBA16F_ARB: 
+            return GL_FLOAT;
 
         case GL_RGBA32UI_EXT:
         case GL_RGB32UI_EXT:
         case GL_LUMINANCE32UI_EXT:
-        case GL_LUMINANCE_ALPHA32UI_EXT: return GL_UNSIGNED_INT;
+        case GL_LUMINANCE_ALPHA32UI_EXT: 
+            return GL_UNSIGNED_INT;
 
         case GL_RGB16UI_EXT:
         case GL_RGBA16UI_EXT:
         case GL_LUMINANCE16UI_EXT:
-        case GL_LUMINANCE_ALPHA16UI_EXT: return GL_UNSIGNED_SHORT;
+        case GL_LUMINANCE_ALPHA16UI_EXT: 
+            return GL_UNSIGNED_SHORT;
 
         case GL_RGBA8UI_EXT:
         case GL_RGB8UI_EXT:
         case GL_LUMINANCE8UI_EXT:
-        case GL_LUMINANCE_ALPHA8UI_EXT:  return GL_UNSIGNED_BYTE;
+        case GL_LUMINANCE_ALPHA8UI_EXT:  
+            return GL_UNSIGNED_BYTE;
 
         case GL_RGBA32I_EXT:
         case GL_RGB32I_EXT:
         case GL_LUMINANCE32I_EXT:
-        case GL_LUMINANCE_ALPHA32I_EXT: return GL_INT;
+        case GL_LUMINANCE_ALPHA32I_EXT: 
+            return GL_INT;
 
         case GL_RGBA16I_EXT:
         case GL_RGB16I_EXT:
         case GL_LUMINANCE16I_EXT:
-        case GL_LUMINANCE_ALPHA16I_EXT: return GL_SHORT;
+        case GL_LUMINANCE_ALPHA16I_EXT: 
+            return GL_SHORT;
 
         case GL_RGB8I_EXT:
         case GL_RGBA8I_EXT:
         case GL_LUMINANCE8I_EXT:
-        case GL_LUMINANCE_ALPHA8I_EXT: return GL_BYTE;
+        case GL_LUMINANCE_ALPHA8I_EXT: 
+            return GL_BYTE;
 
         case GL_RGBA:
         case GL_RGB:
@@ -522,7 +539,8 @@ GLenum Image::computeFormatDataType(GLenum pixelFormat)
         case GL_RG:
         case GL_LUMINANCE:
         case GL_LUMINANCE_ALPHA:
-        case GL_ALPHA: return GL_UNSIGNED_BYTE;
+        case GL_ALPHA: 
+            return GL_UNSIGNED_BYTE;
 
         default:
         {
@@ -536,32 +554,58 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
 {
     switch(pixelFormat)
     {
-        case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): return 3;
-        case(GL_COMPRESSED_SRGB_S3TC_DXT1_EXT): return 3;
-        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT): return 4;
-        case(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT): return 4;
-        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT): return 4;
-        case(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT): return 4;
-        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT): return 4;
-        case(GL_COMPRESSED_SIGNED_RED_RGTC1_EXT): return 1;
-        case(GL_COMPRESSED_RED_RGTC1_EXT):   return 1;
-        case(GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT): return 2;
-        case(GL_COMPRESSED_RED_GREEN_RGTC2_EXT): return 2;
-        case(GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG): return 3;
-        case(GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG): return 3;
-        case(GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG): return 4;
-        case(GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG): return 4;
-        case(GL_ETC1_RGB8_OES): return 3;
-        case(GL_COMPRESSED_RGB8_ETC2): return 3;
-        case(GL_COMPRESSED_SRGB8_ETC2): return 3;
-        case(GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2): return 4;
-        case(GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2): return 4;
-        case(GL_COMPRESSED_RGBA8_ETC2_EAC): return 4;
-        case(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC): return 4;
-        case(GL_COMPRESSED_R11_EAC): return 1;
-        case(GL_COMPRESSED_SIGNED_R11_EAC): return 1;
-        case(GL_COMPRESSED_RG11_EAC): return 2;
-        case(GL_COMPRESSED_SIGNED_RG11_EAC): return 2;
+        case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): 
+            return 3;
+        case(GL_COMPRESSED_SRGB_S3TC_DXT1_EXT): 
+            return 3;
+        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT): 
+            return 4;
+        case(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT): 
+            return 4;
+        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT): 
+            return 4;
+        case(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT): 
+            return 4;
+        case(GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT): 
+            return 4;
+        case(GL_COMPRESSED_SIGNED_RED_RGTC1_EXT): 
+            return 1;
+        case(GL_COMPRESSED_RED_RGTC1_EXT):   
+            return 1;
+        case(GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT): 
+            return 2;
+        case(GL_COMPRESSED_RED_GREEN_RGTC2_EXT): 
+            return 2;
+        case(GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG): 
+            return 3;
+        case(GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG): 
+            return 3;
+        case(GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG): 
+            return 4;
+        case(GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG): 
+            return 4;
+        case(GL_ETC1_RGB8_OES): 
+            return 3;
+        case(GL_COMPRESSED_RGB8_ETC2): 
+            return 3;
+        case(GL_COMPRESSED_SRGB8_ETC2): 
+            return 3;
+        case(GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2): 
+            return 4;
+        case(GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2): 
+            return 4;
+        case(GL_COMPRESSED_RGBA8_ETC2_EAC): 
+            return 4;
+        case(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC): 
+            return 4;
+        case(GL_COMPRESSED_R11_EAC): 
+            return 1;
+        case(GL_COMPRESSED_SIGNED_R11_EAC): 
+            return 1;
+        case(GL_COMPRESSED_RG11_EAC): 
+            return 2;
+        case(GL_COMPRESSED_SIGNED_RG11_EAC): 
+            return 2;
         case(GL_COLOR_INDEX): return 1;
         case(GL_STENCIL_INDEX): return 1;
         case(GL_DEPTH_COMPONENT): return 1;
@@ -809,10 +853,13 @@ unsigned int Image::computePixelSizeInBits(GLenum format,GLenum type)
             unsigned int bitsPerBlock = computeBlockSize(format, 0);//16 x 8 = 128
             unsigned int bitsPerPixel = bitsPerBlock / pixelsPerBlock;
             if (bitsPerBlock == bitsPerPixel * pixelsPerBlock) {
-                OSG_WARN << "Image::computePixelSizeInBits(format,type) : bits per pixel (" << bitsPerPixel << ") is not an integer for GL_KHR_texture_compression_astc_hdr sizes other than 4x4 and 8x8." << std::endl;
+                OSG_WARN << "Image::computePixelSizeInBits(format,type) : bits per pixel (" << bitsPerPixel 
+                        << ") is not an integer for GL_KHR_texture_compression_astc_hdr sizes other than 4x4 and 8x8." << std::endl;
                 return bitsPerPixel;
             } else {
-                OSG_WARN << "Image::computePixelSizeInBits(format,type) : bits per pixel (" << bitsPerBlock << "/" << pixelsPerBlock << ") is not an integer for GL_KHR_texture_compression_astc_hdr size" << footprint.x()  << "x" << footprint.y() << "." << std::endl;
+                OSG_WARN << "Image::computePixelSizeInBits(format,type) : bits per pixel (" << bitsPerBlock 
+                        << "/" << pixelsPerBlock << ") is not an integer for GL_KHR_texture_compression_astc_hdr size" << footprint.x()  
+                        << "x" << footprint.y() << "." << std::endl;
             }
             return 0;
         }
@@ -1030,7 +1077,8 @@ unsigned int Image::computeRowWidthInBytes(int width,GLenum pixelFormat,GLenum t
 
 unsigned int Image::computeImageSizeInBytes(int width,int height, int depth, GLenum pixelFormat,GLenum type,int packing, int slice_packing, int image_packing)
 {
-    if (width<=0 || height<=0 || depth<=0) return 0;
+    if (width<=0 || height<=0 || depth<=0) 
+        return 0;
 
     int blockSize = computeBlockSize(pixelFormat, 0);
     if (blockSize > 0) {
@@ -1063,7 +1111,8 @@ unsigned int Image::computeImageSizeInBytes(int width,int height, int depth, GLe
 }
 
 int Image::roudUpToMultiple(int s, int pack) {
-    if (pack < 2) return s;
+    if (pack < 2) 
+        return s;
     s += pack - 1;
     s -= s % pack;
     return s;
@@ -1186,9 +1235,12 @@ unsigned int Image::getTotalSizeInBytesIncludingMipmaps() const
         t >>= 1;
         r >>= 1;
 
-        if (s<1) s=1;
-        if (t<1) t=1;
-        if (r<1) r=1;
+        if (s<1) 
+            s=1;
+        if (t<1) 
+            t=1;
+        if (r<1) 
+            r=1;
    }
 
    return totalSize;
@@ -1220,7 +1272,8 @@ void Image::setPixelFormat(GLenum pixelFormat)
 
 void Image::setDataType(GLenum dataType)
 {
-    if (_dataType==dataType) return; // do nothing if the same.
+    if (_dataType==dataType) 
+        return; // do nothing if the same.
 
     if (_dataType==0)
     {
@@ -1244,7 +1297,8 @@ void Image::allocateImage(int s,int t,int r,
 
     unsigned int previousTotalSize = 0;
 
-    if (_data) previousTotalSize = computeRowWidthInBytes(_s,_pixelFormat,_dataType,_packing)*_t*_r;
+    if (_data) 
+        previousTotalSize = computeRowWidthInBytes(_s,_pixelFormat,_dataType,_packing)*_t*_r;
 
     unsigned int newTotalSize = computeRowWidthInBytes(s,format,type,packing)*t*r;
 
@@ -1269,7 +1323,8 @@ void Image::allocateImage(int s,int t,int r,
 
         // preserve internalTextureFormat if already set, otherwise
         // use the pixelFormat as the source for the format.
-        if (_internalTextureFormat==0) _internalTextureFormat = format;
+        if (_internalTextureFormat==0) 
+            _internalTextureFormat = format;
     }
     else
     {
@@ -1359,7 +1414,11 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
         glGetBooleanv(GL_TEXTURE_BINDING_2D_ARRAY, &binding2DArray);
     }
 
-    GLenum textureMode = binding1D ? GL_TEXTURE_1D : binding2D ? GL_TEXTURE_2D : bindingRect ? GL_TEXTURE_RECTANGLE : binding3D ? GL_TEXTURE_3D : binding2DArray ? GL_TEXTURE_2D_ARRAY : 0;
+    GLenum textureMode = binding1D ? GL_TEXTURE_1D : 
+                                      binding2D ? GL_TEXTURE_2D : 
+                                      bindingRect ? GL_TEXTURE_RECTANGLE : 
+                                      binding3D ? GL_TEXTURE_3D : 
+                                      binding2DArray ? GL_TEXTURE_2D_ARRAY : 0;
     if (bindingCubeMap)
     {
         switch (face)
@@ -1385,7 +1444,8 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
         }
     }
 
-    if (textureMode==0) return;
+    if (textureMode==0) 
+        return;
 
     GLint internalformat;
     GLint width;
@@ -1403,7 +1463,8 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
             glGetTexLevelParameteriv(textureMode, numMipMaps, GL_TEXTURE_HEIGHT, &height);
             glGetTexLevelParameteriv(textureMode, numMipMaps, GL_TEXTURE_DEPTH, &depth);
             // OSG_NOTICE<<"   numMipMaps="<<numMipMaps<<" width="<<width<<" height="<<height<<" depth="<<depth<<std::endl;
-            if (width==0 || height==0 || depth==0) break;
+            if (width==0 || height==0 || depth==0) 
+                break;
         }
     }
     else
@@ -1457,7 +1518,8 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
         GLint i;
         for(i=0;i<numMipMaps;++i)
         {
-            if (i>0) mipMapData.push_back(total_size);
+            if (i>0) 
+                mipMapData.push_back(total_size);
 
             GLint compressed_size;
             glGetTexLevelParameteriv(textureMode, i, GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB, &compressed_size);
@@ -1521,7 +1583,8 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
         GLint i;
         for(i=0;i<numMipMaps;++i)
         {
-            if (i>0) mipMapData.push_back(total_size);
+            if (i>0) 
+                mipMapData.push_back(total_size);
 
             glGetTexLevelParameteriv(textureMode, i, GL_TEXTURE_WIDTH, &width);
             glGetTexLevelParameteriv(textureMode, i, GL_TEXTURE_HEIGHT, &height);
@@ -1599,7 +1662,8 @@ void Image::swap(osg::Image& rhs)
 
 void Image::scaleImage(int s,int t,int r, GLenum newDataType)
 {
-    if (_s==s && _t==t && _r==r && _dataType==newDataType) return;
+    if (_s==s && _t==t && _r==r && _dataType==newDataType) 
+        return;
 
     if (_data==NULL)
     {
@@ -1653,7 +1717,8 @@ void Image::scaleImage(int s,int t,int r, GLenum newDataType)
     {
         delete [] newData;
 
-        OSG_WARN << "Error Image::scaleImage() did not succeed : errorString = "<< gluErrorString((GLenum)status) << ". The rendering context may be invalid." << std::endl;
+        OSG_WARN << "Error Image::scaleImage() did not succeed : errorString = "<< gluErrorString((GLenum)status) 
+                << ". The rendering context may be invalid." << std::endl;
     }
 
     dirty();
@@ -1661,7 +1726,8 @@ void Image::scaleImage(int s,int t,int r, GLenum newDataType)
 
 void Image::copySubImage(int s_offset, int t_offset, int r_offset, const osg::Image* source)
 {
-    if (!source) return;
+    if (!source) 
+        return;
     if (s_offset<0 || t_offset<0 || r_offset<0)
     {
         OSG_WARN<<"Warning: negative offsets passed to Image::copySubImage(..) not supported, operation ignored."<<std::endl;
@@ -1697,7 +1763,9 @@ void Image::copySubImage(int s_offset, int t_offset, int r_offset, const osg::Im
         {
             if ((source->s() & 0x3) || (source->t() & 0x3) || (s_offset & 0x3) || (t_offset & 0x3))
             {
-                OSG_WARN << "Error Image::copySubImage() did not succeed : size " << source->s() << "x" << source->t() << " or offset " << s_offset<< "," << t_offset << " not multiple of 4." << std::endl;
+                OSG_WARN << "Error Image::copySubImage() did not succeed : size " << source->s() 
+                        << "x" << source->t() 
+                        << " or offset " << s_offset<< "," << t_offset << " not multiple of 4." << std::endl;
                 return;
             }
         }
@@ -1705,7 +1773,10 @@ void Image::copySubImage(int s_offset, int t_offset, int r_offset, const osg::Im
         {
             if ((source->s() % footprint.x()) || (source->t() % footprint.y()) || (s_offset % footprint.x()) || (t_offset% footprint.y()))
             {
-                OSG_WARN << "Error Image::copySubImage() did not succeed : size " << source->s() << "x" << source->t() << " or offset " << s_offset << "," << t_offset << " not multiple of footprint " << footprint.x() << "x" << footprint.y() << std::endl;
+                OSG_WARN << "Error Image::copySubImage() did not succeed : size " << source->s() 
+                        << "x" << source->t() 
+                        << " or offset " << s_offset << "," << t_offset 
+                        << " not multiple of footprint " << footprint.x() << "x" << footprint.y() << std::endl;
                 return;
             }
         }
@@ -1742,7 +1813,8 @@ void Image::copySubImage(int s_offset, int t_offset, int r_offset, const osg::Im
 
     if (status!=0)
     {
-        OSG_WARN << "Error Image::scaleImage() did not succeed : errorString = "<< gluErrorString((GLenum)status) << ". The rendering context may be invalid." << std::endl;
+        OSG_WARN << "Error Image::scaleImage() did not succeed : errorString = "<< gluErrorString((GLenum)status) 
+                << ". The rendering context may be invalid." << std::endl;
     }
 }
 
@@ -1841,7 +1913,8 @@ void Image::flipVertical()
             }
             else
             {
-                if (isCompressed()) OSG_NOTICE << "Notice Image::flipVertical(): image is compressed but normal v-flip is used" << std::endl;
+                if (isCompressed()) 
+                    OSG_NOTICE << "Notice Image::flipVertical(): image is compressed but normal v-flip is used" << std::endl;
                 // its not a compressed image, so implement flip oursleves.
                 unsigned char* top = data(0,0,r);
                 unsigned char* bottom = top + (_t-1)*rowStep;
@@ -1861,7 +1934,8 @@ void Image::flipVertical()
         }
         else
         {
-            if (isCompressed()) OSG_NOTICE << "Notice Image::flipVertical(): image is compressed but normal v-flip is used" << std::endl;
+            if (isCompressed()) 
+                OSG_NOTICE << "Notice Image::flipVertical(): image is compressed but normal v-flip is used" << std::endl;
             // its not a compressed image, so implement flip oursleves.
             unsigned char* top = data(0,0,0);
             unsigned char* bottom = top + (_t-1)*rowStep;
@@ -1877,8 +1951,10 @@ void Image::flipVertical()
         {
             s >>= 1;
             t >>= 1;
-            if (s==0) s=1;
-            if (t==0) t=1;
+            if (s==0) 
+                s=1;
+            if (t==0) 
+                t=1;
             if (dxtc)
             {
                 if (!dxtc_tool::VerticalFlip(s,t,_pixelFormat,_data+_mipmapData[i]))
@@ -1945,13 +2021,20 @@ void Image::ensureValidSizeForTexturing(GLint maxTextureSize)
     int new_s = computeNearestPowerOfTwo(_s);
     int new_t = computeNearestPowerOfTwo(_t);
 
-    if (new_s>maxTextureSize) new_s = maxTextureSize;
-    if (new_t>maxTextureSize) new_t = maxTextureSize;
+    if (new_s>maxTextureSize) 
+        new_s = maxTextureSize;
+    if (new_t>maxTextureSize) 
+        new_t = maxTextureSize;
 
     if (new_s!=_s || new_t!=_t)
     {
-        if (!_fileName.empty()) { OSG_NOTICE << "Scaling image '"<<_fileName<<"' from ("<<_s<<","<<_t<<") to ("<<new_s<<","<<new_t<<")"<<std::endl; }
-        else { OSG_NOTICE << "Scaling image from ("<<_s<<","<<_t<<") to ("<<new_s<<","<<new_t<<")"<<std::endl; }
+        if (!_fileName.empty()) { 
+            OSG_NOTICE << "Scaling image '"<<_fileName
+                        <<"' from ("<<_s<<","<<_t<<") to ("<<new_s<<","<<new_t<<")"<<std::endl; 
+        }
+        else { 
+            OSG_NOTICE << "Scaling image from ("<<_s<<","<<_t<<") to ("<<new_s<<","<<new_t<<")"<<std::endl; 
+        }
 
         scaleImage(new_s,new_t,_r);
     }
@@ -1984,7 +2067,8 @@ bool _findLowerAlphaValueInRow(unsigned int num, T* data,T value, unsigned int d
 {
     for(unsigned int i=0;i<num;++i)
     {
-        if (*data<value) return true;
+        if (*data<value) 
+            return true;
         data += delta;
     }
     return false;
@@ -1995,7 +2079,8 @@ bool _maskedFindLowerAlphaValueInRow(unsigned int num, T* data,T value, T mask, 
 {
     for(unsigned int i=0;i<num;++i)
     {
-        if ((*data & mask)<value) return true;
+        if ((*data & mask)<value) 
+            return true;
         data += delta;
     }
     return false;
@@ -2223,15 +2308,54 @@ Vec4 _readColor(GLenum pixelFormat, T* data,float scale)
     switch(pixelFormat)
     {
         case(GL_DEPTH_COMPONENT):   //intentionally fall through and execute the code for GL_LUMINANCE
-        case(GL_LUMINANCE):         { float l = float(*data++)*scale; return Vec4(l, l, l, 1.0f); }
-        case(GL_ALPHA):             { float a = float(*data++)*scale; return Vec4(1.0f, 1.0f, 1.0f, a); }
-        case(GL_RED):               { float r = float(*data++)*scale; return Vec4(r, 1.0f, 1.0f, 1.0f); }
-        case(GL_RG):                { float r = float(*data++)*scale; float g = float(*data++)*scale; return Vec4(r, g, 1.0f, 1.0f); }
-        case(GL_LUMINANCE_ALPHA):   { float l = float(*data++)*scale; float a = float(*data++)*scale; return Vec4(l,l,l,a); }
-        case(GL_RGB):               { float r = float(*data++)*scale; float g = float(*data++)*scale; float b = float(*data++)*scale; return Vec4(r,g,b,1.0f); }
-        case(GL_RGBA):              { float r = float(*data++)*scale; float g = float(*data++)*scale; float b = float(*data++)*scale; float a = float(*data++)*scale; return Vec4(r,g,b,a); }
-        case(GL_BGR):               { float b = float(*data++)*scale; float g = float(*data++)*scale; float r = float(*data++)*scale; return Vec4(r,g,b,1.0f); }
-        case(GL_BGRA):              { float b = float(*data++)*scale; float g = float(*data++)*scale; float r = float(*data++)*scale; float a = float(*data++)*scale; return Vec4(r,g,b,a); }
+        case(GL_LUMINANCE):         { 
+            float l = float(*data++)*scale; 
+            return Vec4(l, l, l, 1.0f); 
+        }
+        case(GL_ALPHA):             { 
+            float a = float(*data++)*scale; 
+            return Vec4(1.0f, 1.0f, 1.0f, a); 
+        }
+        case(GL_RED):               { 
+            float r = float(*data++)*scale; 
+            return Vec4(r, 1.0f, 1.0f, 1.0f); 
+        }
+        case(GL_RG):                { 
+            float r = float(*data++)*scale; 
+            float g = float(*data++)*scale; 
+            return Vec4(r, g, 1.0f, 1.0f); 
+        }
+        case(GL_LUMINANCE_ALPHA):   { 
+            float l = float(*data++)*scale; 
+            float a = float(*data++)*scale; 
+            return Vec4(l,l,l,a); 
+        }
+        case(GL_RGB):               { 
+            float r = float(*data++)*scale; 
+            float g = float(*data++)*scale; 
+            float b = float(*data++)*scale; 
+            return Vec4(r,g,b,1.0f); 
+        }
+        case(GL_RGBA):              { 
+            float r = float(*data++)*scale; 
+            float g = float(*data++)*scale; 
+            float b = float(*data++)*scale; 
+            float a = float(*data++)*scale; 
+            return Vec4(r,g,b,a); 
+        }
+        case(GL_BGR):               { 
+            float b = float(*data++)*scale; 
+            float g = float(*data++)*scale; 
+            float r = float(*data++)*scale; 
+            return Vec4(r,g,b,1.0f); 
+        }
+        case(GL_BGRA):              { 
+            float b = float(*data++)*scale; 
+            float g = float(*data++)*scale; 
+            float r = float(*data++)*scale; 
+            float a = float(*data++)*scale; 
+            return Vec4(r,g,b,a); 
+        }
     }
     return Vec4(1.0f,1.0f,1.0f,1.0f);
 }
@@ -2243,7 +2367,10 @@ Vec4 Image::getColor(unsigned int s,unsigned t,unsigned r) const
         if (dxtc_tool::isDXTC(_pixelFormat)) {
             unsigned char color[4];
             if (dxtc_tool::CompressedImageGetColor(color, s, t, r, _s, _t, _r, _pixelFormat, _data)) {
-                return Vec4(((float)color[0]) / 255.0f, ((float)color[1]) / 255.0f, ((float)color[2]) / 255.0f, ((float)color[3]) / 255.0f );
+                return Vec4(((float)color[0]) / 255.0f, 
+                            ((float)color[1]) / 255.0f, 
+                            ((float)color[2]) / 255.0f, 
+                            ((float)color[3]) / 255.0f );
             }
         }
     }
@@ -2252,14 +2379,22 @@ Vec4 Image::getColor(unsigned int s,unsigned t,unsigned r) const
         const unsigned char* ptr = data(s,t,r);
         switch(_dataType)
         {
-            case(GL_BYTE):              return _readColor(_pixelFormat, (char*)ptr,             1.0f/128.0f);
-            case(GL_UNSIGNED_BYTE):     return _readColor(_pixelFormat, (unsigned char*)ptr,    1.0f/255.0f);
-            case(GL_SHORT):             return _readColor(_pixelFormat, (short*)ptr,            1.0f/32768.0f);
-            case(GL_UNSIGNED_SHORT):    return _readColor(_pixelFormat, (unsigned short*)ptr,   1.0f/65535.0f);
-            case(GL_INT):               return _readColor(_pixelFormat, (int*)ptr,              1.0f/2147483648.0f);
-            case(GL_UNSIGNED_INT):      return _readColor(_pixelFormat, (unsigned int*)ptr,     1.0f/4294967295.0f);
-            case(GL_FLOAT):             return _readColor(_pixelFormat, (float*)ptr,            1.0f);
-            case(GL_DOUBLE):            return _readColor(_pixelFormat, (double*)ptr,           1.0f);
+            case(GL_BYTE):              
+                return _readColor(_pixelFormat, (char*)ptr,             1.0f/128.0f);
+            case(GL_UNSIGNED_BYTE):     
+                return _readColor(_pixelFormat, (unsigned char*)ptr,    1.0f/255.0f);
+            case(GL_SHORT):             
+                return _readColor(_pixelFormat, (short*)ptr,            1.0f/32768.0f);
+            case(GL_UNSIGNED_SHORT):    
+                return _readColor(_pixelFormat, (unsigned short*)ptr,   1.0f/65535.0f);
+            case(GL_INT):               
+                return _readColor(_pixelFormat, (int*)ptr,              1.0f/2147483648.0f);
+            case(GL_UNSIGNED_INT):      
+                return _readColor(_pixelFormat, (unsigned int*)ptr,     1.0f/4294967295.0f);
+            case(GL_FLOAT):             
+                return _readColor(_pixelFormat, (float*)ptr,            1.0f);
+            case(GL_DOUBLE):            
+                return _readColor(_pixelFormat, (double*)ptr,           1.0f);
         }
     }
     return Vec4(1.0f,1.0f,1.0f,1.0f);
@@ -2281,13 +2416,52 @@ void _writeColor(GLenum pixelFormat, T* data, float scale, const Vec4& c)
     switch(pixelFormat)
     {
     case(GL_DEPTH_COMPONENT):   //intentionally fall through and execute the code for GL_LUMINANCE
-    case(GL_LUMINANCE):         { (*data++) = (T)(c[0] * scale); } break;
-    case(GL_ALPHA):             { (*data++) = (T)(c[3] * scale); } break;
-    case(GL_LUMINANCE_ALPHA):   { (*data++) = (T)(c[0] * scale);  (*data++) = (T)(c[3] * scale); } break;
-    case(GL_RGB):               { (*data++) = (T)(c[0] *scale); (*data++) = (T)(c[1] *scale); (*data++) = (T)(c[2] *scale);} break;
-    case(GL_RGBA):              { (*data++) = (T)(c[0] *scale); (*data++) = (T)(c[1] *scale); (*data++) = (T)(c[2] *scale); (*data++) = (T)(c[3] *scale);} break;
-    case(GL_BGR):               { (*data++) = (T)(c[2] *scale); (*data++) = (T)(c[1] *scale); (*data++) = (T)(c[0] *scale);} break;
-    case(GL_BGRA):              { (*data++) = (T)(c[2] *scale); (*data++) = (T)(c[1] *scale); (*data++) = (T)(c[0] *scale); (*data++) = (T)(c[3] *scale);} break;
+    case(GL_LUMINANCE):         
+        { 
+            (*data++) = (T)(c[0] * scale); 
+        } 
+        break;
+    case(GL_ALPHA):             
+        { 
+            (*data++) = (T)(c[3] * scale); 
+        } 
+        break;
+    case(GL_LUMINANCE_ALPHA):   
+        { 
+            (*data++) = (T)(c[0] * scale);  
+            (*data++) = (T)(c[3] * scale); 
+        } 
+        break;
+    case(GL_RGB):               
+        { 
+            (*data++) = (T)(c[0] *scale); 
+            (*data++) = (T)(c[1] *scale); 
+            (*data++) = (T)(c[2] *scale);
+        } 
+        break;
+    case(GL_RGBA):              
+        { 
+            (*data++) = (T)(c[0] *scale); 
+            (*data++) = (T)(c[1] *scale); 
+            (*data++) = (T)(c[2] *scale); 
+            (*data++) = (T)(c[3] *scale);
+        } 
+        break;
+    case(GL_BGR):               
+        { 
+            (*data++) = (T)(c[2] *scale); 
+            (*data++) = (T)(c[1] *scale); 
+            (*data++) = (T)(c[0] *scale);
+        } 
+        break;
+    case(GL_BGRA):              
+        { 
+            (*data++) = (T)(c[2] *scale); 
+            (*data++) = (T)(c[1] *scale); 
+            (*data++) = (T)(c[0] *scale); 
+            (*data++) = (T)(c[3] *scale);
+        } 
+        break;
     }
 
 }
@@ -2299,14 +2473,22 @@ void Image::setColor( const Vec4& color, unsigned int s, unsigned int t/*=0*/, u
 
     switch(getDataType())
     {
-    case(GL_BYTE):              return _writeColor(getPixelFormat(), (char*)ptr,             128.0f, color);
-    case(GL_UNSIGNED_BYTE):     return _writeColor(getPixelFormat(), (unsigned char*)ptr,    255.0f, color);
-    case(GL_SHORT):             return _writeColor(getPixelFormat(), (short*)ptr,            32768.0f, color);
-    case(GL_UNSIGNED_SHORT):    return _writeColor(getPixelFormat(), (unsigned short*)ptr,   65535.0f, color);
-    case(GL_INT):               return _writeColor(getPixelFormat(), (int*)ptr,              2147483648.0f, color);
-    case(GL_UNSIGNED_INT):      return _writeColor(getPixelFormat(), (unsigned int*)ptr,     4294967295.0f, color);
-    case(GL_FLOAT):             return _writeColor(getPixelFormat(), (float*)ptr,            1.0f, color);
-    case(GL_DOUBLE):            return _writeColor(getPixelFormat(), (double*)ptr,           1.0f, color);
+    case(GL_BYTE):              
+        return _writeColor(getPixelFormat(), (char*)ptr,             128.0f, color);
+    case(GL_UNSIGNED_BYTE):     
+        return _writeColor(getPixelFormat(), (unsigned char*)ptr,    255.0f, color);
+    case(GL_SHORT):             
+        return _writeColor(getPixelFormat(), (short*)ptr,            32768.0f, color);
+    case(GL_UNSIGNED_SHORT):    
+        return _writeColor(getPixelFormat(), (unsigned short*)ptr,   65535.0f, color);
+    case(GL_INT):               
+        return _writeColor(getPixelFormat(), (int*)ptr,              2147483648.0f, color);
+    case(GL_UNSIGNED_INT):      
+        return _writeColor(getPixelFormat(), (unsigned int*)ptr,     4294967295.0f, color);
+    case(GL_FLOAT):             
+        return _writeColor(getPixelFormat(), (float*)ptr,            1.0f, color);
+    case(GL_DOUBLE):            
+        return _writeColor(getPixelFormat(), (double*)ptr,           1.0f, color);
     }
 }
 
@@ -2326,6 +2508,8 @@ void Image::addDimensionsChangedCallback(DimensionsChangedCallback* cb)
 
 void Image::removeDimensionsChangedCallback(DimensionsChangedCallback* cb)
 {
-    DimensionsChangedCallbackVector::iterator itr = std::find(_dimensionsChangedCallbacks.begin(), _dimensionsChangedCallbacks.end(), cb);
-    if (itr!=_dimensionsChangedCallbacks.end()) _dimensionsChangedCallbacks.erase(itr);
+    DimensionsChangedCallbackVector::iterator itr = std::find(
+        _dimensionsChangedCallbacks.begin(), _dimensionsChangedCallbacks.end(), cb);
+    if (itr!=_dimensionsChangedCallbacks.end()) 
+        _dimensionsChangedCallbacks.erase(itr);
 }

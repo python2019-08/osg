@@ -85,7 +85,8 @@ GLObjectManager::~GLObjectManager()
 void GLObjectManager::flushDeletedGLObjects(double, double& availableTime)
 {
     // if no time available don't try to flush objects.
-    if (availableTime<=0.0) return;
+    if (availableTime<=0.0) 
+        return;
 
     const osg::Timer& timer = *osg::Timer::instance();
     osg::Timer_t start_tick = timer.tick();

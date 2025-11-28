@@ -118,15 +118,19 @@ void ImageSequence::setLength(double length)
 
 void ImageSequence::computeTimePerImage()
 {
-    if (!_imageDataList.empty()) _timePerImage = _length / double(_imageDataList.size());
-    else _timePerImage = _length;
+    if (!_imageDataList.empty()) 
+        _timePerImage = _length / double(_imageDataList.size());
+    else 
+        _timePerImage = _length;
 }
 
 void ImageSequence::setImageFile(unsigned int pos, const std::string& fileName)
 {
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
 
-    if (pos>=_imageDataList.size()) _imageDataList.resize(pos);
+    if (pos>=_imageDataList.size()) 
+        _imageDataList.resize(pos);
+
     _imageDataList[pos]._filename = fileName;
 }
 
@@ -153,7 +157,8 @@ void ImageSequence::setImage(unsigned int pos, osg::Image* image)
 
 void ImageSequence::_setImage(unsigned int pos, osg::Image* image)
 {
-    if (pos>=_imageDataList.size()) _imageDataList.resize(pos+1);
+    if (pos>=_imageDataList.size()) 
+        _imageDataList.resize(pos+1);
 
     _imageDataList[pos]._image = image;
     _imageDataList[pos]._filename = image->getFileName();
@@ -173,7 +178,8 @@ const Image* ImageSequence::getImage(unsigned int pos) const
 
 void ImageSequence::addImage(osg::Image* image)
 {
-    if (image==0) return;
+    if (image==0) 
+        return;
 
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
 
@@ -193,7 +199,8 @@ void ImageSequence::setImageToChild(int pos)
 {
 
     const osg::Image* image = (pos>=0 && pos<static_cast<int>(_imageDataList.size())) ? _imageDataList[pos]._image.get() : 0;
-    if (image==0) return;
+    if (image==0) 
+        return;
 
     // check to see if data is changing, if not don't apply
     if (image->data() == data())
@@ -251,9 +258,12 @@ int ImageSequence::imageIndex(double time)
         time = (positionRatio - floor(positionRatio))*_length;
     }
 
-    if (time<0.0) return 0;
+    if (time<0.0) 
+        return 0;
+
     int index = int(time/_timePerImage);
-    if (index>=int(_imageDataList.size())) return int(_imageDataList.size())-1;
+    if (index>=int(_imageDataList.size())) 
+        return int(_imageDataList.size())-1;
     return index;
 }
 
@@ -262,7 +272,8 @@ void ImageSequence::update(osg::NodeVisitor* nv)
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
 
     // if imageDataList is empty then there is nothing update can do.
-    if (_imageDataList.empty()) return;
+    if (_imageDataList.empty()) 
+        return;
 
     osg::NodeVisitor::ImageRequestHandler* irh = nv->getImageRequestHandler();
     const osg::FrameStamp* fs = nv->getFrameStamp();
@@ -323,7 +334,8 @@ void ImageSequence::update(osg::NodeVisitor* nv)
     int index = int(time/_timePerImage);
     // OSG_NOTICE<<"time= "<<time<<" _timePerImage="<<_timePerImage<<" index="<<index<<" _length="<<_length<<std::endl;
 
-    if (index>=int(_imageDataList.size())) index = int(_imageDataList.size())-1;
+    if (index>=int(_imageDataList.size())) 
+        index = int(_imageDataList.size())-1;
 
     if (index>=0 && index<int(_imageDataList.size()))
     {
@@ -356,7 +368,8 @@ void ImageSequence::update(osg::NodeVisitor* nv)
 
     // OSG_NOTICE<<"time = "<<time<<std::endl;
 
-    if (!irh) return;
+    if (!irh) 
+        return;
 
     bool loadDirectly = (_mode==LOAD_AND_RETAIN_IN_UPDATE_TRAVERSAL) || (_mode==LOAD_AND_DISCARD_IN_UPDATE_TRAVERSAL);
 
@@ -394,13 +407,18 @@ void ImageSequence::update(osg::NodeVisitor* nv)
         double preLoadTime = time + osg::minimum(irh->getPreLoadTime()*_timeMultiplier, _length);
 
         int startLoadIndex = int(time/_timePerImage);
-        if (startLoadIndex>=int(_imageDataList.size())) startLoadIndex = int(_imageDataList.size())-1;
-        if (startLoadIndex<0) startLoadIndex = 0;
+        if (startLoadIndex>=int(_imageDataList.size())) 
+            startLoadIndex = int(_imageDataList.size())-1;
+        if (startLoadIndex<0) 
+            startLoadIndex = 0;
 
         int endLoadIndex = int(preLoadTime/_timePerImage);
-        if (looping && (endLoadIndex>=int(_imageDataList.size()))) endLoadIndex -= int(_imageDataList.size());
-        if (endLoadIndex>=int(_imageDataList.size())) endLoadIndex = int(_imageDataList.size())-1;
-        if (endLoadIndex<0) endLoadIndex = 0;
+        if (looping && (endLoadIndex>=int(_imageDataList.size()))) 
+            endLoadIndex -= int(_imageDataList.size());
+        if (endLoadIndex>=int(_imageDataList.size())) 
+            endLoadIndex = int(_imageDataList.size())-1;
+        if (endLoadIndex<0) 
+            endLoadIndex = 0;
 
         double requestTime = time;
 
@@ -410,7 +428,9 @@ void ImageSequence::update(osg::NodeVisitor* nv)
             {
                 if (!_imageDataList[i]._image)
                 {
-                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, _imageDataList[i]._imageRequest, _readOptions.get());
+                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, 
+                                          _imageDataList[i]._imageRequest, 
+                                          _readOptions.get());
                 }
                 requestTime += _timePerImage;
             }
@@ -419,7 +439,9 @@ void ImageSequence::update(osg::NodeVisitor* nv)
             {
                 if (!_imageDataList[i]._image)
                 {
-                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, _imageDataList[i]._imageRequest, _readOptions.get());
+                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, 
+                                          _imageDataList[i]._imageRequest, 
+                                          _readOptions.get());
                 }
                 requestTime += _timePerImage;
             }
@@ -430,7 +452,9 @@ void ImageSequence::update(osg::NodeVisitor* nv)
             {
                 if (!_imageDataList[i]._image)
                 {
-                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, _imageDataList[i]._imageRequest, _readOptions.get());
+                    irh->requestImageFile(_imageDataList[i]._filename, this, i, requestTime, fs, 
+                                         _imageDataList[i]._imageRequest, 
+                                        _readOptions.get());
                 }
                 requestTime += _timePerImage;
             }

@@ -37,7 +37,8 @@ Group::Group(const Group& group,const CopyOp& copyop):
         ++itr)
     {
         Node* child = copyop(itr->get());
-        if (child) addChild(child);
+        if (child) 
+            addChild(child);
     }
 }
 
@@ -72,7 +73,8 @@ bool Group::addChild( Node *child )
 
 bool Group::insertChild( unsigned int index, Node *child )
 {
-    if (!child) return false;
+    if (!child) 
+        return false;
 
 #if ENSURE_CHILD_IS_UNIQUE
     if (containsNode(child))
@@ -84,7 +86,8 @@ bool Group::insertChild( unsigned int index, Node *child )
 
     // handle deprecated geometry configurations by calling fixDeprecatedData().
     osg::Geometry* geometry = child->asGeometry();
-    if (geometry && geometry->containsDeprecatedData()) geometry->fixDeprecatedData();
+    if (geometry && geometry->containsDeprecatedData()) 
+        geometry->fixDeprecatedData();
 
 
     // note ref_ptr<> automatically handles incrementing child's reference count.
@@ -156,7 +159,8 @@ unsigned int Group::getNumChildren() const
 bool Group::removeChild( Node *child )
 {
     unsigned int pos = getChildIndex(child);
-    if (pos<_children.size()) return removeChildren(pos,1);
+    if (pos<_children.size()) 
+        return removeChildren(pos,1);
     else return false;
 }
 
@@ -184,13 +188,17 @@ bool Group::removeChildren(unsigned int pos,unsigned int numChildrenToRemove)
             // remove this Geode from the child parent list.
             child->removeParent(this);
 
-            if (child->getNumChildrenRequiringUpdateTraversal()>0 || child->getUpdateCallback()) ++updateCallbackRemoved;
+            if (child->getNumChildrenRequiringUpdateTraversal()>0 || child->getUpdateCallback()) 
+                ++updateCallbackRemoved;
 
-            if (child->getNumChildrenRequiringEventTraversal()>0 || child->getEventCallback()) ++eventCallbackRemoved;
+            if (child->getNumChildrenRequiringEventTraversal()>0 || child->getEventCallback()) 
+                ++eventCallbackRemoved;
 
-            if (child->getNumChildrenWithCullingDisabled()>0 || !child->getCullingActive()) ++numChildrenWithCullingDisabledRemoved;
+            if (child->getNumChildrenWithCullingDisabled()>0 || !child->getCullingActive()) 
+                ++numChildrenWithCullingDisabledRemoved;
 
-            if (child->getNumChildrenWithOccluderNodes()>0 || child->asOccluderNode()) ++numChildrenWithOccludersRemoved;
+            if (child->getNumChildrenWithOccluderNodes()>0 || child->asOccluderNode()) 
+                ++numChildrenWithOccludersRemoved;
 
         }
 
@@ -228,7 +236,8 @@ bool Group::removeChildren(unsigned int pos,unsigned int numChildrenToRemove)
 
 bool Group::replaceChild( Node *origNode, Node *newNode )
 {
-    if (newNode==NULL || origNode==newNode) return false;
+    if (newNode==NULL || origNode==newNode) 
+        return false;
 
     unsigned int pos = getChildIndex(origNode);
     if (pos<_children.size())

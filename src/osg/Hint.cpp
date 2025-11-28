@@ -18,14 +18,16 @@ using namespace osg;
 
 void Hint::apply(State& /*state*/) const
 {
-    if (_target==GL_NONE || _mode==GL_NONE) return;
+    if (_target==GL_NONE || _mode==GL_NONE) 
+        return;
 
     glHint(_target, _mode);
 }
 
 void Hint::setTarget(GLenum target)
 {
-    if (_target==target) return;
+    if (_target==target) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 

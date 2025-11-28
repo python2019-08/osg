@@ -58,24 +58,40 @@ CostPair GeometryCostEstimator::estimateCompileCost(const osg::Geometry* geometr
     if (usesVBO || usesDL)
     {
         CostPair cost;
-        if (geometry->getVertexArray()) { cost.first += _arrayCompileCost(geometry->getVertexArray()->getTotalDataSize()); }
-        if (geometry->getNormalArray()) { cost.first += _arrayCompileCost(geometry->getNormalArray()->getTotalDataSize()); }
-        if (geometry->getColorArray()) { cost.first += _arrayCompileCost(geometry->getColorArray()->getTotalDataSize()); }
-        if (geometry->getSecondaryColorArray()) { cost.first += _arrayCompileCost(geometry->getSecondaryColorArray()->getTotalDataSize()); }
-        if (geometry->getFogCoordArray()) { cost.first += _arrayCompileCost(geometry->getFogCoordArray()->getTotalDataSize()); }
+        if (geometry->getVertexArray()) { 
+            cost.first += _arrayCompileCost(geometry->getVertexArray()->getTotalDataSize()); 
+        }
+        if (geometry->getNormalArray()) { 
+            cost.first += _arrayCompileCost(geometry->getNormalArray()->getTotalDataSize()); 
+        }
+        if (geometry->getColorArray()) { 
+            cost.first += _arrayCompileCost(geometry->getColorArray()->getTotalDataSize()); 
+        }
+        if (geometry->getSecondaryColorArray()) { 
+            cost.first += _arrayCompileCost(geometry->getSecondaryColorArray()->getTotalDataSize()); 
+        }
+        if (geometry->getFogCoordArray()) { 
+            cost.first += _arrayCompileCost(geometry->getFogCoordArray()->getTotalDataSize()); 
+        }
         for(unsigned i=0; i<geometry->getNumTexCoordArrays(); ++i)
         {
-            if (geometry->getTexCoordArray(i)) { cost.first += _arrayCompileCost(geometry->getTexCoordArray(i)->getTotalDataSize()); }
+            if (geometry->getTexCoordArray(i)) { 
+                cost.first += _arrayCompileCost(geometry->getTexCoordArray(i)->getTotalDataSize()); 
+            }
         }
         for(unsigned i=0; i<geometry->getNumVertexAttribArrays(); ++i)
         {
-            if (geometry->getVertexAttribArray(i)) { cost.first += _arrayCompileCost(geometry->getVertexAttribArray(i)->getTotalDataSize()); }
+            if (geometry->getVertexAttribArray(i)) { 
+                cost.first += _arrayCompileCost(geometry->getVertexAttribArray(i)->getTotalDataSize()); 
+            }
         }
         for(unsigned i=0; i<geometry->getNumPrimitiveSets(); ++i)
         {
             const osg::PrimitiveSet* primSet = geometry->getPrimitiveSet(i);
             const osg::DrawElements* drawElements = primSet ? primSet->getDrawElements() : 0;
-            if (drawElements) { cost.first += _primtiveSetCompileCost(drawElements->getTotalDataSize()); }
+            if (drawElements) { 
+                cost.first += _primtiveSetCompileCost(drawElements->getTotalDataSize()); 
+            }
         }
 
         if (usesDL)
@@ -124,7 +140,8 @@ CostPair TextureCostEstimator::estimateCompileCost(const osg::Texture* texture) 
     for(unsigned int i=0; i<texture->getNumImages(); ++i)
     {
         const osg::Image* image = texture->getImage(i);
-        if (image) cost.first += _compileCost(image->getTotalDataSize());
+        if (image) 
+            cost.first += _compileCost(image->getTotalDataSize());
     }
     OSG_NOTICE<<"TextureCostEstimator::estimateCompileCost(), size="<<cost.first<<std::endl;
     return cost;
@@ -213,8 +230,10 @@ public:
 
     void apply(osg::StateSet* stateset)
     {
-        if (!stateset) return;
-        if (_statesets.count(stateset)) return;
+        if (!stateset) 
+            return;
+        if (_statesets.count(stateset)) 
+            return;
         _statesets.insert(stateset);
 
         const osg::Program* program = dynamic_cast<const osg::Program*>(stateset->getAttribute(osg::StateAttribute::PROGRAM));
@@ -239,8 +258,10 @@ public:
 
     void apply(osg::Geometry* geometry)
     {
-        if (!geometry) return;
-        if (_geometries.count(geometry)) return;
+        if (!geometry) 
+            return;
+        if (_geometries.count(geometry)) 
+            return;
         _geometries.insert(geometry);
 
         CostPair cost = _gce->estimateCompileCost(geometry);
@@ -285,7 +306,8 @@ public:
 
     void apply(osg::StateSet* stateset)
     {
-        if (!stateset) return;
+        if (!stateset) 
+            return;
 
         const osg::Program* program = dynamic_cast<const osg::Program*>(stateset->getAttribute(osg::StateAttribute::PROGRAM));
         if (program)
@@ -306,7 +328,8 @@ public:
 
     void apply(osg::Geometry* geometry)
     {
-        if (!geometry) return;
+        if (!geometry) 
+            return;
 
         CostPair cost = _gce->estimateDrawCost(geometry);
         _costs.first += cost.first;
@@ -319,7 +342,8 @@ public:
 
 CostPair GraphicsCostEstimator::estimateCompileCost(const osg::Node* node) const
 {
-    if (!node) return CostPair(0.0,0.0);
+    if (!node) 
+        return CostPair(0.0,0.0);
     CollectCompileCosts ccc(this);
     const_cast<osg::Node*>(node)->accept(ccc);
     return ccc._costs;
@@ -327,7 +351,8 @@ CostPair GraphicsCostEstimator::estimateCompileCost(const osg::Node* node) const
 
 CostPair GraphicsCostEstimator::estimateDrawCost(const osg::Node* node) const
 {
-    if (!node) return CostPair(0.0,0.0);
+    if (!node) 
+        return CostPair(0.0,0.0);
     CollectDrawCosts cdc(this);
     const_cast<osg::Node*>(node)->accept(cdc);
     return cdc._costs;

@@ -27,14 +27,20 @@ struct IdentifierKey
 
     bool operator < (const IdentifierKey& rhs) const
     {
-        if (name<rhs.name) return true;
-        if (name>rhs.name) return false;
+        if (name<rhs.name) 
+            return true;
+        if (name>rhs.name) 
+            return false;
 
-        if (number<rhs.number) return true;
-        if (number>rhs.number) return false;
+        if (number<rhs.number) 
+            return true;
+        if (number>rhs.number) 
+            return false;
 
-        if (first<rhs.first) return true;
-        if (first>rhs.first) return false;
+        if (first<rhs.first) 
+            return true;
+        if (first>rhs.first) 
+            return false;
 
         return (second<rhs.second);
     }
@@ -52,14 +58,18 @@ Identifier::Identifier(const std::string& name, int number, osg::Referenced* f, 
     _first(f),
     _second(s)
 {
-    if (_first) _first->addObserver(this);
-    if (_second) _second->addObserver(this);
+    if (_first) 
+        _first->addObserver(this);
+    if (_second) 
+        _second->addObserver(this);
 }
 
 Identifier::~Identifier()
 {
-    if (_first) _first->removeObserver(this);
-    if (_second) _second->removeObserver(this);
+    if (_first) 
+        _first->removeObserver(this);
+    if (_second) 
+        _second->removeObserver(this);
 }
 
 void Identifier::objectDeleted(void* ptr)
@@ -106,7 +116,8 @@ Identifier* osg::Identifier::get(const std::string& name, int number, osg::Refer
     OpenThreads::ScopedLock<OpenThreads::Mutex> lock(s_IdentifierMapMutex);
 
     IdentifierMap::iterator itr = s_IdentifierMap.find(key);
-    if (itr!=s_IdentifierMap.end()) return itr->second.get();
+    if (itr!=s_IdentifierMap.end()) 
+        return itr->second.get();
 
     osg::ref_ptr<Identifier> identifier = new Identifier(name, number, first, second);
     s_IdentifierMap[key] = identifier;

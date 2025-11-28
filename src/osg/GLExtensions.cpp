@@ -75,7 +75,8 @@ float osg::getGLVersionNumber()
 {
     // needs to be extended to do proper things with subversions like 1.5.1, etc.
     char *versionstring   = (char*) glGetString( GL_VERSION );
-    if (!versionstring) return 0.0;
+    if (!versionstring) 
+        return 0.0;
 
     return (findAsciiToFloat(versionstring));
 }
@@ -166,7 +167,8 @@ bool osg::isGLExtensionOrVersionSupported(unsigned int contextID, const char *ex
                 // Get extensions using GL1/2 interface.
 
                 const char* extensions = (const char*)glGetString(GL_EXTENSIONS);
-                if (extensions==NULL) return false;
+                if (extensions==NULL) 
+                    return false;
 
                 // insert the ' ' delimiated extensions words into the extensionSet.
                 const char *startOfWord = extensions;
@@ -176,7 +178,8 @@ bool osg::isGLExtensionOrVersionSupported(unsigned int contextID, const char *ex
                     extensionSet.insert(std::string(startOfWord,endOfWord));
                     startOfWord = endOfWord+1;
                 }
-                if (*startOfWord!=0) extensionSet.insert(std::string(startOfWord));
+                if (*startOfWord!=0) 
+                    extensionSet.insert(std::string(startOfWord));
             }
 
     #if defined(_WIN32) && (defined(OSG_GL1_AVAILABLE) || defined(OSG_GL2_AVAILABLE) || defined(OSG_GL3_AVAILABLE))
@@ -249,8 +252,10 @@ bool osg::isGLExtensionOrVersionSupported(unsigned int contextID, const char *ex
                 std::string renderer = "";
                 if (previousColon!=std::string::npos)
                 {
-                    if (previousSemiColon==std::string::npos) renderer = disableString.substr(0,previousColon);
-                    else if (previousSemiColon<previousColon) renderer = disableString.substr(previousSemiColon+1,previousColon-previousSemiColon-1);
+                    if (previousSemiColon==std::string::npos) 
+                        renderer = disableString.substr(0,previousColon);
+                    else if (previousSemiColon<previousColon) 
+                        renderer = disableString.substr(previousSemiColon+1,previousColon-previousSemiColon-1);
                 }
 
                 if (!renderer.empty())
@@ -258,12 +263,15 @@ bool osg::isGLExtensionOrVersionSupported(unsigned int contextID, const char *ex
 
                     // remove leading spaces if they exist.
                     std::string::size_type leadingSpaces = renderer.find_first_not_of(' ');
-                    if (leadingSpaces==std::string::npos) renderer = ""; // nothing but spaces
-                    else if (leadingSpaces!=0) renderer.erase(0,leadingSpaces);
+                    if (leadingSpaces==std::string::npos) 
+                        renderer = ""; // nothing but spaces
+                    else if (leadingSpaces!=0) 
+                        renderer.erase(0,leadingSpaces);
 
                     // remove trailing spaces if they exist.
                     std::string::size_type trailingSpaces = renderer.find_last_not_of(' ');
-                    if (trailingSpaces!=std::string::npos) renderer.erase(trailingSpaces+1,std::string::npos);
+                    if (trailingSpaces!=std::string::npos) 
+                        renderer.erase(trailingSpaces+1,std::string::npos);
 
                 }
 
@@ -913,7 +921,8 @@ GLExtensions::GLExtensions(unsigned int in_contextID):
     }
 
     maxTextureSize=0;
-    if (validContext) glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maxTextureSize);
+    if (validContext) 
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maxTextureSize);
 
     GLint osg_max_size = maxTextureSize;
     if( (getEnvVar("OSG_MAX_TEXTURE_SIZE", osg_max_size)) && osg_max_size<maxTextureSize)
@@ -962,11 +971,14 @@ GLExtensions::GLExtensions(unsigned int in_contextID):
     // Texture3D extensions
     isTexture3DFast = validContext && (OSG_GL3_FEATURES || isGLExtensionSupported(contextID,"GL_EXT_texture3D"));
 
-    if (isTexture3DFast) isTexture3DSupported = true;
-    else isTexture3DSupported = validContext && (glVersion >= 1.2f);
+    if (isTexture3DFast) 
+        isTexture3DSupported = true;
+    else 
+        isTexture3DSupported = validContext && (glVersion >= 1.2f);
 
     maxTexture3DSize = 0;
-    if (validContext) glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &maxTexture3DSize);
+    if (validContext) 
+        glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &maxTexture3DSize);
 
     setGLExtensionFuncPtr(glTexImage3D, "glTexImage3D","glTexImage3DEXT", validContext);
     setGLExtensionFuncPtr(glTexSubImage3D, "glTexSubImage3D","glTexSubImage3DEXT", validContext);
@@ -985,9 +997,11 @@ GLExtensions::GLExtensions(unsigned int in_contextID):
     isTexture2DArraySupported = validContext && (OSG_GL3_FEATURES || isGLExtensionSupported(contextID,"GL_EXT_texture_array"));
 
     max2DSize = 0;
-    if (validContext) glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max2DSize);
+    if (validContext) 
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max2DSize);
     maxLayerCount = 0;
-    if (validContext) glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS, &maxLayerCount);
+    if (validContext) 
+        glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS, &maxLayerCount);
 
     // ARB_bindless_texture
     setGLExtensionFuncPtr(glGetTextureHandle,             "glGetTextureHandle", "glGetTextureHandleARB","glGetTextureHandleNV", validContext);
@@ -1086,13 +1100,16 @@ GLExtensions::GLExtensions(unsigned int in_contextID):
 
 
     setGLExtensionFuncPtr(glPointParameteri, "glPointParameteri", "glPointParameteriARB", validContext);
-    if (!glPointParameteri) setGLExtensionFuncPtr(glPointParameteri, "glPointParameteriEXT", "glPointParameteriSGIS", validContext);
+    if (!glPointParameteri) 
+        setGLExtensionFuncPtr(glPointParameteri, "glPointParameteriEXT", "glPointParameteriSGIS", validContext);
 
     setGLExtensionFuncPtr(glPointParameterf, "glPointParameterf", "glPointParameterfARB", validContext);
-    if (!glPointParameterf) setGLExtensionFuncPtr(glPointParameterf, "glPointParameterfEXT", "glPointParameterfSGIS", validContext);
+    if (!glPointParameterf) 
+        setGLExtensionFuncPtr(glPointParameterf, "glPointParameterfEXT", "glPointParameterfSGIS", validContext);
 
     setGLExtensionFuncPtr(glPointParameterfv, "glPointParameterfv", "glPointParameterfvARB", validContext);
-    if (!glPointParameterfv) setGLExtensionFuncPtr(glPointParameterfv, "glPointParameterfvEXT", "glPointParameterfvSGIS", validContext);
+    if (!glPointParameterfv) 
+        setGLExtensionFuncPtr(glPointParameterfv, "glPointParameterfvEXT", "glPointParameterfvSGIS", validContext);
 
 
     // Multisample
@@ -1277,7 +1294,11 @@ GLExtensions::GLExtensions(unsigned int in_contextID):
 
     if (validContext)
     {
-        if (osg::getGLVersionNumber() >= 2.0 || osg::isGLExtensionSupported(contextID, "GL_ARB_vertex_shader") || OSG_GLES2_FEATURES || OSG_GLES3_FEATURES || OSG_GL3_FEATURES)
+        if (osg::getGLVersionNumber() >= 2.0 || 
+            osg::isGLExtensionSupported(contextID, "GL_ARB_vertex_shader") || 
+            OSG_GLES2_FEATURES || 
+            OSG_GLES3_FEATURES || 
+            OSG_GL3_FEATURES)
         {
             glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&glMaxTextureUnits);
             #ifdef OSG_GL_FIXED_FUNCTION_AVAILABLE
@@ -1364,7 +1385,9 @@ bool GLExtensions::getProgramInfoLog( GLuint program, std::string& result ) cons
     {
         GLchar* infoLog = new GLchar[bufLen];
         glGetProgramInfoLog( program, bufLen, &strLen, infoLog );
-        if( strLen > 0 ) result = reinterpret_cast<char*>(infoLog);
+        if( strLen > 0 ) 
+            result = reinterpret_cast<char*>(infoLog);
+
         delete [] infoLog;
     }
     return (strLen > 0);
@@ -1381,7 +1404,9 @@ bool GLExtensions::getShaderInfoLog( GLuint shader, std::string& result ) const
     {
         GLchar* infoLog = new GLchar[bufLen];
         glGetShaderInfoLog( shader, bufLen, &strLen, infoLog );
-        if( strLen > 0 ) result = reinterpret_cast<char*>(infoLog);
+        if( strLen > 0 ) 
+            result = reinterpret_cast<char*>(infoLog);
+
         delete [] infoLog;
     }
     return (strLen > 0);
@@ -1392,16 +1417,19 @@ bool GLExtensions::getAttribLocation( const char* attribName, GLuint& location )
 {
     // is there an active GLSL program?
     GLuint program = getCurrentProgram();
-    if( glIsProgram(program) == GL_FALSE ) return false;
+    if( glIsProgram(program) == GL_FALSE ) 
+        return false;
 
     // has that program been successfully linked?
     GLint linked = GL_FALSE;
     glGetProgramiv( program, GL_LINK_STATUS, &linked );
-    if( linked == GL_FALSE ) return false;
+    if( linked == GL_FALSE ) 
+        return false;
 
     // is there such a named attribute?
     GLint loc = glGetAttribLocation( program, reinterpret_cast<const GLchar*>(attribName) );
-    if( loc < 0 ) return false;
+    if( loc < 0 ) 
+        return false;
 
     location = loc;
     return true;
@@ -1412,19 +1440,23 @@ bool GLExtensions::getFragDataLocation( const char* fragDataName, GLuint& locati
 {
     // is there an active GLSL program?
     GLuint program = getCurrentProgram();
-    if( glIsProgram(program) == GL_FALSE ) return false;
+    if( glIsProgram(program) == GL_FALSE ) 
+        return false;
 
     // has that program been successfully linked?
     GLint linked = GL_FALSE;
     glGetProgramiv( program, GL_LINK_STATUS, &linked );
-    if( linked == GL_FALSE ) return false;
+    if( linked == GL_FALSE ) 
+        return false;
 
     // check if supported
-    if (glGetFragDataLocation == NULL) return false;
+    if (glGetFragDataLocation == NULL) 
+        return false;
 
     // is there such a named attribute?
     GLint loc = glGetFragDataLocation( program, reinterpret_cast<const GLchar*>(fragDataName) );
-    if( loc < 0 ) return false;
+    if( loc < 0 ) 
+        return false;
 
     location = loc;
     return true;
