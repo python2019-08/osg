@@ -68,11 +68,13 @@ void LOD::traverse(NodeVisitor& nv)
             }
 
             unsigned int numChildren = _children.size();
-            if (_rangeList.size()<numChildren) numChildren=_rangeList.size();
+            if (_rangeList.size()<numChildren) 
+                numChildren=_rangeList.size();
 
             for(unsigned int i=0;i<numChildren;++i)
             {
-                if (_rangeList[i].first<=required_range && required_range<_rangeList[i].second)
+                if (_rangeList[i].first<=required_range && 
+                     required_range<_rangeList[i].second)
                 {
                     _children[i]->accept(nv);
                 }
@@ -126,7 +128,9 @@ bool LOD::addChild(Node *child, float min, float max)
 {
     if (Group::addChild(child))
     {
-        if (_children.size()>_rangeList.size()) _rangeList.resize(_children.size(),MinMaxPair(min,min));
+        if (_children.size()>_rangeList.size()) 
+            _rangeList.resize(_children.size(),MinMaxPair(min,min));
+
         _rangeList[_children.size()-1].first = min;
         _rangeList[_children.size()-1].second = max;
         return true;
@@ -136,14 +140,18 @@ bool LOD::addChild(Node *child, float min, float max)
 
 bool LOD::removeChildren( unsigned int pos,unsigned int numChildrenToRemove)
 {
-    if (pos<_rangeList.size()) _rangeList.erase(_rangeList.begin()+pos, osg::minimum(_rangeList.begin()+(pos+numChildrenToRemove), _rangeList.end()) );
+    if (pos<_rangeList.size()) 
+        _rangeList.erase(_rangeList.begin()+pos, 
+                        osg::minimum(_rangeList.begin()+(pos+numChildrenToRemove), _rangeList.end()) );
 
     return Group::removeChildren(pos,numChildrenToRemove);
 }
 
 void LOD::setRange(unsigned int childNo, float min,float max)
 {
-    if (childNo>=_rangeList.size()) _rangeList.resize(childNo+1,MinMaxPair(min,min));
+    if (childNo>=_rangeList.size()) 
+        _rangeList.resize(childNo+1,MinMaxPair(min,min));
+        
     _rangeList[childNo].first=min;
     _rangeList[childNo].second=max;
 }

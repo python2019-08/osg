@@ -52,7 +52,8 @@ void LightSource::setStateSetModes(StateSet& stateset,StateAttribute::GLModeValu
 
 void LightSource::setLocalStateSetModes(StateAttribute::GLModeValue value)
 {
-    if (!_stateset) setStateSet(new StateSet);
+    if (!_stateset) 
+        setStateSet(new StateSet);
 
     _stateset->clear();
     setStateSetModes(*_stateset,value);
@@ -79,5 +80,6 @@ void LightSource::setThreadSafeRefUnref(bool threadSafe)
 {
     Group::setThreadSafeRefUnref(threadSafe);
 
-    if (_light.valid()) _light->setThreadSafeRefUnref(threadSafe);
+    if (_light.valid()) 
+        _light->setThreadSafeRefUnref(threadSafe);
 }

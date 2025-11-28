@@ -60,7 +60,8 @@ void Light::init( void )
 
 void Light::setLightNum(int num)
 {
-    if (_lightnum==num) return;
+    if (_lightnum==num) 
+        return;
 
     ReassignToParents needToReassingToParentsWhenMemberValueChanges(this);
 

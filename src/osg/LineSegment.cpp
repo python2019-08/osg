@@ -27,8 +27,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     {
 
         // trivial reject of segment wholely outside.
-        if (e.x()<bb.xMin()) return false;
-        if (s.x()>bb.xMax()) return false;
+        if (e.x()<bb.xMin()) 
+            return false;
+        if (s.x()>bb.xMax()) 
+            return false;
 
         if (s.x()<bb.xMin())
         {
@@ -44,8 +46,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     }
     else
     {
-        if (s.x()<bb.xMin()) return false;
-        if (e.x()>bb.xMax()) return false;
+        if (s.x()<bb.xMin()) 
+            return false;
+        if (e.x()>bb.xMax()) 
+            return false;
 
         if (e.x()<bb.xMin())
         {
@@ -65,8 +69,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     {
 
         // trivial reject of segment wholely outside.
-        if (e.y()<bb.yMin()) return false;
-        if (s.y()>bb.yMax()) return false;
+        if (e.y()<bb.yMin()) 
+            return false;
+        if (s.y()>bb.yMax()) 
+            return false;
 
         if (s.y()<bb.yMin())
         {
@@ -82,8 +88,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     }
     else
     {
-        if (s.y()<bb.yMin()) return false;
-        if (e.y()>bb.yMax()) return false;
+        if (s.y()<bb.yMin()) 
+            return false;
+        if (e.y()>bb.yMax()) 
+            return false;
 
         if (e.y()<bb.yMin())
         {
@@ -103,8 +111,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     {
 
         // trivial reject of segment wholely outside.
-        if (e.z()<bb.zMin()) return false;
-        if (s.z()>bb.zMax()) return false;
+        if (e.z()<bb.zMin()) 
+            return false;
+        if (s.z()>bb.zMax()) 
+            return false;
 
         if (s.z()<bb.zMin())
         {
@@ -120,8 +130,10 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
     }
     else
     {
-        if (s.z()<bb.zMin()) return false;
-        if (e.z()>bb.zMax()) return false;
+        if (s.z()<bb.zMin()) 
+            return false;
+        if (e.z()>bb.zMax()) 
+            return false;
 
         if (e.z()<bb.zMin())
         {
@@ -141,7 +153,8 @@ bool LineSegment::intersectAndClip(vec_type& s,vec_type& e,const BoundingBox& bb
 
 bool LineSegment::intersect(const BoundingBox& bb) const
 {
-    if (!bb.valid()) return false;
+    if (!bb.valid()) 
+        return false;
 
     vec_type s=_s,e=_e;
     return intersectAndClip(s,e,bb);
@@ -150,7 +163,8 @@ bool LineSegment::intersect(const BoundingBox& bb) const
 
 bool LineSegment::intersectAndComputeRatios(const BoundingBox& bb,float& r1,float& r2) const
 {
-    if (!bb.valid()) return false;
+    if (!bb.valid()) 
+        return false;
 
     vec_type s=_s,e=_e;
     bool result = intersectAndClip(s,e,bb);
@@ -174,7 +188,8 @@ bool LineSegment::intersectAndComputeRatios(const BoundingBox& bb,float& r1,floa
 
 bool LineSegment::intersectAndComputeRatios(const BoundingBox& bb,double& r1,double& r2) const
 {
-    if (!bb.valid()) return false;
+    if (!bb.valid()) 
+        return false;
 
     vec_type s=_s,e=_e;
     bool result = intersectAndClip(s,e,bb);
@@ -213,7 +228,8 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,float& r1,f
     if (a==0.0)
     {
         // check if start point outside sphere radius
-        if (c>0.0) return false;
+        if (c>0.0) 
+            return false;
 
         // length segment within radius of bounding sphere but zero length
         // so return true, and set the ratio so the start point is the one
@@ -227,7 +243,8 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,float& r1,f
 
     value_type d = b*b-4.0f*a*c;
 
-    if (d<0.0f) return false;
+    if (d<0.0f) 
+        return false;
 
     d = (value_type)sqrt(d);
 
@@ -237,9 +254,11 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,float& r1,f
     r1 = (float)((-b-d)*div);
     r2 = (float)((-b+d)*div);
 
-    if (r1<=0.0f && r2<=0.0f) return false;
+    if (r1<=0.0f && r2<=0.0f) 
+        return false;
 
-    if (r1>=1.0f && r2>=1.0f) return false;
+    if (r1>=1.0f && r2>=1.0f) 
+        return false;
 
     return true;
 }
@@ -259,7 +278,8 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,double& r1,
     if (a==0.0)
     {
         // check if start point outside sphere radius
-        if (c>0.0) return false;
+        if (c>0.0) 
+            return false;
 
         // length segment within radius of bounding sphere but zero length
         // so return true, and set the ratio so the start point is the one
@@ -273,7 +293,8 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,double& r1,
 
     value_type d = b*b-4.0f*a*c;
 
-    if (d<0.0f) return false;
+    if (d<0.0f) 
+        return false;
 
     d = (value_type)sqrt(d);
 
@@ -283,9 +304,11 @@ bool LineSegment::intersectAndComputeRatios(const BoundingSphere& bs,double& r1,
     r1 = ((-b-d)*div);
     r2 = ((-b+d)*div);
 
-    if (r1<=0.0 && r2<=0.0) return false;
+    if (r1<=0.0 && r2<=0.0) 
+        return false;
 
-    if (r1>=1.0 && r2>=1.0) return false;
+    if (r1>=1.0 && r2>=1.0) 
+        return false;
 
     return true;
 }
@@ -294,7 +317,8 @@ bool LineSegment::intersect(const BoundingSphere& bs) const
 {
     vec_type sm = _s-bs._center;
     value_type c = sm.length2()-bs._radius*bs._radius;
-    if (c<0.0f) return true;
+    if (c<0.0f) 
+        return true;
 
     vec_type se = _e-_s;
     value_type a = se.length2();
@@ -303,7 +327,8 @@ bool LineSegment::intersect(const BoundingSphere& bs) const
 
     value_type d = b*b-4.0f*a*c;
 
-    if (d<0.0f) return false;
+    if (d<0.0f) 
+        return false;
 
     d = (value_type) sqrt(d);
 
@@ -312,16 +337,19 @@ bool LineSegment::intersect(const BoundingSphere& bs) const
     value_type r1 = (-b-d)*div;
     value_type r2 = (-b+d)*div;
 
-    if (r1<=0.0f && r2<=0.0f) return false;
+    if (r1<=0.0f && r2<=0.0f) 
+        return false;
 
-    if (r1>=1.0f && r2>=1.0f) return false;
+    if (r1>=1.0f && r2>=1.0f) 
+        return false;
 
     return true;
 }
 
 bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,float& r)
 {
-    if (v1==v2 || v2==v3 || v1==v3) return false;
+    if (v1==v2 || v2==v3 || v1==v3) 
+        return false;
 
     vec_type vse = _e-_s;
 
@@ -331,13 +359,17 @@ bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,floa
     value_type d312 = (v3-v1)*n12;
     if (d312>=0.0)
     {
-        if (ds12<0.0) return false;
-        if (ds12>d312) return false;
+        if (ds12<0.0) 
+            return false;
+        if (ds12>d312) 
+            return false;
     }
     else                         // d312 < 0
     {
-        if (ds12>0.0) return false;
-        if (ds12<d312) return false;
+        if (ds12>0.0) 
+            return false;
+        if (ds12<d312) 
+            return false;
     }
 
     vec_type v23 = v3-v2;
@@ -346,13 +378,17 @@ bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,floa
     value_type d123 = (v1-v2)*n23;
     if (d123>=0.0)
     {
-        if (ds23<0.0) return false;
-        if (ds23>d123) return false;
+        if (ds23<0.0) 
+            return false;
+        if (ds23>d123) 
+            return false;
     }
     else                         // d123 < 0
     {
-        if (ds23>0.0) return false;
-        if (ds23<d123) return false;
+        if (ds23>0.0) 
+            return false;
+        if (ds23<d123) 
+            return false;
     }
 
     vec_type v31 = v1-v3;
@@ -361,13 +397,17 @@ bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,floa
     value_type d231 = (v2-v3)*n31;
     if (d231>=0.0)
     {
-        if (ds31<0.0) return false;
-        if (ds31>d231) return false;
+        if (ds31<0.0) 
+            return false;
+        if (ds31>d231) 
+            return false;
     }
     else                         // d231 < 0
     {
-        if (ds31>0.0) return false;
-        if (ds31<d231) return false;
+        if (ds31>0.0) 
+            return false;
+        if (ds31<d231) 
+            return false;
     }
 
     value_type r3 = ds12/d312;
@@ -382,8 +422,10 @@ bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,floa
     vse /= length;
     value_type d = (in-_s)*vse;
 
-    if (d<0.0) return false;
-    if (d>length) return false;
+    if (d<0.0) 
+        return false;
+    if (d>length) 
+        return false;
 
     r = (float) d/length;
 
@@ -392,7 +434,8 @@ bool LineSegment::intersect(const Vec3f& v1,const Vec3f& v2,const Vec3f& v3,floa
 
 bool LineSegment::intersect(const Vec3d& v1,const Vec3d& v2,const Vec3d& v3,double& r)
 {
-    if (v1==v2 || v2==v3 || v1==v3) return false;
+    if (v1==v2 || v2==v3 || v1==v3) 
+        return false;
 
     vec_type vse = _e-_s;
 
@@ -402,13 +445,17 @@ bool LineSegment::intersect(const Vec3d& v1,const Vec3d& v2,const Vec3d& v3,doub
     value_type d312 = (v3-v1)*n12;
     if (d312>=0.0)
     {
-        if (ds12<0.0) return false;
-        if (ds12>d312) return false;
+        if (ds12<0.0) 
+            return false;
+        if (ds12>d312) 
+            return false;
     }
     else                         // d312 < 0
     {
-        if (ds12>0.0) return false;
-        if (ds12<d312) return false;
+        if (ds12>0.0) 
+            return false;
+        if (ds12<d312) 
+            return false;
     }
 
     vec_type v23 = v3-v2;
@@ -417,13 +464,17 @@ bool LineSegment::intersect(const Vec3d& v1,const Vec3d& v2,const Vec3d& v3,doub
     value_type d123 = (v1-v2)*n23;
     if (d123>=0.0)
     {
-        if (ds23<0.0) return false;
-        if (ds23>d123) return false;
+        if (ds23<0.0) 
+            return false;
+        if (ds23>d123) 
+            return false;
     }
     else                         // d123 < 0
     {
-        if (ds23>0.0) return false;
-        if (ds23<d123) return false;
+        if (ds23>0.0) 
+            return false;
+        if (ds23<d123) 
+            return false;
     }
 
     vec_type v31 = v1-v3;
@@ -432,13 +483,17 @@ bool LineSegment::intersect(const Vec3d& v1,const Vec3d& v2,const Vec3d& v3,doub
     value_type d231 = (v2-v3)*n31;
     if (d231>=0.0)
     {
-        if (ds31<0.0) return false;
-        if (ds31>d231) return false;
+        if (ds31<0.0) 
+            return false;
+        if (ds31>d231) 
+            return false;
     }
     else                         // d231 < 0
     {
-        if (ds31>0.0) return false;
-        if (ds31<d231) return false;
+        if (ds31>0.0) 
+            return false;
+        if (ds31<d231) 
+            return false;
     }
 
     value_type r3 = ds12/d312;
@@ -453,8 +508,10 @@ bool LineSegment::intersect(const Vec3d& v1,const Vec3d& v2,const Vec3d& v3,doub
     vse /= length;
     value_type d = (in-_s)*vse;
 
-    if (d<0.0) return false;
-    if (d>length) return false;
+    if (d<0.0) 
+        return false;
+    if (d>length) 
+        return false;
 
     r = d/length;
 
