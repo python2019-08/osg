@@ -1,6 +1,6 @@
 // dxtctool.cpp: implementation of DXTC Tools functions.
 //
-// Copyright (C) 2002 Tanguy Fautré.
+// Copyright (C) 2002 Tanguy Fautrï¿½.
 // For conditions of distribution and use,
 // see copyright notice in dxtctool.h
 //
@@ -315,7 +315,11 @@ unsigned short interpolateColors11(unsigned short color1, unsigned short color2)
     return result;
 }
 
-bool CompressedImageGetColor(unsigned char color[4], unsigned int s, unsigned int t, unsigned int r, int width, int height, int depth, GLenum format, unsigned char *imageData)
+bool CompressedImageGetColor(unsigned char color[4], 
+    unsigned int s, unsigned int t, unsigned int r, 
+    int width, int height, int depth, 
+    GLenum format, 
+    unsigned char *imageData)
 {
     unsigned short color16 = 0;//RGB 5:6:5 format
 
@@ -486,7 +490,12 @@ bool CompressedImageGetColor(unsigned char color[4], unsigned int s, unsigned in
     color[2] = colorChannel << 3 | colorChannel >> 2;
     return true;
 }
-void compressedBlockOrientationConversion(const GLenum format, const unsigned char *src_block, unsigned char *dst_block, const osg::Vec3i& srcOrigin, const osg::Vec3i& rowDelta, const osg::Vec3i& columnDelta)
+void compressedBlockOrientationConversion(const GLenum format, 
+    const unsigned char *src_block, 
+    unsigned char *dst_block, 
+    const osg::Vec3i& srcOrigin, 
+    const osg::Vec3i& rowDelta, 
+    const osg::Vec3i& columnDelta)
 {
     unsigned int src_texels4x4;
     unsigned int *dst_texels4x4 = NULL;
@@ -550,7 +559,8 @@ void compressedBlockOrientationConversion(const GLenum format, const unsigned ch
         memset(dst_texelsBlock->alpha3, 0, 6 * sizeof(unsigned char)); //clear
         osg::Vec3i source_pixel(srcOrigin);
         unsigned int last_added_byte = 1;
-        unsigned short running_a_index = src_texelsBlock->alpha3[0] + (((unsigned short)src_texelsBlock->alpha3[last_added_byte]) << 8);
+        unsigned short running_a_index = src_texelsBlock->alpha3[0] 
+                                       + (((unsigned short)src_texelsBlock->alpha3[last_added_byte]) << 8);
         unsigned int j = 0;
         for (int r = 0; r<4; r++)//rows
         {

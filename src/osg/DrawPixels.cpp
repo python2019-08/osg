@@ -51,7 +51,8 @@ void DrawPixels::setPosition(const osg::Vec3& position)
     dirtyBound();
 }
 
-void DrawPixels::setSubImageDimensions(unsigned int offsetX,unsigned int offsetY,unsigned int width,unsigned int height)
+void DrawPixels::setSubImageDimensions(unsigned int offsetX,unsigned int offsetY,
+    unsigned int width,unsigned int height)
 {
     _useSubImage = true;
     _offsetX = offsetX;
@@ -60,7 +61,8 @@ void DrawPixels::setSubImageDimensions(unsigned int offsetX,unsigned int offsetY
     _height = height;
 }
 
-void DrawPixels::getSubImageDimensions(unsigned int& offsetX,unsigned int& offsetY,unsigned int& width,unsigned int& height) const
+void DrawPixels::getSubImageDimensions(unsigned int& offsetX,unsigned int& offsetY,
+    unsigned int& width,unsigned int& height) const
 {
     offsetX = _offsetX;
     offsetY = _offsetY;

@@ -37,7 +37,8 @@ GLRenderBufferManager::GLRenderBufferManager(unsigned int contextID):
 void GLRenderBufferManager::deleteGLObject(GLuint globj)
 {
     const GLExtensions* extensions = GLExtensions::Get(_contextID,true);
-    if (extensions->isGlslSupported) extensions->glDeleteRenderbuffers(1, &globj );
+    if (extensions->isGlslSupported) 
+        extensions->glDeleteRenderbuffers(1, &globj );
 }
 
 GLFrameBufferObjectManager::GLFrameBufferObjectManager(unsigned int contextID):
@@ -47,7 +48,8 @@ GLFrameBufferObjectManager::GLFrameBufferObjectManager(unsigned int contextID):
 void GLFrameBufferObjectManager::deleteGLObject(GLuint globj)
 {
     const GLExtensions* extensions = GLExtensions::Get(_contextID,true);
-    if (extensions->isGlslSupported) extensions->glDeleteFramebuffers(1, &globj );
+    if (extensions->isGlslSupported) 
+        extensions->glDeleteFramebuffers(1, &globj );
 }
 
 
@@ -65,7 +67,10 @@ RenderBuffer::RenderBuffer()
 {
 }
 
-RenderBuffer::RenderBuffer(int width, int height, GLenum internalFormat, int samples, int colorSamples)
+RenderBuffer::RenderBuffer(int width, int height, 
+    GLenum internalFormat, 
+    int samples, 
+    int colorSamples)
 :    Object(),
     _internalFormat(internalFormat),
     _width(width),
@@ -89,7 +94,8 @@ RenderBuffer::~RenderBuffer()
 {
     for(unsigned i=0; i<_objectID.size(); ++i)
     {
-        if (_objectID[i]) osg::get<GLRenderBufferManager>(i)->scheduleGLObjectForDeletion(_objectID[i]);
+        if (_objectID[i]) 
+            osg::get<GLRenderBufferManager>(i)->scheduleGLObjectForDeletion(_objectID[i]);
     }
 }
 
@@ -373,6 +379,7 @@ FrameBufferAttachment::FrameBufferAttachment(Camera::Attachment& attachment)
             GLenum format = attachment._image->getInternalTextureFormat();
             if (format == 0)
                 format = attachment._internalFormat;
+
             _ximpl = new Pimpl(Pimpl::RENDERBUFFER);
             _ximpl->renderbufferTarget = new osg::RenderBuffer(image->s(), image->t(), format);
             return;
@@ -445,13 +452,17 @@ void FrameBufferAttachment::createRequiredTexturesAndApplyGenerateMipMap(State &
     }
 }
 
-void FrameBufferAttachment::attach(State &state, GLenum target, GLenum attachment_point, const GLExtensions* ext) const
+void FrameBufferAttachment::attach(State &state, 
+    GLenum target, 
+    GLenum attachment_point, 
+    const GLExtensions* ext) const
 {
     unsigned int contextID = state.getContextID();
 
     if (_ximpl->targetType == Pimpl::RENDERBUFFER)
     {
-        ext->glFramebufferRenderbuffer(target, attachment_point, GL_RENDERBUFFER_EXT, _ximpl->renderbufferTarget->getObjectID(contextID, ext));
+        ext->glFramebufferRenderbuffer(target, attachment_point, GL_RENDERBUFFER_EXT, 
+                _ximpl->renderbufferTarget->getObjectID(contextID, ext));
         return;
     }
 
@@ -509,19 +520,32 @@ void FrameBufferAttachment::attach(State &state, GLenum target, GLenum attachmen
 
 int FrameBufferAttachment::compare(const FrameBufferAttachment &fa) const
 {
-    if (&fa == this) return 0;
-    if (_ximpl->targetType < fa._ximpl->targetType) return -1;
-    if (_ximpl->targetType > fa._ximpl->targetType) return 1;
-    if (_ximpl->renderbufferTarget.get() < fa._ximpl->renderbufferTarget.get()) return -1;
-    if (_ximpl->renderbufferTarget.get() > fa._ximpl->renderbufferTarget.get()) return 1;
-    if (_ximpl->textureTarget.get() < fa._ximpl->textureTarget.get()) return -1;
-    if (_ximpl->textureTarget.get() > fa._ximpl->textureTarget.get()) return 1;
-    if (_ximpl->cubeMapFace < fa._ximpl->cubeMapFace) return -1;
-    if (_ximpl->cubeMapFace > fa._ximpl->cubeMapFace) return 1;
-    if (_ximpl->level < fa._ximpl->level) return -1;
-    if (_ximpl->level > fa._ximpl->level) return 1;
-    if (_ximpl->zoffset < fa._ximpl->zoffset) return -1;
-    if (_ximpl->zoffset > fa._ximpl->zoffset) return 1;
+    if (&fa == this) 
+        return 0;
+    if (_ximpl->targetType < fa._ximpl->targetType) 
+        return -1;
+    if (_ximpl->targetType > fa._ximpl->targetType) 
+        return 1;
+    if (_ximpl->renderbufferTarget.get() < fa._ximpl->renderbufferTarget.get()) 
+        return -1;
+    if (_ximpl->renderbufferTarget.get() > fa._ximpl->renderbufferTarget.get()) 
+        return 1;
+    if (_ximpl->textureTarget.get() < fa._ximpl->textureTarget.get()) 
+        return -1;
+    if (_ximpl->textureTarget.get() > fa._ximpl->textureTarget.get()) 
+        return 1;
+    if (_ximpl->cubeMapFace < fa._ximpl->cubeMapFace) 
+        return -1;
+    if (_ximpl->cubeMapFace > fa._ximpl->cubeMapFace) 
+        return 1;
+    if (_ximpl->level < fa._ximpl->level) 
+        return -1;
+    if (_ximpl->level > fa._ximpl->level) 
+        return 1;
+    if (_ximpl->zoffset < fa._ximpl->zoffset) 
+        return -1;
+    if (_ximpl->zoffset > fa._ximpl->zoffset) 
+        return 1;
     return 0;
 }
 
@@ -567,14 +591,18 @@ unsigned int FrameBufferAttachment::getTextureArrayLayer() const
 
 void FrameBufferAttachment::resizeGLObjectBuffers(unsigned int maxSize)
 {
-    if (_ximpl->renderbufferTarget.valid()) _ximpl->renderbufferTarget->resizeGLObjectBuffers(maxSize);
-    if (_ximpl->textureTarget.valid()) _ximpl->textureTarget->resizeGLObjectBuffers(maxSize);
+    if (_ximpl->renderbufferTarget.valid()) 
+        _ximpl->renderbufferTarget->resizeGLObjectBuffers(maxSize);
+    if (_ximpl->textureTarget.valid()) 
+        _ximpl->textureTarget->resizeGLObjectBuffers(maxSize);
 }
 
 void FrameBufferAttachment::releaseGLObjects(osg::State* state) const
 {
-    if (_ximpl->renderbufferTarget.valid()) _ximpl->renderbufferTarget->releaseGLObjects(state);
-    if (_ximpl->textureTarget.valid()) _ximpl->textureTarget->releaseGLObjects(state);
+    if (_ximpl->renderbufferTarget.valid()) 
+        _ximpl->renderbufferTarget->releaseGLObjects(state);
+    if (_ximpl->textureTarget.valid()) 
+        _ximpl->textureTarget->releaseGLObjects(state);
 }
 
 /**************************************************************************
@@ -597,7 +625,8 @@ FrameBufferObject::~FrameBufferObject()
 {
     for(unsigned i=0; i<_fboID.size(); ++i)
     {
-        if (_fboID[i]) osg::get<GLFrameBufferObjectManager>(i)->scheduleGLObjectForDeletion(_fboID[i]);
+        if (_fboID[i]) 
+            osg::get<GLFrameBufferObjectManager>(i)->scheduleGLObjectForDeletion(_fboID[i]);
     }
 }
 
@@ -655,10 +684,14 @@ GLenum FrameBufferObject::convertBufferComponentToGLenum(BufferComponent attachm
 {
     switch(attachment_point)
     {
-        case(Camera::DEPTH_BUFFER): return GL_DEPTH_ATTACHMENT_EXT;
-        case(Camera::STENCIL_BUFFER): return GL_STENCIL_ATTACHMENT_EXT;
-        case(Camera::COLOR_BUFFER): return GL_COLOR_ATTACHMENT0_EXT;
-        default: return GLenum(GL_COLOR_ATTACHMENT0_EXT + (attachment_point-Camera::COLOR_BUFFER0));
+        case(Camera::DEPTH_BUFFER): 
+            return GL_DEPTH_ATTACHMENT_EXT;
+        case(Camera::STENCIL_BUFFER): 
+            return GL_STENCIL_ATTACHMENT_EXT;
+        case(Camera::COLOR_BUFFER): 
+            return GL_COLOR_ATTACHMENT0_EXT;
+        default: 
+            return GLenum(GL_COLOR_ATTACHMENT0_EXT + (attachment_point-Camera::COLOR_BUFFER0));
     }
 }
 
@@ -809,7 +842,8 @@ int FrameBufferObject::compare(const StateAttribute &sa) const
     for (; i!=_attachments.end(); ++i, ++j)
     {
         int cmp = i->second.compare(j->second);
-        if (cmp != 0) return cmp;
+        if (cmp != 0) 
+            return cmp;
     }
     return 0;
 }

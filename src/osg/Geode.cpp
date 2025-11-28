@@ -93,6 +93,7 @@ void Geode::compileDrawables(RenderInfo& renderInfo)
         ++itr)
     {
         osg::Drawable* drawable = itr->valid() ? (*itr)->asDrawable() : 0;
-        if (drawable) drawable->compileGLObjects(renderInfo);
+        if (drawable) 
+            drawable->compileGLObjects(renderInfo);
     }
 }

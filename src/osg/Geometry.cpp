@@ -49,7 +49,8 @@ Geometry::Geometry(const Geometry& geometry,const CopyOp& copyop):
         ++pitr)
     {
         PrimitiveSet* primitive = copyop(pitr->get());
-        if (primitive) _primitives.push_back(primitive);
+        if (primitive) 
+            _primitives.push_back(primitive);
     }
 
     for(ArrayList::const_iterator titr=geometry._texCoordList.begin();
@@ -66,7 +67,8 @@ Geometry::Geometry(const Geometry& geometry,const CopyOp& copyop):
         _vertexAttribList.push_back(copyop(vitr->get()));
     }
 
-    if ((copyop.getCopyFlags() & osg::CopyOp::DEEP_COPY_ARRAYS) || (copyop.getCopyFlags() & osg::CopyOp::DEEP_COPY_PRIMITIVES))
+    if ((copyop.getCopyFlags() & osg::CopyOp::DEEP_COPY_ARRAYS) || 
+        (copyop.getCopyFlags() & osg::CopyOp::DEEP_COPY_PRIMITIVES))
     {
         /*if (_useVertexBufferObjects)*/
         {
@@ -82,7 +84,8 @@ Geometry::Geometry(const Geometry& geometry,const CopyOp& copyop):
 
 Geometry::~Geometry()
 {
-    // clean up display lists if assigned, and use the GLObjectSizeHint() while prior to it being invalidated by the automatic clean up of arrays that will invalidate the getGLObjectSizeHint() value.
+    // clean up display lists if assigned, and use the GLObjectSizeHint() while prior to it being invalidated 
+    // by the automatic clean up of arrays that will invalidate the getGLObjectSizeHint() value.
     #ifdef OSG_GL_DISPLAYLISTS_AVAILABLE
     for(unsigned int i=0;i<_globjList.size();++i)
     {
@@ -99,21 +102,30 @@ Geometry::~Geometry()
 
 bool Geometry::empty() const
 {
-    if (!_primitives.empty()) return false;
-    if (ARRAY_NOT_EMPTY(_vertexArray.get())) return false;
-    if (ARRAY_NOT_EMPTY(_normalArray.get())) return false;
-    if (ARRAY_NOT_EMPTY(_colorArray.get())) return false;
-    if (ARRAY_NOT_EMPTY(_secondaryColorArray.get())) return false;
-    if (ARRAY_NOT_EMPTY(_fogCoordArray.get())) return false;
-    if (!_texCoordList.empty()) return false;
-    if (!_vertexAttribList.empty()) return false;
+    if (!_primitives.empty()) 
+        return false;
+    if (ARRAY_NOT_EMPTY(_vertexArray.get())) 
+        return false;
+    if (ARRAY_NOT_EMPTY(_normalArray.get())) 
+        return false;
+    if (ARRAY_NOT_EMPTY(_colorArray.get())) 
+        return false;
+    if (ARRAY_NOT_EMPTY(_secondaryColorArray.get())) 
+        return false;
+    if (ARRAY_NOT_EMPTY(_fogCoordArray.get())) 
+        return false;
+    if (!_texCoordList.empty()) 
+        return false;
+    if (!_vertexAttribList.empty()) 
+        return false;
     return true;
 }
 
 void Geometry::configureBufferObjects()
 {
     osg::Array* vertices = getVertexArray();
-    if (!vertices) return;
+    if (!vertices) 
+        return;
 
     osg::BufferObject* vbo = vertices->getBufferObject();
     unsigned int numVertices = vertices->getNumElements();
@@ -121,19 +133,25 @@ void Geometry::configureBufferObjects()
     typedef std::vector< osg::ref_ptr<osg::Array> > Arrays;
     Arrays arrays;
 
-    if (getNormalArray()) arrays.push_back(getNormalArray());
-    if (getColorArray()) arrays.push_back(getColorArray());
-    if (getSecondaryColorArray()) arrays.push_back(getSecondaryColorArray());
-    if (getFogCoordArray()) arrays.push_back(getFogCoordArray());
+    if (getNormalArray()) 
+        arrays.push_back(getNormalArray());
+    if (getColorArray()) 
+        arrays.push_back(getColorArray());
+    if (getSecondaryColorArray()) 
+        arrays.push_back(getSecondaryColorArray());
+    if (getFogCoordArray()) 
+        arrays.push_back(getFogCoordArray());
 
     for(unsigned int i=0; i<getNumTexCoordArrays(); ++i)
     {
-        if (getTexCoordArray(i)) arrays.push_back(getTexCoordArray(i));
+        if (getTexCoordArray(i)) 
+            arrays.push_back(getTexCoordArray(i));
     }
 
     for(unsigned int i=0; i<getNumVertexAttribArrays(); ++i)
     {
-        if (getVertexAttribArray(i)) arrays.push_back(getVertexAttribArray(i));
+        if (getVertexAttribArray(i)) 
+            arrays.push_back(getVertexAttribArray(i));
     }
 
     for(Arrays::iterator itr = arrays.begin();
@@ -145,7 +163,8 @@ void Geometry::configureBufferObjects()
         {
             if (array->getNumElements()==numVertices)
             {
-                if (!array->getBufferObject()) array->setBufferObject(vbo);
+                if (!array->getBufferObject()) 
+                    array->setBufferObject(vbo);
             }
             else if (array->getNumElements()>=1)
             {
@@ -162,7 +181,8 @@ void Geometry::configureBufferObjects()
 
 void Geometry::setVertexArray(Array* array)
 {
-    if (array && array->getBinding()==osg::Array::BIND_UNDEFINED) array->setBinding(osg::Array::BIND_PER_VERTEX);
+    if (array && array->getBinding()==osg::Array::BIND_UNDEFINED) 
+        array->setBinding(osg::Array::BIND_PER_VERTEX);
 
     _vertexArray = array;
 
@@ -179,7 +199,8 @@ void Geometry::setVertexArray(Array* array)
 
 void Geometry::setNormalArray(Array* array, osg::Array::Binding binding)
 {
-    if (array && binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
+    if (array && binding!=osg::Array::BIND_UNDEFINED) 
+        array->setBinding(binding);
 
     _normalArray = array;
 
@@ -195,7 +216,8 @@ void Geometry::setNormalArray(Array* array, osg::Array::Binding binding)
 
 void Geometry::setColorArray(Array* array, osg::Array::Binding binding)
 {
-    if (array && binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
+    if (array && binding!=osg::Array::BIND_UNDEFINED) 
+        array->setBinding(binding);
 
     _colorArray = array;
 
@@ -211,7 +233,8 @@ void Geometry::setColorArray(Array* array, osg::Array::Binding binding)
 
 void Geometry::setSecondaryColorArray(Array* array, osg::Array::Binding binding)
 {
-    if (array && binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
+    if (array && binding!=osg::Array::BIND_UNDEFINED) 
+        array->setBinding(binding);
 
     _secondaryColorArray = array;
 
@@ -227,7 +250,8 @@ void Geometry::setSecondaryColorArray(Array* array, osg::Array::Binding binding)
 
 void Geometry::setFogCoordArray(Array* array, osg::Array::Binding binding)
 {
-    if (array && binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
+    if (array && binding!=osg::Array::BIND_UNDEFINED) 
+        array->setBinding(binding);
 
     _fogCoordArray = array;
 
@@ -250,8 +274,10 @@ void Geometry::setTexCoordArray(unsigned int index,Array* array, osg::Array::Bin
 
     if (array)
     {
-        if (binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
-        else array->setBinding(osg::Array::BIND_PER_VERTEX);
+        if (binding!=osg::Array::BIND_UNDEFINED) 
+            array->setBinding(binding);
+        else 
+            array->setBinding(osg::Array::BIND_PER_VERTEX);
     }
 
     _texCoordList[index] = array;
@@ -268,14 +294,18 @@ void Geometry::setTexCoordArray(unsigned int index,Array* array, osg::Array::Bin
 
 Array* Geometry::getTexCoordArray(unsigned int index)
 {
-    if (index<_texCoordList.size()) return _texCoordList[index].get();
-    else return 0;
+    if (index<_texCoordList.size()) 
+        return _texCoordList[index].get();
+    else 
+        return 0;
 }
 
 const Array* Geometry::getTexCoordArray(unsigned int index) const
 {
-    if (index<_texCoordList.size()) return _texCoordList[index].get();
-    else return 0;
+    if (index<_texCoordList.size()) 
+        return _texCoordList[index].get();
+    else 
+        return 0;
 }
 
 void Geometry::setTexCoordArrayList(const ArrayList& arrayList)
@@ -292,7 +322,8 @@ void Geometry::setTexCoordArrayList(const ArrayList& arrayList)
             itr != _texCoordList.end();
             ++itr)
         {
-           if (itr->get()) addVertexBufferObjectIfRequired(itr->get());
+           if (itr->get()) 
+            addVertexBufferObjectIfRequired(itr->get());
         }
     }
 }
@@ -302,7 +333,8 @@ void Geometry::setVertexAttribArray(unsigned int index, Array* array, osg::Array
     if (_vertexAttribList.size()<=index)
         _vertexAttribList.resize(index+1);
 
-    if (array && binding!=osg::Array::BIND_UNDEFINED) array->setBinding(binding);
+    if (array && binding!=osg::Array::BIND_UNDEFINED) 
+        array->setBinding(binding);
 
     _vertexAttribList[index] = array;
 
@@ -318,14 +350,18 @@ void Geometry::setVertexAttribArray(unsigned int index, Array* array, osg::Array
 
 Array *Geometry::getVertexAttribArray(unsigned int index)
 {
-    if (index<_vertexAttribList.size()) return _vertexAttribList[index].get();
-    else return 0;
+    if (index<_vertexAttribList.size()) 
+        return _vertexAttribList[index].get();
+    else 
+        return 0;
 }
 
 const Array *Geometry::getVertexAttribArray(unsigned int index) const
 {
-    if (index<_vertexAttribList.size()) return _vertexAttribList[index].get();
-    else return 0;
+    if (index<_vertexAttribList.size()) 
+        return _vertexAttribList[index].get();
+    else 
+        return 0;
 }
 
 void Geometry::setVertexAttribArrayList(const ArrayList& arrayList)
@@ -342,7 +378,8 @@ void Geometry::setVertexAttribArrayList(const ArrayList& arrayList)
             itr != _vertexAttribList.end();
             ++itr)
         {
-            if (itr->get()) addVertexBufferObjectIfRequired(itr->get());
+            if (itr->get()) 
+                addVertexBufferObjectIfRequired(itr->get());
         }
     }
 }
@@ -419,7 +456,8 @@ void Geometry::setPrimitiveSetList(const PrimitiveSetList& primitives)
 
 bool Geometry::removePrimitiveSet(unsigned int i, unsigned int numElementsToRemove)
 {
-    if (numElementsToRemove==0) return false;
+    if (numElementsToRemove==0) 
+        return false;
 
     if (i<_primitives.size())
     {
@@ -448,7 +486,8 @@ unsigned int Geometry::getPrimitiveSetIndex(const PrimitiveSet* primitiveset) co
 {
     for (unsigned int primitiveSetIndex=0;primitiveSetIndex<_primitives.size();++primitiveSetIndex)
     {
-        if (_primitives[primitiveSetIndex]==primitiveset) return primitiveSetIndex;
+        if (_primitives[primitiveSetIndex]==primitiveset) 
+            return primitiveSetIndex;
     }
     return _primitives.size(); // node not found.
 }
@@ -456,22 +495,28 @@ unsigned int Geometry::getPrimitiveSetIndex(const PrimitiveSet* primitiveset) co
 unsigned int Geometry::getGLObjectSizeHint() const
 {
     unsigned int totalSize = 0;
-    if (_vertexArray.valid()) totalSize += _vertexArray->getTotalDataSize();
+    if (_vertexArray.valid()) 
+        totalSize += _vertexArray->getTotalDataSize();
 
-    if (_normalArray.valid()) totalSize += _normalArray->getTotalDataSize();
+    if (_normalArray.valid()) 
+        totalSize += _normalArray->getTotalDataSize();
 
-    if (_colorArray.valid()) totalSize += _colorArray->getTotalDataSize();
+    if (_colorArray.valid()) 
+        totalSize += _colorArray->getTotalDataSize();
 
-    if (_secondaryColorArray.valid()) totalSize += _secondaryColorArray->getTotalDataSize();
+    if (_secondaryColorArray.valid()) 
+        totalSize += _secondaryColorArray->getTotalDataSize();
 
-    if (_fogCoordArray.valid()) totalSize += _fogCoordArray->getTotalDataSize();
+    if (_fogCoordArray.valid()) 
+        totalSize += _fogCoordArray->getTotalDataSize();
 
 
     unsigned int unit;
     for(unit=0;unit<_texCoordList.size();++unit)
     {
         const Array* array = _texCoordList[unit].get();
-        if (array) totalSize += array->getTotalDataSize();
+        if (array) 
+            totalSize += array->getTotalDataSize();
 
     }
 
@@ -482,7 +527,8 @@ unsigned int Geometry::getGLObjectSizeHint() const
         for( index = 0; index < _vertexAttribList.size(); ++index )
         {
             const Array* array = _vertexAttribList[index].get();
-            if (array) totalSize += array->getTotalDataSize();
+            if (array) 
+                totalSize += array->getTotalDataSize();
         }
     }
 
@@ -504,11 +550,16 @@ bool Geometry::getArrayList(ArrayList& arrayList) const
 {
     unsigned int startSize = arrayList.size();
 
-    if (_vertexArray.valid()) arrayList.push_back(_vertexArray.get());
-    if (_normalArray.valid()) arrayList.push_back(_normalArray.get());
-    if (_colorArray.valid()) arrayList.push_back(_colorArray.get());
-    if (_secondaryColorArray.valid()) arrayList.push_back(_secondaryColorArray.get());
-    if (_fogCoordArray.valid()) arrayList.push_back(_fogCoordArray.get());
+    if (_vertexArray.valid()) 
+        arrayList.push_back(_vertexArray.get());
+    if (_normalArray.valid()) 
+        arrayList.push_back(_normalArray.get());
+    if (_colorArray.valid()) 
+        arrayList.push_back(_colorArray.get());
+    if (_secondaryColorArray.valid()) 
+        arrayList.push_back(_secondaryColorArray.get());
+    if (_fogCoordArray.valid()) 
+        arrayList.push_back(_fogCoordArray.get());
 
     for(unsigned int unit=0;unit<_texCoordList.size();++unit)
     {
@@ -519,7 +570,8 @@ bool Geometry::getArrayList(ArrayList& arrayList) const
     for(unsigned int  index = 0; index < _vertexAttribList.size(); ++index )
     {
         Array* array = _vertexAttribList[index].get();
-        if (array) arrayList.push_back(array);
+        if (array) 
+            arrayList.push_back(array);
     }
 
     return arrayList.size()!=startSize;
@@ -534,7 +586,8 @@ bool Geometry::getDrawElementsList(DrawElementsList& drawElementsList) const
         ++itr)
     {
         osg::DrawElements* de = (*itr)->getDrawElements();
-        if (de) drawElementsList.push_back(de);
+        if (de) 
+            drawElementsList.push_back(de);
     }
 
     return drawElementsList.size()!=startSize;
@@ -542,7 +595,8 @@ bool Geometry::getDrawElementsList(DrawElementsList& drawElementsList) const
 
 void Geometry::addVertexBufferObjectIfRequired(osg::Array* array)
 {
-    if (/*_useVertexBufferObjects &&*/ array->getBinding()==Array::BIND_PER_VERTEX || array->getBinding()==Array::BIND_UNDEFINED)
+    if (/*_useVertexBufferObjects &&*/ array->getBinding()==Array::BIND_PER_VERTEX || 
+                                       array->getBinding()==Array::BIND_UNDEFINED)
     {
         if (!array->getVertexBufferObject())
         {
@@ -574,7 +628,8 @@ osg::VertexBufferObject* Geometry::getOrCreateVertexBufferObject()
         ++vitr)
     {
         osg::Array* array = vitr->get();
-        if (array->getVertexBufferObject()) return array->getVertexBufferObject();
+        if (array->getVertexBufferObject()) 
+            return array->getVertexBufferObject();
     }
 
     return new osg::VertexBufferObject;
@@ -591,7 +646,8 @@ osg::ElementBufferObject* Geometry::getOrCreateElementBufferObject()
         ++deitr)
     {
         osg::DrawElements* elements = *deitr;
-        if (elements->getElementBufferObject()) return elements->getElementBufferObject();
+        if (elements->getElementBufferObject()) 
+            return elements->getElementBufferObject();
     }
 
     return new osg::ElementBufferObject;
@@ -603,7 +659,8 @@ void Geometry::setUseVertexBufferObjects(bool flag)
 
     // OSG_NOTICE<<"Geometry::setUseVertexBufferObjects("<<flag<<")"<<std::endl;
 
-    if (_useVertexBufferObjects==flag) return;
+    if (_useVertexBufferObjects==flag) 
+        return;
 
     Drawable::setUseVertexBufferObjects(flag);
 
@@ -626,17 +683,20 @@ void Geometry::setUseVertexBufferObjects(bool flag)
                 ++vitr)
             {
                 osg::Array* array = vitr->get();
-                if (array->getVertexBufferObject()) vbo = array->getVertexBufferObject();
+                if (array->getVertexBufferObject()) 
+                    vbo = array->getVertexBufferObject();
             }
 
-            if (!vbo) vbo = new osg::VertexBufferObject;
+            if (!vbo) 
+                vbo = new osg::VertexBufferObject;
 
             for(vitr = arrayList.begin();
                 vitr != arrayList.end();
                 ++vitr)
             {
                 osg::Array* array = vitr->get();
-                if (!array->getVertexBufferObject()) array->setVertexBufferObject(vbo.get());
+                if (!array->getVertexBufferObject()) 
+                    array->setVertexBufferObject(vbo.get());
             }
         }
 
@@ -650,7 +710,8 @@ void Geometry::setUseVertexBufferObjects(bool flag)
                 ++deitr)
             {
                 osg::DrawElements* elements = *deitr;
-                if (elements->getElementBufferObject()) ebo = elements->getElementBufferObject();
+                if (elements->getElementBufferObject()) 
+                    ebo = elements->getElementBufferObject();
             }
 
             if (!ebo) ebo = new osg::ElementBufferObject;
@@ -660,7 +721,8 @@ void Geometry::setUseVertexBufferObjects(bool flag)
                 ++deitr)
             {
                 osg::DrawElements* elements = *deitr;
-                if (!elements->getElementBufferObject()) elements->setElementBufferObject(ebo.get());
+                if (!elements->getElementBufferObject()) 
+                    elements->setElementBufferObject(ebo.get());
             }
         }
     }
@@ -776,14 +838,21 @@ VertexArrayState* Geometry::createVertexArrayStateImplementation(RenderInfo& ren
 
     // OSG_NOTICE<<"Creating new osg::VertexArrayState "<< vas<<std::endl;
 
-    if (_vertexArray.valid()) vas->assignVertexArrayDispatcher();
-    if (_colorArray.valid()) vas->assignColorArrayDispatcher();
-    if (_normalArray.valid()) vas->assignNormalArrayDispatcher();
-    if (_secondaryColorArray.valid()) vas->assignSecondaryColorArrayDispatcher();
-    if (_fogCoordArray.valid()) vas->assignFogCoordArrayDispatcher();
+    if (_vertexArray.valid()) 
+        vas->assignVertexArrayDispatcher();
+    if (_colorArray.valid()) 
+        vas->assignColorArrayDispatcher();
+    if (_normalArray.valid()) 
+        vas->assignNormalArrayDispatcher();
+    if (_secondaryColorArray.valid()) 
+        vas->assignSecondaryColorArrayDispatcher();
+    if (_fogCoordArray.valid()) 
+        vas->assignFogCoordArrayDispatcher();
 
-    if (!_texCoordList.empty()) vas->assignTexCoordArrayDispatcher(_texCoordList.size());
-    if (!_vertexAttribList.empty()) vas->assignVertexAttribArrayDispatcher(_vertexAttribList.size());
+    if (!_texCoordList.empty()) 
+        vas->assignTexCoordArrayDispatcher(_texCoordList.size());
+    if (!_vertexAttribList.empty()) 
+        vas->assignVertexAttribArrayDispatcher(_vertexAttribList.size());
 
     if (state.useVertexArrayObject(_useVertexArrayObject))
     {
@@ -806,37 +875,46 @@ void Geometry::compileGLObjects(RenderInfo& renderInfo) const
     {
         unsigned int contextID = state.getContextID();
         GLExtensions* extensions = state.get<GLExtensions>();
-        if (!extensions) return;
+        if (!extensions) 
+            return;
 
         typedef std::set<BufferObject*> BufferObjects;
         BufferObjects bufferObjects;
 
         // first collect all the active unique BufferObjects
-        if (_vertexArray.valid() && _vertexArray->getBufferObject()) bufferObjects.insert(_vertexArray->getBufferObject());
-        if (_normalArray.valid() && _normalArray->getBufferObject()) bufferObjects.insert(_normalArray->getBufferObject());
-        if (_colorArray.valid() && _colorArray->getBufferObject()) bufferObjects.insert(_colorArray->getBufferObject());
-        if (_secondaryColorArray.valid() && _secondaryColorArray->getBufferObject()) bufferObjects.insert(_secondaryColorArray->getBufferObject());
-        if (_fogCoordArray.valid() && _fogCoordArray->getBufferObject()) bufferObjects.insert(_fogCoordArray->getBufferObject());
+        if (_vertexArray.valid() && _vertexArray->getBufferObject()) 
+            bufferObjects.insert(_vertexArray->getBufferObject());
+        if (_normalArray.valid() && _normalArray->getBufferObject()) 
+            bufferObjects.insert(_normalArray->getBufferObject());
+        if (_colorArray.valid() && _colorArray->getBufferObject()) 
+            bufferObjects.insert(_colorArray->getBufferObject());
+        if (_secondaryColorArray.valid() && _secondaryColorArray->getBufferObject()) 
+            bufferObjects.insert(_secondaryColorArray->getBufferObject());
+        if (_fogCoordArray.valid() && _fogCoordArray->getBufferObject()) 
+            bufferObjects.insert(_fogCoordArray->getBufferObject());
 
         for(ArrayList::const_iterator itr = _texCoordList.begin();
             itr != _texCoordList.end();
             ++itr)
         {
-            if (itr->valid() && (*itr)->getBufferObject()) bufferObjects.insert((*itr)->getBufferObject());
+            if (itr->valid() && (*itr)->getBufferObject()) 
+                bufferObjects.insert((*itr)->getBufferObject());
         }
 
         for(ArrayList::const_iterator itr = _vertexAttribList.begin();
             itr != _vertexAttribList.end();
             ++itr)
         {
-            if (itr->valid() && (*itr)->getBufferObject()) bufferObjects.insert((*itr)->getBufferObject());
+            if (itr->valid() && (*itr)->getBufferObject()) 
+                bufferObjects.insert((*itr)->getBufferObject());
         }
 
         for(PrimitiveSetList::const_iterator itr = _primitives.begin();
             itr != _primitives.end();
             ++itr)
         {
-            if ((*itr)->getBufferObject()) bufferObjects.insert((*itr)->getBufferObject());
+            if ((*itr)->getBufferObject()) 
+                bufferObjects.insert((*itr)->getBufferObject());
         }
 
         if (bufferObjects.empty())
@@ -903,12 +981,14 @@ void Geometry::drawImplementation(RenderInfo& renderInfo) const
     vas->setVertexBufferObjectSupported(usingVertexBufferObjects);
 
     bool checkForGLErrors = state.getCheckForGLErrors()==osg::State::ONCE_PER_ATTRIBUTE;
-    if (checkForGLErrors) state.checkGLErrors("start of Geometry::drawImplementation()");
+    if (checkForGLErrors) 
+        state.checkGLErrors("start of Geometry::drawImplementation()");
 
 
     drawVertexArraysImplementation(renderInfo);
 
-    if (checkForGLErrors) state.checkGLErrors("Geometry::drawImplementation() after vertex arrays setup.");
+    if (checkForGLErrors) 
+        state.checkGLErrors("Geometry::drawImplementation() after vertex arrays setup.");
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -924,7 +1004,8 @@ void Geometry::drawImplementation(RenderInfo& renderInfo) const
         vas->unbindElementBufferObject();
     }
 
-    if (checkForGLErrors) state.checkGLErrors("end of Geometry::drawImplementation().");
+    if (checkForGLErrors) 
+        state.checkGLErrors("end of Geometry::drawImplementation().");
 }
 
 void Geometry::drawVertexArraysImplementation(RenderInfo& renderInfo) const
@@ -955,7 +1036,8 @@ void Geometry::drawVertexArraysImplementation(RenderInfo& renderInfo) const
 
     if (state.useVertexArrayObject(_useVertexArrayObject))
     {
-        if (!vas->getRequiresSetArrays()) return;
+        if (!vas->getRequiresSetArrays()) 
+            return;
     }
 
     vas->lazyDisablingOfVertexAttributes();
@@ -1010,7 +1092,8 @@ void Geometry::drawPrimitivesImplementation(RenderInfo& renderInfo) const
     for(unsigned int primitiveSetNum=0; primitiveSetNum!=_primitives.size(); ++primitiveSetNum)
     {
         // dispatch any attributes that are bound per primitive
-        if (bindPerPrimitiveSetActive) attributeDispatchers.dispatch(primitiveSetNum);
+        if (bindPerPrimitiveSetActive) 
+            attributeDispatchers.dispatch(primitiveSetNum);
 
         const PrimitiveSet* primitiveset = _primitives[primitiveSetNum].get();
 
@@ -1090,9 +1173,11 @@ void Geometry::accept(PrimitiveFunctor& functor) const
         vertices = _vertexAttribList[0].get();
     }
 
-    if (!vertices || vertices->getNumElements()==0) return;
+    if (!vertices || vertices->getNumElements()==0) 
+        return;
 
-    if (_containsDeprecatedData && dynamic_cast<const osg::IndexArray*>(vertices->getUserData())!=0)
+    if (_containsDeprecatedData && 
+        dynamic_cast<const osg::IndexArray*>(vertices->getUserData())!=0)
     {
         OSG_WARN<<"Geometry::accept(PrimitiveFunctor& functor) unable to work due to deprecated data, call geometry->fixDeprecatedData();"<<std::endl;
         return;
@@ -1141,9 +1226,11 @@ void Geometry::accept(PrimitiveIndexFunctor& functor) const
         vertices = _vertexAttribList[0].get();
     }
 
-    if (!vertices || vertices->getNumElements()==0) return;
+    if (!vertices || vertices->getNumElements()==0) 
+        return;
 
-    if (_containsDeprecatedData && dynamic_cast<const osg::IndexArray*>(vertices->getUserData())!=0)
+    if (_containsDeprecatedData && 
+        dynamic_cast<const osg::IndexArray*>(vertices->getUserData())!=0)
     {
         OSG_WARN<<"Geometry::accept(PrimitiveIndexFunctor& functor) unable to work due to deprecated data, call geometry->fixDeprecatedData();"<<std::endl;
         return;
@@ -1182,7 +1269,10 @@ void Geometry::accept(PrimitiveIndexFunctor& functor) const
     }
 }
 
-Geometry* osg::createTexturedQuadGeometry(const Vec3& corner,const Vec3& widthVec,const Vec3& heightVec, float l, float b, float r, float t)
+Geometry* osg::createTexturedQuadGeometry(const Vec3& corner,
+    const Vec3& widthVec,
+    const Vec3& heightVec, 
+    float l, float b, float r, float t)
 {
     Geometry* geom = new Geometry;
 
@@ -1271,7 +1361,8 @@ void Geometry::setVertexAttribBinding(unsigned int index,AttributeBinding ab)
     osg::Array::Binding binding = static_cast<osg::Array::Binding>(ab);
     if (index<_vertexAttribList.size() && _vertexAttribList[index].valid())
     {
-        if (_vertexAttribList[index]->getBinding()==binding) return;
+        if (_vertexAttribList[index]->getBinding()==binding) 
+            return;
 
         _vertexAttribList[index]->setBinding(binding);
 
@@ -1285,7 +1376,8 @@ void Geometry::setVertexAttribBinding(unsigned int index,AttributeBinding ab)
 
 void Geometry::setVertexAttribNormalize(unsigned int index,GLboolean norm)
 {
-    if (index<_vertexAttribList.size() && _vertexAttribList[index].valid())
+    if (index<_vertexAttribList.size() && 
+        _vertexAttribList[index].valid())
     {
         _vertexAttribList[index]->setNormalize(norm!=GL_FALSE);
 
@@ -1314,15 +1406,19 @@ Geometry::AttributeBinding Geometry::getFogCoordBinding() const
 
 Geometry::AttributeBinding Geometry::getVertexAttribBinding(unsigned int index) const
 {
-    if (index<_vertexAttribList.size() && _vertexAttribList[index].valid()) return static_cast<AttributeBinding>(_vertexAttribList[index]->getBinding());
-    else return BIND_OFF;
+    if (index<_vertexAttribList.size() && _vertexAttribList[index].valid()) 
+        return static_cast<AttributeBinding>(_vertexAttribList[index]->getBinding());
+    else 
+        return BIND_OFF;
 }
 
 
 GLboolean Geometry::getVertexAttribNormalize(unsigned int index) const
 {
-    if (index<_vertexAttribList.size() && _vertexAttribList[index].valid()) return _vertexAttribList[index]->getNormalize();
-    else return GL_FALSE;
+    if (index<_vertexAttribList.size() && _vertexAttribList[index].valid()) 
+        return _vertexAttribList[index]->getNormalize();
+    else 
+        return GL_FALSE;
 }
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1333,20 +1429,27 @@ bool Geometry::containsSharedArrays() const
 {
     unsigned int numSharedArrays = 0;
 
-    if (getVertexArray() && getVertexArray()->referenceCount()>1) ++numSharedArrays;
-    if (getNormalArray() && getNormalArray()->referenceCount()>1) ++numSharedArrays;
-    if (getColorArray() && getColorArray()->referenceCount()>1) ++numSharedArrays;
-    if (getSecondaryColorArray() && getSecondaryColorArray()->referenceCount()>1) ++numSharedArrays;
-    if (getFogCoordArray() && getFogCoordArray()->referenceCount()>1) ++numSharedArrays;
+    if (getVertexArray() && getVertexArray()->referenceCount()>1) 
+        ++numSharedArrays;
+    if (getNormalArray() && getNormalArray()->referenceCount()>1) 
+        ++numSharedArrays;
+    if (getColorArray() && getColorArray()->referenceCount()>1) 
+        ++numSharedArrays;
+    if (getSecondaryColorArray() && getSecondaryColorArray()->referenceCount()>1) 
+        ++numSharedArrays;
+    if (getFogCoordArray() && getFogCoordArray()->referenceCount()>1) 
+        ++numSharedArrays;
 
     for(unsigned int ti=0;ti<getNumTexCoordArrays();++ti)
     {
-        if (getTexCoordArray(ti) && getTexCoordArray(ti)->referenceCount()>1) ++numSharedArrays;
+        if (getTexCoordArray(ti) && getTexCoordArray(ti)->referenceCount()>1) 
+            ++numSharedArrays;
     }
 
     for(unsigned int vi=0;vi<_vertexAttribList.size();++vi)
     {
-        if (getVertexAttribArray(vi) && getVertexAttribArray(vi)->referenceCount()>1) ++numSharedArrays;
+        if (getVertexAttribArray(vi) && getVertexAttribArray(vi)->referenceCount()>1) 
+            ++numSharedArrays;
     }
     return numSharedArrays!=0;
 }
@@ -1394,8 +1497,10 @@ namespace GeometryUtilFunctions
     {
         if (array)
         {
-            if (array->getBinding()==3 /* BIND_PER_PRIMITIVE */) return true;
-            if (dynamic_cast<osg::IndexArray*>(array->getUserData())!=0) return true;
+            if (array->getBinding()==3 /* BIND_PER_PRIMITIVE */) 
+                return true;
+            if (dynamic_cast<osg::IndexArray*>(array->getUserData())!=0) 
+                return true;
         }
         return false;
     }
@@ -1470,24 +1575,31 @@ bool Geometry::checkForDeprecatedData()
 {
     _containsDeprecatedData = false;
 
-    if (GeometryUtilFunctions::containsDeprecatedUsage(_vertexArray.get())) _containsDeprecatedData = true;
+    if (GeometryUtilFunctions::containsDeprecatedUsage(_vertexArray.get())) 
+        _containsDeprecatedData = true;
 
-    if (GeometryUtilFunctions::containsDeprecatedUsage(_normalArray.get())) _containsDeprecatedData = true;
+    if (GeometryUtilFunctions::containsDeprecatedUsage(_normalArray.get())) 
+        _containsDeprecatedData = true;
 
-    if (GeometryUtilFunctions::containsDeprecatedUsage(_colorArray.get())) _containsDeprecatedData = true;
+    if (GeometryUtilFunctions::containsDeprecatedUsage(_colorArray.get())) 
+        _containsDeprecatedData = true;
 
-    if (GeometryUtilFunctions::containsDeprecatedUsage(_secondaryColorArray.get())) _containsDeprecatedData = true;
+    if (GeometryUtilFunctions::containsDeprecatedUsage(_secondaryColorArray.get())) 
+        _containsDeprecatedData = true;
 
-    if (GeometryUtilFunctions::containsDeprecatedUsage(_fogCoordArray.get())) _containsDeprecatedData = true;
+    if (GeometryUtilFunctions::containsDeprecatedUsage(_fogCoordArray.get())) 
+        _containsDeprecatedData = true;
 
     for(unsigned int ti=0;ti<getNumTexCoordArrays();++ti)
     {
-        if (GeometryUtilFunctions::containsDeprecatedUsage(_texCoordList[ti].get())) _containsDeprecatedData = true;
+        if (GeometryUtilFunctions::containsDeprecatedUsage(_texCoordList[ti].get())) 
+            _containsDeprecatedData = true;
     }
 
     for(unsigned int vi=0;vi<getNumVertexAttribArrays();++vi)
     {
-        if (GeometryUtilFunctions::containsDeprecatedUsage(_vertexAttribList[vi].get())) _containsDeprecatedData = true;
+        if (GeometryUtilFunctions::containsDeprecatedUsage(_vertexAttribList[vi].get())) 
+            _containsDeprecatedData = true;
     }
 
     return _containsDeprecatedData;
@@ -1496,42 +1608,53 @@ bool Geometry::checkForDeprecatedData()
 
 void Geometry::fixDeprecatedData()
 {
-    if (!_containsDeprecatedData) return;
+    if (!_containsDeprecatedData) 
+        return;
 
     bool containsBindPerPrimitive = false;
 
     // copy over attribute arrays.
     osg::IndexArray* indices = GeometryUtilFunctions::getIndexArray(_vertexArray.get());
 
-    if (indices) setVertexArray(GeometryUtilFunctions::expandIndexArray(_vertexArray.get(), indices));
+    if (indices) 
+        setVertexArray(GeometryUtilFunctions::expandIndexArray(_vertexArray.get(), indices));
 
-    if (osg::getBinding(_normalArray.get())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) containsBindPerPrimitive = true;
+    if (osg::getBinding(_normalArray.get())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) 
+        containsBindPerPrimitive = true;
     indices = GeometryUtilFunctions::getIndexArray(_normalArray.get());
-    if (indices) setNormalArray(GeometryUtilFunctions::expandIndexArray(getNormalArray(), indices));
+    if (indices) 
+        setNormalArray(GeometryUtilFunctions::expandIndexArray(getNormalArray(), indices));
 
-    if (osg::getBinding(getColorArray())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) containsBindPerPrimitive = true;
+    if (osg::getBinding(getColorArray())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) 
+        containsBindPerPrimitive = true;
     indices = GeometryUtilFunctions::getIndexArray(_colorArray.get());
-    if (indices) setColorArray(GeometryUtilFunctions::expandIndexArray(getColorArray(), indices));
+    if (indices) 
+        setColorArray(GeometryUtilFunctions::expandIndexArray(getColorArray(), indices));
 
     if (osg::getBinding(getSecondaryColorArray())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) containsBindPerPrimitive = true;
     indices = GeometryUtilFunctions::getIndexArray(_secondaryColorArray.get());
     if (indices) setSecondaryColorArray(GeometryUtilFunctions::expandIndexArray(getSecondaryColorArray(), indices));
 
-    if (osg::getBinding(getFogCoordArray())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) containsBindPerPrimitive = true;
+    if (osg::getBinding(getFogCoordArray())==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) 
+        containsBindPerPrimitive = true;
     indices = GeometryUtilFunctions::getIndexArray(_fogCoordArray.get());
-    if (indices) setFogCoordArray(GeometryUtilFunctions::expandIndexArray(getFogCoordArray(), indices));
+    if (indices) 
+        setFogCoordArray(GeometryUtilFunctions::expandIndexArray(getFogCoordArray(), indices));
 
     for(unsigned int ti=0;ti<getNumTexCoordArrays();++ti)
     {
         indices = GeometryUtilFunctions::getIndexArray(_texCoordList[ti].get());
-        if (indices) setTexCoordArray(ti, GeometryUtilFunctions::expandIndexArray(getTexCoordArray(ti), indices));
+        if (indices) 
+            setTexCoordArray(ti, GeometryUtilFunctions::expandIndexArray(getTexCoordArray(ti), indices));
     }
 
     for(unsigned int vi=0;vi<_vertexAttribList.size();++vi)
     {
-        if (osg::getBinding(getVertexAttribArray(vi))==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) containsBindPerPrimitive = true;
+        if (osg::getBinding(getVertexAttribArray(vi))==3 /*osg::Geometry::BIND_PER_PRIMITIVE*/) 
+            containsBindPerPrimitive = true;
         indices = GeometryUtilFunctions::getIndexArray(_vertexAttribList[vi].get());
-        if (indices) setVertexAttribArray(vi, GeometryUtilFunctions::expandIndexArray(getVertexAttribArray(vi), indices));
+        if (indices) 
+            setVertexAttribArray(vi, GeometryUtilFunctions::expandIndexArray(getVertexAttribArray(vi), indices));
     }
 
     // if none of the arrays are bind per primitive our job is done!
@@ -1598,30 +1721,39 @@ void Geometry::fixDeprecatedData()
     // allocate the arrays.
     GeometryUtilFunctions::ArrayPairs perVertexArrays;
     GeometryUtilFunctions::ArrayPairs perPrimitiveArrays;
-    if (_vertexArray.valid()) GeometryUtilFunctions::duplicateArray(perVertexArrays, _vertexArray, numVertices);
+    if (_vertexArray.valid()) 
+        GeometryUtilFunctions::duplicateArray(perVertexArrays, _vertexArray, numVertices);
 
     if (_normalArray.valid())
     {
-        if (_normalArray->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, _normalArray, numVertices);
-        else if (_normalArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _normalArray, numVertices);
+        if (_normalArray->getBinding()==osg::Array::BIND_PER_VERTEX) 
+            GeometryUtilFunctions::duplicateArray(perVertexArrays, _normalArray, numVertices);
+        else if (_normalArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+            GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _normalArray, numVertices);
     }
 
     if (_colorArray.valid())
     {
-        if (_colorArray->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, _colorArray, numVertices);
-        else if (_colorArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _colorArray, numVertices);
+        if (_colorArray->getBinding()==osg::Array::BIND_PER_VERTEX) 
+            GeometryUtilFunctions::duplicateArray(perVertexArrays, _colorArray, numVertices);
+        else if (_colorArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+            GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _colorArray, numVertices);
     }
 
     if (_secondaryColorArray.valid())
     {
-        if (_secondaryColorArray->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, _secondaryColorArray, numVertices);
-        else if (_secondaryColorArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _secondaryColorArray, numVertices);
+        if (_secondaryColorArray->getBinding()==osg::Array::BIND_PER_VERTEX) 
+            GeometryUtilFunctions::duplicateArray(perVertexArrays, _secondaryColorArray, numVertices);
+        else if (_secondaryColorArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+            GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _secondaryColorArray, numVertices);
     }
 
     if (_fogCoordArray.valid())
     {
-        if (_fogCoordArray->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, _fogCoordArray, numVertices);
-        else if (_fogCoordArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _fogCoordArray, numVertices);
+        if (_fogCoordArray->getBinding()==osg::Array::BIND_PER_VERTEX) 
+            GeometryUtilFunctions::duplicateArray(perVertexArrays, _fogCoordArray, numVertices);
+        else if (_fogCoordArray->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+            GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, _fogCoordArray, numVertices);
     }
 
     for(ArrayList::iterator itr = _texCoordList.begin();
@@ -1630,8 +1762,10 @@ void Geometry::fixDeprecatedData()
     {
         if (itr->valid())
         {
-            if ((*itr)->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, *itr, numVertices);
-            else if ((*itr)->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, *itr, numVertices);
+            if ((*itr)->getBinding()==osg::Array::BIND_PER_VERTEX) 
+                GeometryUtilFunctions::duplicateArray(perVertexArrays, *itr, numVertices);
+            else if ((*itr)->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+                GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, *itr, numVertices);
         }
     }
 
@@ -1641,8 +1775,10 @@ void Geometry::fixDeprecatedData()
     {
         if (itr->valid())
         {
-            if ((*itr)->getBinding()==osg::Array::BIND_PER_VERTEX) GeometryUtilFunctions::duplicateArray(perVertexArrays, *itr, numVertices);
-            else if ((*itr)->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, *itr, numVertices);
+            if ((*itr)->getBinding()==osg::Array::BIND_PER_VERTEX) 
+                GeometryUtilFunctions::duplicateArray(perVertexArrays, *itr, numVertices);
+            else if ((*itr)->getBinding()==3 /*osg::Array::BIND_PER_PRIMITIVE*/) 
+                GeometryUtilFunctions::duplicateArray(perPrimitiveArrays, *itr, numVertices);
         }
     }
 
@@ -1679,11 +1815,21 @@ void Geometry::fixDeprecatedData()
         unsigned int primLength;
         switch(mode)
         {
-            case(GL_POINTS):    primLength=1; break;
-            case(GL_LINES):     primLength=2; break;
-            case(GL_TRIANGLES): primLength=3; break;
-            case(GL_QUADS):     primLength=4; break;
-            default:            primLength=0; break; // compute later when =0.
+            case(GL_POINTS):    
+                primLength=1; 
+                break;
+            case(GL_LINES):     
+                primLength=2; 
+                break;
+            case(GL_TRIANGLES): 
+                primLength=3; 
+                break;
+            case(GL_QUADS):     
+                primLength=4; 
+                break;
+            default:            
+                primLength=0; 
+                break; // compute later when =0.
         }
 
         // copy the vertex data across to the new arays
@@ -1691,11 +1837,13 @@ void Geometry::fixDeprecatedData()
         {
             case(PrimitiveSet::DrawArraysPrimitiveType):
             {
-                if (primLength==0) primLength=primitiveset->getNumIndices();
+                if (primLength==0) 
+                    primLength=primitiveset->getNumIndices();
 
                 DrawArrays* drawArray = static_cast<DrawArrays*>(primitiveset);
 
-                if (primLength==0) primLength = drawArray->getCount();
+                if (primLength==0) 
+                    primLength = drawArray->getCount();
 
                 unsigned int primCount=0;
                 unsigned int startindex=drawArray->getFirst();
@@ -1705,7 +1853,8 @@ void Geometry::fixDeprecatedData()
                     vindex<indexEnd;
                     ++vindex, ++target_vindex, ++primCount)
                 {
-                    if ((primCount%primLength)==0) ++source_pindex;
+                    if ((primCount%primLength)==0) 
+                        ++source_pindex;
 
                     // copy bind per vertex from vindex
                     for(PtrList::iterator itr = perVertexPtrs.begin();
@@ -1746,14 +1895,18 @@ void Geometry::fixDeprecatedData()
                     ++primItr)
                 {
                     unsigned int localPrimLength;
-                    if (primLength==0) localPrimLength=*primItr;
-                    else localPrimLength=primLength;
+                    if (primLength==0) 
+                        localPrimLength=*primItr;
+                    else 
+                        localPrimLength=primLength;
+
                     drawArrayLengths->setFirst(target_vindex);
                     for(GLsizei primCount=0;
                         primCount<*primItr;
                         ++vindex, ++target_vindex, ++primCount)
                     {
-                        if ((primCount%localPrimLength)==0) ++source_pindex;
+                        if ((primCount%localPrimLength)==0) 
+                            ++source_pindex;
                         // copy bind per vertex from vindex
                         for(PtrList::iterator itr = perVertexPtrs.begin();
                             itr != perVertexPtrs.end();
@@ -1787,7 +1940,8 @@ void Geometry::fixDeprecatedData()
             }
             case(PrimitiveSet::DrawElementsUBytePrimitiveType):
             {
-                if (primLength==0) primLength=primitiveset->getNumIndices();
+                if (primLength==0) 
+                    primLength=primitiveset->getNumIndices();
 
                 DrawElementsUByte* drawElements = static_cast<DrawElementsUByte*>(primitiveset);
                 unsigned int primCount=0;
@@ -1795,7 +1949,8 @@ void Geometry::fixDeprecatedData()
                     primItr!=drawElements->end();
                     ++primCount, ++target_vindex, ++primItr)
                 {
-                    if ((primCount%primLength)==0) ++source_pindex;
+                    if ((primCount%primLength)==0) 
+                        ++source_pindex;
                     unsigned int vindex=*primItr;
                     *primItr=target_vindex;
 
@@ -1831,7 +1986,8 @@ void Geometry::fixDeprecatedData()
             }
             case(PrimitiveSet::DrawElementsUShortPrimitiveType):
             {
-                if (primLength==0) primLength=primitiveset->getNumIndices();
+                if (primLength==0) 
+                    primLength=primitiveset->getNumIndices();
 
                 DrawElementsUShort* drawElements = static_cast<DrawElementsUShort*>(primitiveset);
                 unsigned int primCount=0;
@@ -1839,7 +1995,8 @@ void Geometry::fixDeprecatedData()
                     primItr!=drawElements->end();
                     ++primCount, ++target_vindex, ++primItr)
                 {
-                    if ((primCount%primLength)==0) ++source_pindex;
+                    if ((primCount%primLength)==0) 
+                        ++source_pindex;
                     unsigned int vindex=*primItr;
                     *primItr=target_vindex;
 
@@ -1874,7 +2031,8 @@ void Geometry::fixDeprecatedData()
             }
             case(PrimitiveSet::DrawElementsUIntPrimitiveType):
             {
-                if (primLength==0) primLength=primitiveset->getNumIndices();
+                if (primLength==0) 
+                    primLength=primitiveset->getNumIndices();
 
                 DrawElementsUInt* drawElements = static_cast<DrawElementsUInt*>(primitiveset);
                 unsigned int primCount=0;
@@ -1882,7 +2040,8 @@ void Geometry::fixDeprecatedData()
                     primItr!=drawElements->end();
                     ++primCount, ++target_vindex, ++primItr)
                 {
-                    if ((primCount%primLength)==0) ++source_pindex;
+                    if ((primCount%primLength)==0) 
+                        ++source_pindex;
                     unsigned int vindex=*primItr;
                     *primItr=target_vindex;
 

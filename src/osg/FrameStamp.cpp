@@ -54,7 +54,8 @@ FrameStamp::~FrameStamp()
 
 FrameStamp& FrameStamp::operator = (const FrameStamp& fs)
 {
-    if (this==&fs) return *this;
+    if (this==&fs) 
+        return *this;
 
     _frameNumber = fs._frameNumber;
     _referenceTime = fs._referenceTime;
