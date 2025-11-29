@@ -87,14 +87,26 @@ class OSG_EXPORT BlendEquation : public StateAttribute
         }
 
 
-        inline void setEquation(Equation equation) { _equationRGB = _equationAlpha = equation; }
-        inline Equation getEquation() const { return _equationRGB; }
+        inline void setEquation(Equation equation) { 
+            _equationRGB = _equationAlpha = equation; 
+        }
+        inline Equation getEquation() const { 
+            return _equationRGB; 
+        }
 
-        inline void setEquationRGB(Equation equation) { _equationRGB = equation; }
-        inline Equation getEquationRGB() const { return _equationRGB; }
+        inline void setEquationRGB(Equation equation) { 
+            _equationRGB = equation; 
+        }
+        inline Equation getEquationRGB() const { 
+            return _equationRGB; 
+        }
 
-        inline void setEquationAlpha(Equation equation) { _equationAlpha = equation; }
-        inline Equation getEquationAlpha() const { return _equationAlpha; }
+        inline void setEquationAlpha(Equation equation) { 
+            _equationAlpha = equation; 
+        }
+        inline Equation getEquationAlpha() const { 
+            return _equationAlpha; 
+        }
 
         virtual void apply(State& state) const;
 

@@ -57,11 +57,17 @@ class OSG_EXPORT BlendColor : public StateAttribute
             return true;
         }
 
-        void setConstantColor(const osg::Vec4& color) { _constantColor = color; }
+        void setConstantColor(const osg::Vec4& color) { 
+            _constantColor = color; 
+        }
 
-        inline osg::Vec4& getConstantColor() { return _constantColor; }
+        inline osg::Vec4& getConstantColor() { 
+            return _constantColor; 
+        }
 
-        inline const osg::Vec4& getConstantColor() const { return _constantColor; }
+        inline const osg::Vec4& getConstantColor() const { 
+            return _constantColor; 
+        }
 
         virtual void apply(State& state) const;
 

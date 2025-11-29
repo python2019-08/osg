@@ -51,21 +51,46 @@ class OSG_EXPORT ArgumentParser
                 std::string*    _string;
             };
 
-            Parameter(bool& value) { _type = BOOL_PARAMETER; _value._bool = &value; }
+            Parameter(bool& value) { 
+              _type = BOOL_PARAMETER; 
+              _value._bool = &value; 
+            }
 
-            Parameter(float& value) { _type = FLOAT_PARAMETER; _value._float = &value; }
+            Parameter(float& value) { 
+              _type = FLOAT_PARAMETER; 
+              _value._float = &value; 
+            }
 
-            Parameter(double& value) { _type = DOUBLE_PARAMETER; _value._double = &value; }
+            Parameter(double& value) { 
+              _type = DOUBLE_PARAMETER; 
+              _value._double = &value; 
+            }
 
-            Parameter(int& value) { _type = INT_PARAMETER; _value._int = &value; }
+            Parameter(int& value) { 
+              _type = INT_PARAMETER; 
+              _value._int = &value; 
+            }
 
-            Parameter(unsigned int& value)  { _type = UNSIGNED_INT_PARAMETER; _value._uint = &value; }
+            Parameter(unsigned int& value)  { 
+              _type = UNSIGNED_INT_PARAMETER; 
+              _value._uint = &value; 
+            }
 
-            Parameter(std::string& value) { _type = STRING_PARAMETER; _value._string = &value; }
+            Parameter(std::string& value) { 
+              _type = STRING_PARAMETER; 
+              _value._string = &value; 
+            }
 
-            Parameter(const Parameter& param) { _type = param._type; _value = param._value; }
+            Parameter(const Parameter& param) { 
+              _type = param._type; 
+              _value = param._value; 
+            }
 
-            Parameter& operator = (const Parameter& param) { _type = param._type; _value = param._value; return *this; }
+            Parameter& operator = (const Parameter& param) { 
+              _type = param._type; 
+              _value = param._value; 
+              return *this; 
+            }
 
             bool valid(const char* str) const;
             bool assign(const char* str);
@@ -94,21 +119,35 @@ class OSG_EXPORT ArgumentParser
 
         ArgumentParser(int* argc,char **argv);
 
-        void setApplicationUsage(ApplicationUsage* usage) { _usage = usage; }
-        ApplicationUsage* getApplicationUsage() { return _usage.get(); }
-        const ApplicationUsage* getApplicationUsage() const { return _usage.get(); }
+        void setApplicationUsage(ApplicationUsage* usage) { 
+          _usage = usage; 
+        }
+        ApplicationUsage* getApplicationUsage() { 
+          return _usage.get(); 
+        }
+        const ApplicationUsage* getApplicationUsage() const { 
+          return _usage.get(); 
+        }
 
         /** Return the argument count. */
-        int& argc() { return *_argc; }
+        int& argc() { 
+          return *_argc; 
+        }
 
         /** Return the argument array. */
-        char** argv() { return _argv; }
+        char** argv() { 
+          return _argv; 
+        }
 
         /** Return the char* argument at the specified position. */
-        char* operator [] (int pos) { return _argv[pos]; }
+        char* operator [] (int pos) { 
+          return _argv[pos]; 
+        }
 
         /** Return the const char* argument at the specified position. */
-        const char* operator [] (int pos) const { return _argv[pos]; }
+        const char* operator [] (int pos) const { 
+          return _argv[pos]; 
+        }
 
         /** Return the application name, as specified by argv[0]  */
         std::string getApplicationName() const;
@@ -142,12 +181,19 @@ class OSG_EXPORT ArgumentParser
         bool read(const std::string& str);
         bool read(const std::string& str, Parameter value1);
         bool read(const std::string& str, Parameter value1, Parameter value2);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7);
-        bool read(const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7, Parameter value8);
+        bool read(const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3);
+        bool read(const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4);
+        bool read(const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5);
+        bool read(const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5, Parameter value6);
+        bool read(const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7);
+        bool read(const std::string& str, Parameter value1, Parameter value2,
+           Parameter value3, Parameter value4, Parameter value5, 
+           Parameter value6, Parameter value7, Parameter value8);
 
 
         /** If the argument value at the specified position matches the given string,
@@ -156,12 +202,20 @@ class OSG_EXPORT ArgumentParser
         bool read(int pos, const std::string& str);
         bool read(int pos, const std::string& str, Parameter value1);
         bool read(int pos, const std::string& str, Parameter value1, Parameter value2);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7);
-        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, Parameter value3, Parameter value4, Parameter value5, Parameter value6, Parameter value7, Parameter value8);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5, Parameter value6);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5, Parameter value6, 
+          Parameter value7);
+        bool read(int pos, const std::string& str, Parameter value1, Parameter value2, 
+          Parameter value3, Parameter value4, Parameter value5, Parameter value6, 
+          Parameter value7, Parameter value8);
 
 
         enum ErrorSeverity
@@ -182,10 +236,14 @@ class OSG_EXPORT ArgumentParser
         void reportRemainingOptionsAsUnrecognized(ErrorSeverity severity=BENIGN);
 
         /** Return the error message, if any has occurred. */
-        ErrorMessageMap& getErrorMessageMap() { return _errorMessageMap; }
+        ErrorMessageMap& getErrorMessageMap() { 
+          return _errorMessageMap; 
+        }
 
         /** Return the error message, if any has occurred. */
-        const ErrorMessageMap& getErrorMessageMap() const { return _errorMessageMap; }
+        const ErrorMessageMap& getErrorMessageMap() const { 
+          return _errorMessageMap; 
+        }
 
         /** Write error messages to the given ostream, if at or above the given severity. */
         void writeErrorMessages(std::ostream& output,ErrorSeverity sevrity=BENIGN);

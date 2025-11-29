@@ -26,8 +26,12 @@ public:
 
     AudioSink();
 
-    virtual const char * libraryName() const { return "osg"; }
-    virtual const char * className() const { return "AudioSinkInterface"; }
+    virtual const char * libraryName() const { 
+        return "osg"; 
+    }
+    virtual const char * className() const { 
+        return "AudioSinkInterface"; 
+    }
 
     virtual void play() = 0;
     virtual void pause()  = 0;
@@ -35,16 +39,24 @@ public:
 
     virtual bool playing() const = 0;
 
-    virtual double getDelay() const { return _delay; }
+    virtual double getDelay() const { 
+        return _delay; 
+    }
     virtual void setDelay(const double delay) { _delay = delay; }
 
     virtual void setVolume(float) {}
-    virtual float getVolume() const { return 0.0f; }
+    virtual float getVolume() const { 
+        return 0.0f; 
+    }
 
 private:
 
-    virtual Object* cloneType() const { return 0; }
-    virtual Object* clone(const osg::CopyOp &) const { return 0; }
+    virtual Object* cloneType() const { 
+        return 0; 
+    }
+    virtual Object* clone(const osg::CopyOp &) const { 
+        return 0; 
+    }
 
     double  _delay;
 };
@@ -58,9 +70,15 @@ class OSG_EXPORT AudioStream : public osg::Object
         /** Copy constructor using CopyOp to manage deep vs shallow copy. */
         AudioStream(const AudioStream& audio,const CopyOp& copyop=CopyOp::SHALLOW_COPY);
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const AudioStream*>(obj)!=0; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "AudioStream"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const AudioStream*>(obj)!=0; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "AudioStream"; 
+        }
 
         virtual void setAudioSink(osg::AudioSink* audio_sink) = 0;
 

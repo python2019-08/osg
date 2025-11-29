@@ -27,7 +27,8 @@ inline void clampGEQUAL(T& value,const T minValue,const char* valueName)
 {
     if (value<minValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<" of "<<value<<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<" of "<<value
+                  <<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
         value = minValue;
     }
 }
@@ -40,7 +41,8 @@ inline void clampLEQUAL(T& value,const T maxValue,const char* valueName)
 {
     if (value>maxValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<" of "<<value<<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<" of "<<value
+                  <<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
         value = maxValue;
     }
 }
@@ -55,13 +57,15 @@ inline void clampBetweenRange(T& value,const T minValue,const T maxValue,const c
 {
     if (value<minValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<" of "<<value<<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<" of "<<value
+                  <<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
         value = minValue;
     }
     else
     if (value>maxValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<" of "<<value<<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<" of "<<value
+                <<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
         value = maxValue;
     }
 
@@ -75,7 +79,8 @@ inline void clampArrayElementGEQUAL(A& value,unsigned int i,const T minValue,con
 {
     if (value[i]<minValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]<<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]
+                <<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
         value[i] = minValue;
     }
 }
@@ -88,7 +93,8 @@ inline void clampArrayElementLEQUAL(A& value,unsigned int i,const T maxValue,con
 {
     if (value[i]>maxValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]<<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]
+                <<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
         value = maxValue;
     }
 }
@@ -99,17 +105,20 @@ inline void clampArrayElementLEQUAL(A& value,unsigned int i,const T maxValue,con
   *   clampArrayElementGEQUAL( value, i, minValue, valueName );
   *   clampArrayElementLEQUAL( value, i, maxValue, valueName ); */
 template <typename A, typename T>
-inline void clampArrayElementBetweenRange(A& value,unsigned int i,const T minValue,const T maxValue,const char* valueName)
+inline void clampArrayElementBetweenRange(A& value,unsigned int i,
+  const T minValue,const T maxValue,const char* valueName)
 {
     if (value[i]<minValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]<<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]
+                <<" is below permitted minimum, clamping to "<<minValue<<"."<< std::endl;
         value[i] = minValue;
     }
     else
     if (value[i]>maxValue)
     {
-        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]<<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
+        notify(WARN) << "Warning: "<<valueName<<"["<<i<<"] of "<<value[i]
+              <<" is above permitted maximum, clamping to "<<maxValue<<"."<< std::endl;
         value[i] = maxValue;
     }
 
@@ -119,7 +128,8 @@ inline void clampArrayElementBetweenRange(A& value,unsigned int i,const T minVal
   * greater than or equal to minValue do nothing - legal value, Otherwise
   * clamp the element to minValue, and warn that valueName[i] was clamped. */
 template <typename A, typename T>
-inline void clampArrayElementsGEQUAL(A& value,unsigned int first,unsigned int last,const T minValue,const char* valueName)
+inline void clampArrayElementsGEQUAL(A& value,
+  unsigned int first,unsigned int last,const T minValue,const char* valueName)
 {
     for(unsigned int i=first;i<=last;++i)
         clampArrayElementGEQUAL(value,i,minValue,valueName);
@@ -129,7 +139,8 @@ inline void clampArrayElementsGEQUAL(A& value,unsigned int first,unsigned int la
   * less than or equal to maxValue do nothing - legal value, Otherwise clamp
   * the element to maxValue, and warn that valueName[i] was clamped. */
 template <typename A, typename T>
-inline void clampArrayElementsLEQUAL(A& value,unsigned int first,unsigned int last,const T maxValue,const char* valueName)
+inline void clampArrayElementsLEQUAL(A& value,
+  unsigned int first,unsigned int last,const T maxValue,const char* valueName)
 {
     for(unsigned int i=first;i<=last;++i)
         clampArrayElementLEQUAL(value,i,maxValue,valueName);
@@ -142,7 +153,8 @@ inline void clampArrayElementsLEQUAL(A& value,unsigned int first,unsigned int la
   *   clampArrayElementsGEQUAL( value, first, last, minValue, valueName);
   *   clampArrayElementsLEQUAL( value, first, last, maxValue, valueName); */
 template <typename A, typename T>
-inline void clampArrayElementsBetweenRange(A& value,unsigned int first,unsigned int last,const T minValue,const T maxValue,const char* valueName)
+inline void clampArrayElementsBetweenRange(A& value,
+  unsigned int first,unsigned int last,const T minValue,const T maxValue,const char* valueName)
 {
     for(unsigned int i=first;i<=last;++i)
         clampArrayElementBetweenRange(value,i,minValue,maxValue,valueName);

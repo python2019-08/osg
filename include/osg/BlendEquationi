@@ -55,13 +55,17 @@ class OSG_EXPORT BlendEquationi : public BlendEquation
         }
 
         /** Return the buffer index as the member identifier.*/
-        virtual unsigned int getMember() const { return _index; }
+        virtual unsigned int getMember() const { 
+            return _index; 
+        }
 
         /** Set the renderbuffer index of the BlendEquationi. */
         void setIndex(unsigned int buf);
 
         /** Get the renderbuffer index of the BlendEquationi. */
-        unsigned int getIndex() const { return _index; }
+        unsigned int getIndex() const { 
+            return _index; 
+        }
 
         virtual void apply(State& state) const;
 

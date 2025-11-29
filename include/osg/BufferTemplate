@@ -40,19 +40,39 @@ class BufferTemplate : public BufferData
             _data(bt._data)
         {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const BufferTemplate<T>*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "BufferTemplate<T>"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const BufferTemplate<T>*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "BufferTemplate<T>"; 
+        }
 
-        virtual Object* cloneType() const { return new BufferTemplate<T>(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new BufferTemplate<T>(*this,copyop); }
+        virtual Object* cloneType() const { 
+            return new BufferTemplate<T>(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new BufferTemplate<T>(*this,copyop); 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return &_data; }
-        virtual unsigned int    getTotalDataSize() const  { return sizeof(T); }
+        virtual const GLvoid*   getDataPointer() const { 
+            return &_data; 
+        }
+        virtual unsigned int    getTotalDataSize() const  { 
+            return sizeof(T); 
+        }
         
-        const T& getData() const { return _data; }
-        T&       getData() { return _data; }
-        void     setData(const T& data) { _data = data; dirty(); }
+        const T& getData() const { 
+            return _data; 
+        }
+        T&       getData() { 
+            return _data; 
+        }
+        void     setData(const T& data) { 
+            _data = data; dirty(); 
+        }
 
     protected:
         virtual ~BufferTemplate() {};
@@ -78,19 +98,39 @@ class BufferTemplate< std::vector<T> > : public BufferData
             _data(bt._data)
         {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const BufferTemplate< std::vector<T> >*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "BufferTemplate<std::vector<T> >"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const BufferTemplate< std::vector<T> >*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "BufferTemplate<std::vector<T> >"; 
+        }
 
-        virtual Object* cloneType() const { return new BufferTemplate< std::vector<T> >(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new BufferTemplate< std::vector<T> >(*this,copyop); }
+        virtual Object* cloneType() const { 
+            return new BufferTemplate< std::vector<T> >(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new BufferTemplate< std::vector<T> >(*this,copyop); 
+        }
 
-        virtual const GLvoid*   getDataPointer() const { return &_data[0]; }
-        virtual unsigned int    getTotalDataSize() const  { return _data.size() * sizeof(T); }
+        virtual const GLvoid*   getDataPointer() const { 
+            return &_data[0]; 
+        }
+        virtual unsigned int    getTotalDataSize() const  { 
+            return _data.size() * sizeof(T); 
+        }
         
-        const std::vector<T>&   getData() const { return _data; }
-        std::vector<T>&         getData() { return _data; }
-        void                    setData(const std::vector<T>& data) { _data = data; dirty(); }
+        const std::vector<T>&   getData() const { 
+            return _data; 
+        }
+        std::vector<T>&         getData() { 
+            return _data; 
+        }
+        void                    setData(const std::vector<T>& data) { 
+            _data = data; dirty(); 
+        }
 
     protected:
         virtual ~BufferTemplate() {};

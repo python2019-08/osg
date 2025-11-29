@@ -137,23 +137,47 @@ class OSG_EXPORT BlendFunc : public StateAttribute
             _destination_factor_alpha = destination_alpha;
         }
 
-        void setSource(GLenum source) { _source_factor = _source_factor_alpha = source; }
-        inline GLenum getSource() const { return _source_factor; }
+        void setSource(GLenum source) { 
+            _source_factor = _source_factor_alpha = source; 
+        }
+        inline GLenum getSource() const { 
+            return _source_factor; 
+        }
 
-        void setSourceRGB(GLenum source) { _source_factor = source; }
-        inline GLenum getSourceRGB() const { return _source_factor; }
+        void setSourceRGB(GLenum source) { 
+            _source_factor = source; 
+        }
+        inline GLenum getSourceRGB() const { 
+            return _source_factor; 
+        }
 
-        void setSourceAlpha(GLenum source) { _source_factor_alpha = source; }
-        inline GLenum getSourceAlpha() const { return _source_factor_alpha; }
+        void setSourceAlpha(GLenum source) { 
+            _source_factor_alpha = source; 
+        }
+        inline GLenum getSourceAlpha() const { 
+            return _source_factor_alpha; 
+        }
 
-        void setDestination(GLenum destination) { _destination_factor = _destination_factor_alpha = destination; }
-        inline GLenum getDestination() const { return _destination_factor; }
+        void setDestination(GLenum destination) { 
+            _destination_factor = _destination_factor_alpha = destination; 
+        }
+        inline GLenum getDestination() const { 
+            return _destination_factor; 
+        }
 
-        void setDestinationRGB(GLenum destination) { _destination_factor = destination; }
-        inline GLenum getDestinationRGB() const { return _destination_factor; }
+        void setDestinationRGB(GLenum destination) { 
+            _destination_factor = destination; 
+        }
+        inline GLenum getDestinationRGB() const { 
+            return _destination_factor; 
+        }
 
-        void setDestinationAlpha(GLenum destination) { _destination_factor_alpha = destination; }
-        inline GLenum getDestinationAlpha() const { return _destination_factor_alpha; }
+        void setDestinationAlpha(GLenum destination) { 
+            _destination_factor_alpha = destination; 
+        }
+        inline GLenum getDestinationAlpha() const { 
+            return _destination_factor_alpha; 
+        }
 
         virtual void apply(State& state) const;
 

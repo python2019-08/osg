@@ -67,33 +67,65 @@ class OSG_EXPORT BindImageTexture : public osg::StateAttribute {
 
         META_StateAttribute(osg,BindImageTexture, BINDIMAGETEXTURE)
 
-        inline void setImageUnit(GLuint i) { _imageunit=i; }
-        inline GLuint getImageUnit() const { return _imageunit; }
+        inline void setImageUnit(GLuint i) { 
+            _imageunit=i; 
+        }
+        inline GLuint getImageUnit() const { 
+            return _imageunit; 
+        }
 
-        inline void setLevel(GLint i) { _level=i; }
-        inline GLint getLevel() const { return _level; }
+        inline void setLevel(GLint i) { 
+            _level=i; 
+        }
+        inline GLint getLevel() const { 
+            return _level; 
+        }
 
-        inline void setIsLayered(GLboolean i) { _layered=i; }
-        inline GLboolean getIsLayered() const { return _layered; }
+        inline void setIsLayered(GLboolean i) {
+             _layered=i; 
+            }
+        inline GLboolean getIsLayered() const { 
+            return _layered; 
+        }
 
-        inline void setLayer(GLint i) { _layer=i; }
-        inline GLint getLayer() const { return _layer; }
+        inline void setLayer(GLint i) { 
+            _layer=i; 
+        }
+        inline GLint getLayer() const { 
+            return _layer; 
+        }
 
-        inline void setAccess(Access i) { _access=i; }
-        inline Access getAccess() const { return _access; }
+        inline void setAccess(Access i) { 
+            _access=i; 
+        }
+        inline Access getAccess() const { 
+            return _access; 
+        }
 
-        inline void setFormat(GLenum i) { _format=i; }
-        inline GLenum getFormat() const { return _format; }
+        inline void setFormat(GLenum i) { 
+            _format=i; 
+        }
+        inline GLenum getFormat() const { 
+            return _format; 
+        }
 
-        inline void setTexture(osg::Texture* target) { _target=target; }
-        inline osg::Texture* getTexture() { return _target.get();}
-        inline const osg::Texture* getTexture() const { return _target.get();}
+        inline void setTexture(osg::Texture* target) { 
+            _target=target; 
+        }
+        inline osg::Texture* getTexture() { 
+            return _target.get();
+        }
+        inline const osg::Texture* getTexture() const { 
+            return _target.get();
+        }
 
         virtual void apply(osg::State&state) const;
 
         virtual int compare(const osg::StateAttribute &sa) const;
 
-        virtual unsigned getMember() const { return static_cast<unsigned int>(_imageunit); }
+        virtual unsigned getMember() const { 
+            return static_cast<unsigned int>(_imageunit); 
+        }
 
     protected:
 

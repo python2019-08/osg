@@ -135,7 +135,10 @@ class OSG_EXPORT Array : public BufferData
             BIND_PER_VERTEX=4
         };
 
-        Array(Type arrayType=ArrayType,GLint dataSize=0,GLenum dataType=0, Binding binding=BIND_UNDEFINED):
+        Array(Type arrayType=ArrayType,
+            GLint dataSize=0,
+            GLenum dataType=0, 
+            Binding binding=BIND_UNDEFINED):
             _arrayType(arrayType),
             _dataSize(dataSize),
             _dataType(dataType),
@@ -152,8 +155,12 @@ class OSG_EXPORT Array : public BufferData
             _normalize(array._normalize),
             _preserveDataType(array._preserveDataType) {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const Array*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const Array*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
 
         /// Get the class name of this array.  Defined in src/osg/Array.cpp
         /// for all concrete array types listed below --- doesn't use traits.
@@ -169,12 +176,22 @@ class OSG_EXPORT Array : public BufferData
           * 1 if lhs element is greater than rhs element. */
         virtual int compare(unsigned int lhs,unsigned int rhs) const = 0;
 
-        Type getType() const { return _arrayType; }
-        GLint getDataSize() const { return _dataSize; }
-        GLenum getDataType() const { return _dataType; }
+        Type getType() const { 
+            return _arrayType; 
+        }
+        GLint getDataSize() const { 
+            return _dataSize; 
+        }
+        GLenum getDataType() const { 
+            return _dataType; 
+        }
 
-        virtual osg::Array* asArray() { return this; }
-        virtual const osg::Array* asArray() const { return this; }
+        virtual osg::Array* asArray() { 
+            return this; 
+        }
+        virtual const osg::Array* asArray() const { 
+            return this; 
+        }
 
         virtual unsigned int getElementSize() const = 0;
         virtual const GLvoid* getDataPointer() const = 0;
@@ -186,37 +203,55 @@ class OSG_EXPORT Array : public BufferData
 
 
         /** Specify how this array should be passed to OpenGL.*/
-        void setBinding(Binding binding) { _binding = binding; }
+        void setBinding(Binding binding) { 
+            _binding = binding; 
+        }
 
         /** Get how this array should be passed to OpenGL.*/
-        Binding getBinding() const { return _binding; }
+        Binding getBinding() const { 
+            return _binding; 
+        }
 
 
         /** Specify whether the array data should be normalized by OpenGL.*/
-        void setNormalize(bool normalize) { _normalize = normalize; }
+        void setNormalize(bool normalize) { 
+            _normalize = normalize; 
+        }
 
         /** Get whether the array data should be normalized by OpenGL.*/
-        bool getNormalize() const { return _normalize; }
+        bool getNormalize() const { 
+            return _normalize; 
+        }
 
 
         /** Set hint to ask that the array data is passed via integer or double, or normal setVertexAttribPointer function.*/
-        void setPreserveDataType(bool preserve) { _preserveDataType = preserve; }
+        void setPreserveDataType(bool preserve) { 
+            _preserveDataType = preserve; 
+        }
 
         /** Get hint to ask that the array data is passed via integer or double, or normal setVertexAttribPointer function.*/
-        bool getPreserveDataType() const { return _preserveDataType; }
+        bool getPreserveDataType() const { 
+            return _preserveDataType; 
+        }
 
 
         /** Frees unused space on this vector - i.e. the difference between size() and max_size() of the underlying vector.*/
         virtual void trim() {}
 
         /** Set the VertexBufferObject.*/
-        inline void setVertexBufferObject(osg::VertexBufferObject* vbo) { setBufferObject(vbo); }
+        inline void setVertexBufferObject(osg::VertexBufferObject* vbo) { 
+            setBufferObject(vbo); 
+        }
 
         /** Get the VertexBufferObject. If no VBO is assigned returns NULL*/
-        inline osg::VertexBufferObject* getVertexBufferObject() { return dynamic_cast<osg::VertexBufferObject*>(_bufferObject.get()); }
+        inline osg::VertexBufferObject* getVertexBufferObject() { 
+            return dynamic_cast<osg::VertexBufferObject*>(_bufferObject.get()); 
+        }
 
         /** Get the const VertexBufferObject. If no VBO is assigned returns NULL*/
-        inline const osg::VertexBufferObject* getVertexBufferObject() const { return dynamic_cast<const osg::VertexBufferObject*>(_bufferObject.get());  }
+        inline const osg::VertexBufferObject* getVertexBufferObject() const { 
+            return dynamic_cast<const osg::VertexBufferObject*>(_bufferObject.get());  
+        }
 
     protected:
 
@@ -231,10 +266,14 @@ class OSG_EXPORT Array : public BufferData
 };
 
 /** convenience function for getting the binding of array via a ptr that may be null.*/
-inline osg::Array::Binding getBinding(const osg::Array* array) { return array ? array->getBinding() : osg::Array::BIND_OFF; }
+inline osg::Array::Binding getBinding(const osg::Array* array) { 
+    return array ? array->getBinding() : osg::Array::BIND_OFF; 
+}
 
 /** convenience function for getting the binding of array via a ptr that may be null.*/
-inline bool getNormalize(const osg::Array* array) { return array ? array->getNormalize() : false; }
+inline bool getNormalize(const osg::Array* array) { 
+    return array ? array->getNormalize() : false; 
+}
 
 
 /// A concrete array holding elements of type T.
@@ -272,13 +311,19 @@ class TemplateArray : public Array, public MixinVector<T>
 
         TemplateArray& operator = (const TemplateArray& array)
         {
-            if (this==&array) return *this;
+            if (this==&array) 
+                return *this;
+
             this->assign(array.begin(),array.end());
             return *this;
         }
 
-        virtual Object* cloneType() const { return new TemplateArray(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new TemplateArray(*this,copyop); }
+        virtual Object* cloneType() const { 
+            return new TemplateArray(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new TemplateArray(*this,copyop); 
+        }
 
         inline virtual void accept(ArrayVisitor& av);
         inline virtual void accept(ConstArrayVisitor& av) const;
@@ -290,8 +335,10 @@ class TemplateArray : public Array, public MixinVector<T>
         {
             const T& elem_lhs = (*this)[lhs];
             const T& elem_rhs = (*this)[rhs];
-            if (elem_lhs<elem_rhs) return -1;
-            if (elem_rhs<elem_lhs) return 1;
+            if (elem_lhs<elem_rhs) 
+                return -1;
+            if (elem_rhs<elem_lhs) 
+                return 1;
             return 0;
         }
 
@@ -301,13 +348,33 @@ class TemplateArray : public Array, public MixinVector<T>
             MixinVector<T>( *this ).swap( *this );
         }
 
-        virtual unsigned int    getElementSize() const { return sizeof(ElementDataType); }
-        virtual const GLvoid*   getDataPointer() const { if (!this->empty()) return &this->front(); else return 0; }
-        virtual const GLvoid*   getDataPointer(unsigned int index) const { if (!this->empty()) return &((*this)[index]); else return 0; }
-        virtual unsigned int    getTotalDataSize() const { return static_cast<unsigned int>(this->size()*sizeof(ElementDataType)); }
-        virtual unsigned int    getNumElements() const { return static_cast<unsigned int>(this->size()); }
-        virtual void reserveArray(unsigned int num) { this->reserve(num); }
-        virtual void resizeArray(unsigned int num) { this->resize(num); }
+        virtual unsigned int    getElementSize() const { 
+            return sizeof(ElementDataType); 
+        }
+        virtual const GLvoid*   getDataPointer() const { 
+            if (!this->empty()) 
+                return &this->front(); 
+            else 
+                return 0; 
+        }
+        virtual const GLvoid*   getDataPointer(unsigned int index) const { 
+            if (!this->empty()) 
+                return &((*this)[index]); 
+            else 
+                return 0; 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return static_cast<unsigned int>(this->size()*sizeof(ElementDataType)); 
+        }
+        virtual unsigned int    getNumElements() const { 
+            return static_cast<unsigned int>(this->size()); 
+        }
+        virtual void reserveArray(unsigned int num) { 
+            this->reserve(num); 
+        }
+        virtual void resizeArray(unsigned int num) { 
+            this->resize(num); 
+        }
 
         typedef T ElementDataType; // expose T
 
@@ -327,7 +394,9 @@ class OSG_EXPORT IndexArray : public Array
         IndexArray(const Array& array,const CopyOp& copyop=CopyOp::SHALLOW_COPY):
             Array(array,copyop) {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const IndexArray*>(obj)!=NULL; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const IndexArray*>(obj)!=NULL; 
+        }
 
         virtual unsigned int index(unsigned int pos) const = 0;
 
@@ -362,13 +431,19 @@ class TemplateIndexArray : public IndexArray, public MixinVector<T>
 
         TemplateIndexArray& operator = (const TemplateIndexArray& array)
         {
-            if (this==&array) return *this;
+            if (this==&array) 
+                return *this;
+
             this->assign(array.begin(),array.end());
             return *this;
         }
 
-        virtual Object* cloneType() const { return new TemplateIndexArray(); }
-        virtual Object* clone(const CopyOp& copyop) const { return new TemplateIndexArray(*this,copyop); }
+        virtual Object* cloneType() const { 
+            return new TemplateIndexArray(); 
+        }
+        virtual Object* clone(const CopyOp& copyop) const { 
+            return new TemplateIndexArray(*this,copyop); 
+        }
 
         inline virtual void accept(ArrayVisitor& av);
         inline virtual void accept(ConstArrayVisitor& av) const;
@@ -380,8 +455,10 @@ class TemplateIndexArray : public IndexArray, public MixinVector<T>
         {
             const T& elem_lhs = (*this)[lhs];
             const T& elem_rhs = (*this)[rhs];
-            if (elem_lhs<elem_rhs) return -1;
-            if (elem_rhs<elem_lhs) return 1;
+            if (elem_lhs<elem_rhs) 
+                return -1;
+            if (elem_rhs<elem_lhs) 
+                return 1;
             return 0;
         }
 
@@ -391,15 +468,37 @@ class TemplateIndexArray : public IndexArray, public MixinVector<T>
             MixinVector<T>( *this ).swap( *this );
         }
 
-        virtual unsigned int getElementSize() const { return sizeof(ElementDataType); }
-        virtual const GLvoid*   getDataPointer() const { if (!this->empty()) return &this->front(); else return 0; }
-        virtual const GLvoid*   getDataPointer(unsigned int index) const { if (!this->empty()) return &((*this)[index]); else return 0; }
-        virtual unsigned int    getTotalDataSize() const { return static_cast<unsigned int>(this->size()*sizeof(T)); }
-        virtual unsigned int    getNumElements() const { return static_cast<unsigned int>(this->size()); }
-        virtual void reserveArray(unsigned int num) { this->reserve(num); }
-        virtual void resizeArray(unsigned int num) { this->resize(num); }
+        virtual unsigned int getElementSize() const { 
+            return sizeof(ElementDataType); 
+        }
+        virtual const GLvoid*   getDataPointer() const { 
+            if (!this->empty()) 
+                return &this->front(); 
+            else 
+                return 0; 
+        }
+        virtual const GLvoid*   getDataPointer(unsigned int index) const { 
+            if (!this->empty()) 
+                return &((*this)[index]); 
+            else 
+                return 0; 
+        }
+        virtual unsigned int    getTotalDataSize() const { 
+            return static_cast<unsigned int>(this->size()*sizeof(T)); 
+        }
+        virtual unsigned int    getNumElements() const { 
+            return static_cast<unsigned int>(this->size()); 
+        }
+        virtual void reserveArray(unsigned int num) { 
+            this->reserve(num); 
+        }
+        virtual void resizeArray(unsigned int num) { 
+            this->resize(num); 
+        }
 
-        virtual unsigned int    index(unsigned int pos) const { return (*this)[pos]; }
+        virtual unsigned int    index(unsigned int pos) const { 
+            return (*this)[pos]; 
+        }
 
         typedef T ElementDataType; // expose T
 
@@ -699,28 +798,44 @@ class ConstValueVisitor
 };
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(ArrayVisitor& av) { av.apply(*this); }
+inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(ArrayVisitor& av) { 
+    av.apply(*this); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(ConstArrayVisitor& av) const { av.apply(*this); }
+inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(ConstArrayVisitor& av) const { 
+    av.apply(*this); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ValueVisitor& vv) { vv.apply( (*this)[index] ); }
+inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ValueVisitor& vv) { 
+    vv.apply( (*this)[index] ); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ConstValueVisitor& vv) const {  vv.apply( (*this)[index] );}
+inline void TemplateArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ConstValueVisitor& vv) const {  
+    vv.apply( (*this)[index] );
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(ArrayVisitor& av) { av.apply(*this); }
+inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(ArrayVisitor& av) { 
+    av.apply(*this); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(ConstArrayVisitor& av) const { av.apply(*this); }
+inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(ConstArrayVisitor& av) const { 
+    av.apply(*this); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ValueVisitor& vv) { vv.apply( (*this)[index] ); }
+inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ValueVisitor& vv) { 
+    vv.apply( (*this)[index] ); 
+}
 
 template<typename T, Array::Type ARRAYTYPE, int DataSize, int DataType>
-inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ConstValueVisitor& vv) const {  vv.apply( (*this)[index] );}
+inline void TemplateIndexArray<T,ARRAYTYPE,DataSize,DataType>::accept(unsigned int index,ConstValueVisitor& vv) const {  
+    vv.apply( (*this)[index] );
+}
 
 }
 

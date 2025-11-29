@@ -61,7 +61,9 @@ class BoundingSphereImpl
 
         /** Returns true of the bounding sphere extents are valid, false
           * otherwise. */
-        inline bool valid() const { return _radius>=0.0; }
+        inline bool valid() const { 
+            return _radius>=0.0; 
+        }
 
         inline BoundingSphereImpl& operator = (const BoundingSphereImpl& rhs)
         {
@@ -70,8 +72,12 @@ class BoundingSphereImpl
             return *this;
         }
 
-        inline bool operator == (const BoundingSphereImpl& rhs) const { return _center==rhs._center && _radius==rhs._radius; }
-        inline bool operator != (const BoundingSphereImpl& rhs) const { return _center!=rhs._center || _radius!=rhs._radius; }
+        inline bool operator == (const BoundingSphereImpl& rhs) const { 
+            return _center==rhs._center && _radius==rhs._radius; 
+        }
+        inline bool operator != (const BoundingSphereImpl& rhs) const { 
+            return _center!=rhs._center || _radius!=rhs._radius; 
+        }
 
         /** Set the bounding sphere to the given center/radius using floats. */
         inline void set(const vec_type& center,value_type radius)
@@ -81,20 +87,30 @@ class BoundingSphereImpl
         }
 
         /** Returns the center of the bounding sphere. */
-        inline vec_type& center() { return _center; }
+        inline vec_type& center() { 
+            return _center; 
+        }
 
         /** Returns the const center of the bounding sphere. */
-        inline const vec_type& center() const { return _center; }
+        inline const vec_type& center() const { 
+            return _center; 
+        }
 
         /** Returns the radius of the bounding sphere. */
-        inline value_type& radius() { return _radius; }
+        inline value_type& radius() { 
+            return _radius; 
+        }
         /** Returns the const radius of the bounding sphere. */
-        inline value_type radius() const { return _radius; }
+        inline value_type radius() const { 
+            return _radius; 
+        }
 
         /** Returns the squared length of the radius. Note, For performance
           * reasons, the calling method is responsible for checking to make
           * sure the sphere is valid. */
-        inline value_type radius2() const { return _radius*_radius; }
+        inline value_type radius2() const { 
+            return _radius*_radius; 
+        }
 
         /** Expands the sphere to encompass the given point. Repositions the
           * sphere center to minimize the radius increase. If the sphere is
@@ -174,7 +190,8 @@ void BoundingSphereImpl<VT>::expandRadiusBy(const vector_type& v)
     if (valid())
     {
         value_type r = (vec_type(v)-_center).length();
-        if (r>_radius) _radius = r;
+        if (r>_radius) 
+            _radius = r;
         // else do nothing as vertex is within sphere.
     }
     else
@@ -188,7 +205,8 @@ template<typename VT>
 void BoundingSphereImpl<VT>::expandBy(const BoundingSphereImpl& sh)
 {
     // ignore operation if incoming BoundingSphere is invalid.
-    if (!sh.valid()) return;
+    if (!sh.valid()) 
+        return;
 
     // This sphere is not set so use the inbound sphere
     if (!valid())
@@ -243,7 +261,8 @@ void BoundingSphereImpl<VT>::expandRadiusBy(const BoundingSphereImpl& sh)
         if (valid())
         {
             value_type r = (sh._center-_center).length()+sh._radius;
-            if (r>_radius) _radius = r;
+            if (r>_radius) 
+                _radius = r;
             // else do nothing as vertex is within sphere.
         }
         else

@@ -64,14 +64,26 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
                 _rotation(rotation),
                 _scale(scale) {}
 
-            void setPosition(const osg::Vec3d& position) { _position = position; }
-            const osg::Vec3d& getPosition() const { return _position; }
+            void setPosition(const osg::Vec3d& position) { 
+                _position = position; 
+            }
+            const osg::Vec3d& getPosition() const { 
+                return _position; 
+            }
 
-            void setRotation(const osg::Quat& rotation) { _rotation = rotation; }
-            const osg::Quat& getRotation() const { return _rotation; }
+            void setRotation(const osg::Quat& rotation) { 
+                _rotation = rotation; 
+            }
+            const osg::Quat& getRotation() const { 
+                return _rotation; 
+            }
 
-            void setScale(const osg::Vec3d& scale) { _scale = scale; }
-            const osg::Vec3d& getScale() const { return _scale; }
+            void setScale(const osg::Vec3d& scale) { 
+                _scale = scale; 
+            }
+            const osg::Vec3d& getScale() const { 
+                return _scale; 
+            }
 
             inline void interpolate(float ratio,const ControlPoint& first, const ControlPoint& second)
             {
@@ -130,7 +142,9 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
         bool getMatrix(double time,Matrixf& matrix) const
         {
             ControlPoint cp;
-            if (!getInterpolatedControlPoint(time,cp)) return false;
+            if (!getInterpolatedControlPoint(time,cp)) 
+                return false;
+
             cp.getMatrix(matrix);
             return true;
         }
@@ -139,7 +153,9 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
         bool getMatrix(double time,Matrixd& matrix) const
         {
             ControlPoint cp;
-            if (!getInterpolatedControlPoint(time,cp)) return false;
+            if (!getInterpolatedControlPoint(time,cp)) 
+                return false;
+
             cp.getMatrix(matrix);
             return true;
         }
@@ -148,7 +164,9 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
         bool getInverse(double time,Matrixf& matrix) const
         {
             ControlPoint cp;
-            if (!getInterpolatedControlPoint(time,cp)) return false;
+            if (!getInterpolatedControlPoint(time,cp)) 
+                return false;
+
             cp.getInverse(matrix);
             return true;
         }
@@ -156,7 +174,9 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
         bool getInverse(double time,Matrixd& matrix) const
         {
             ControlPoint cp;
-            if (!getInterpolatedControlPoint(time,cp)) return false;
+            if (!getInterpolatedControlPoint(time,cp)) 
+                return false;
+
             cp.getInverse(matrix);
             return true;
         }
@@ -167,9 +187,21 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
         /** Insert a control point into the AnimationPath.*/
         void insert(double time,const ControlPoint& controlPoint);
 
-        double getFirstTime() const { if (!_timeControlPointMap.empty()) return _timeControlPointMap.begin()->first; else return 0.0;}
-        double getLastTime() const { if (!_timeControlPointMap.empty()) return _timeControlPointMap.rbegin()->first; else return 0.0;}
-        double getPeriod() const { return getLastTime()-getFirstTime();}
+        double getFirstTime() const { 
+            if (!_timeControlPointMap.empty()) 
+                return _timeControlPointMap.begin()->first; 
+            else 
+                return 0.0;
+        }
+        double getLastTime() const { 
+            if (!_timeControlPointMap.empty()) 
+                return _timeControlPointMap.rbegin()->first; 
+            else 
+                return 0.0;
+        }
+        double getPeriod() const { 
+            return getLastTime()-getFirstTime();
+        }
 
         enum LoopMode
         {
@@ -180,20 +212,32 @@ class OSG_EXPORT AnimationPath : public virtual osg::Object
 
         void setLoopMode(LoopMode lm) { _loopMode = lm; }
 
-        LoopMode getLoopMode() const { return _loopMode; }
+        LoopMode getLoopMode() const { 
+            return _loopMode; 
+        }
 
 
         typedef std::map<double,ControlPoint> TimeControlPointMap;
 
-        void setTimeControlPointMap(TimeControlPointMap& tcpm) { _timeControlPointMap=tcpm; }
+        void setTimeControlPointMap(TimeControlPointMap& tcpm) { 
+            _timeControlPointMap=tcpm; 
+        }
 
-        TimeControlPointMap& getTimeControlPointMap() { return _timeControlPointMap; }
+        TimeControlPointMap& getTimeControlPointMap() { 
+            return _timeControlPointMap; 
+        }
 
-        const TimeControlPointMap& getTimeControlPointMap() const { return _timeControlPointMap; }
+        const TimeControlPointMap& getTimeControlPointMap() const { 
+            return _timeControlPointMap; 
+        }
 
-        bool empty() const { return _timeControlPointMap.empty(); }
+        bool empty() const { 
+            return _timeControlPointMap.empty(); 
+        }
 
-        void clear() { _timeControlPointMap.clear(); }
+        void clear() { 
+            _timeControlPointMap.clear(); 
+        }
 
         /** Read the animation path from a flat ASCII file stream. */
         void read(std::istream& in);
@@ -261,27 +305,51 @@ class OSG_EXPORT AnimationPathCallback : public NodeCallback
         AnimationPathCallback(const osg::Vec3d& pivot,const osg::Vec3d& axis,float angularVelocity);
 
 
-        void setAnimationPath(AnimationPath* path) { _animationPath = path; }
-        AnimationPath* getAnimationPath() { return _animationPath.get(); }
-        const AnimationPath* getAnimationPath() const { return _animationPath.get(); }
+        void setAnimationPath(AnimationPath* path) { 
+            _animationPath = path; 
+        }
+        AnimationPath* getAnimationPath() { 
+            return _animationPath.get(); 
+        }
+        const AnimationPath* getAnimationPath() const { 
+            return _animationPath.get(); 
+        }
 
-        inline void setPivotPoint(const Vec3d& pivot) { _pivotPoint = pivot; }
-        inline const Vec3d& getPivotPoint() const { return _pivotPoint; }
+        inline void setPivotPoint(const Vec3d& pivot) { 
+            _pivotPoint = pivot; 
+        }
+        inline const Vec3d& getPivotPoint() const { 
+            return _pivotPoint; 
+        }
 
-        void setUseInverseMatrix(bool useInverseMatrix) { _useInverseMatrix = useInverseMatrix; }
-        bool getUseInverseMatrix() const { return _useInverseMatrix; }
+        void setUseInverseMatrix(bool useInverseMatrix) { 
+            _useInverseMatrix = useInverseMatrix; 
+        }
+        bool getUseInverseMatrix() const { 
+            return _useInverseMatrix; 
+        }
 
-        void setTimeOffset(double offset) { _timeOffset = offset; }
-        double getTimeOffset() const { return _timeOffset; }
+        void setTimeOffset(double offset) { 
+            _timeOffset = offset; 
+        }
+        double getTimeOffset() const { 
+            return _timeOffset; 
+        }
 
-        void setTimeMultiplier(double multiplier) { _timeMultiplier = multiplier; }
-        double getTimeMultiplier() const { return _timeMultiplier; }
+        void setTimeMultiplier(double multiplier) { 
+            _timeMultiplier = multiplier; 
+        }
+        double getTimeMultiplier() const { 
+            return _timeMultiplier; 
+        }
 
 
         virtual void reset();
 
         void setPause(bool pause);
-        bool getPause() const { return _pause; }
+        bool getPause() const { 
+            return _pause; 
+        }
 
         /** Get the animation time that is used to specify the position along
           * the AnimationPath. Animation time is computed from the formula:
@@ -307,7 +375,9 @@ class OSG_EXPORT AnimationPathCallback : public NodeCallback
 
     protected:
 
-        ~AnimationPathCallback(){}
+        ~AnimationPathCallback(){
+            
+        }
 
 };
 

@@ -118,12 +118,21 @@ class BufferObjectProfile
 
         bool operator < (const BufferObjectProfile& rhs) const
         {
-            if (_target < rhs._target) return true;
-            else if (_target > rhs._target) return false;
-            if (_usage < rhs._usage) return true;
-            else if (_usage > rhs._usage) return false;
-            if (_mappingbitfield < rhs._mappingbitfield) return true;
-            else if (_mappingbitfield > rhs._mappingbitfield) return false;
+            if (_target < rhs._target) 
+                return true;
+            else if (_target > rhs._target) 
+                return false;
+
+            if (_usage < rhs._usage) 
+                return true;
+            else if (_usage > rhs._usage) 
+                return false;
+
+            if (_mappingbitfield < rhs._mappingbitfield) 
+                return true;
+            else if (_mappingbitfield > rhs._mappingbitfield) 
+                return false;
+
             return _size < rhs._size;
         }
 
@@ -164,8 +173,12 @@ class GLBufferObjectManager;
 
 inline unsigned int computeBufferAlignment(unsigned int pos, unsigned int bufferAlignment)
 {
-    if (bufferAlignment<2) return pos;
-    if ((pos%bufferAlignment)==0) return pos;
+    if (bufferAlignment<2) 
+        return pos;
+
+    if ((pos%bufferAlignment)==0) 
+        return pos;
+
     return ((pos/bufferAlignment)+1)*bufferAlignment;
 }
 
@@ -176,11 +189,17 @@ class OSG_EXPORT GLBufferObject : public GraphicsObject
 
         GLBufferObject(unsigned int contextID, BufferObject* bufferObject, unsigned int glObjectID=0);
 
-        void setProfile(const BufferObjectProfile& profile) { _profile = profile; }
-        const BufferObjectProfile& getProfile() const { return _profile; }
+        void setProfile(const BufferObjectProfile& profile) { 
+            _profile = profile; 
+        }
+        const BufferObjectProfile& getProfile() const { 
+            return _profile; 
+        }
 
         void setBufferObject(BufferObject* bufferObject);
-        BufferObject* getBufferObject() { return _bufferObject; }
+        BufferObject* getBufferObject() { 
+            return _bufferObject; 
+        }
 
         struct BufferEntry
         {
@@ -195,7 +214,9 @@ class OSG_EXPORT GLBufferObject : public GraphicsObject
 
             BufferEntry& operator = (const BufferEntry& rhs)
             {
-                if (&rhs==this) return *this;
+                if (&rhs==this) 
+                    return *this;
+
                 numRead = rhs.numRead;
                 modifiedCount = rhs.modifiedCount;
                 dataSize = rhs.dataSize;
@@ -213,11 +234,19 @@ class OSG_EXPORT GLBufferObject : public GraphicsObject
             BufferData*         dataSource;
         };
 
-        inline unsigned int getContextID() const { return _contextID; }
+        inline unsigned int getContextID() const { 
+            return _contextID; 
+        }
 
-        inline GLuint& getGLObjectID() { return _glObjectID; }
-        inline GLuint getGLObjectID() const { return _glObjectID; }
-        inline GLsizeiptr getOffset(unsigned int i) const { return _bufferEntries[i].offset; }
+        inline GLuint& getGLObjectID() { 
+            return _glObjectID; 
+        }
+        inline GLuint getGLObjectID() const { 
+            return _glObjectID; 
+        }
+        inline GLsizeiptr getOffset(unsigned int i) const { 
+            return _bufferEntries[i].offset; 
+        }
 
         inline void bindBuffer();
 
@@ -229,7 +258,9 @@ class OSG_EXPORT GLBufferObject : public GraphicsObject
         /** release GLBufferObject to the orphan list to be reused or deleted.*/
         void release();
 
-        inline bool isDirty() const { return _dirty; }
+        inline bool isDirty() const { 
+            return _dirty; 
+        }
 
         void dirty() { _dirty = true; }
 
@@ -241,7 +272,9 @@ class OSG_EXPORT GLBufferObject : public GraphicsObject
 
         void assign(BufferObject* bufferObject);
 
-        bool isPBOSupported() const { return _extensions->isPBOSupported; }
+        bool isPBOSupported() const { 
+            return _extensions->isPBOSupported; 
+        }
 
         bool hasAllBufferDataBeenRead() const;
 
@@ -293,7 +326,9 @@ class OSG_EXPORT GLBufferObjectSet : public Referenced
     public:
         GLBufferObjectSet(GLBufferObjectManager* parent, const BufferObjectProfile& profile);
 
-        const BufferObjectProfile& getProfile() const { return _profile; }
+        const BufferObjectProfile& getProfile() const { 
+            return _profile; 
+        }
 
         void handlePendingOrphandedGLBufferObjects();
 
@@ -312,18 +347,28 @@ class OSG_EXPORT GLBufferObjectSet : public Referenced
         void remove(GLBufferObject* to);
         void moveToSet(GLBufferObject* to, GLBufferObjectSet* set);
 
-        unsigned int size() const { return _profile._size * _numOfGLBufferObjects; }
+        unsigned int size() const { 
+            return _profile._size * _numOfGLBufferObjects; 
+        }
 
         bool makeSpace(unsigned int& size);
 
         bool checkConsistency() const;
 
-        GLBufferObjectManager* getParent() { return _parent; }
+        GLBufferObjectManager* getParent() { 
+            return _parent; 
+        }
 
         unsigned int computeNumGLBufferObjectsInList() const;
-        unsigned int getNumOfGLBufferObjects() const { return _numOfGLBufferObjects; }
-        unsigned int getNumOrphans() const { return static_cast<unsigned int>(_orphanedGLBufferObjects.size()); }
-        unsigned int getNumPendingOrphans() const { return static_cast<unsigned int>(_pendingOrphanedGLBufferObjects.size()); }
+        unsigned int getNumOfGLBufferObjects() const { 
+            return _numOfGLBufferObjects; 
+        }
+        unsigned int getNumOrphans() const { 
+            return static_cast<unsigned int>(_orphanedGLBufferObjects.size()); 
+        }
+        unsigned int getNumPendingOrphans() const { 
+            return static_cast<unsigned int>(_pendingOrphanedGLBufferObjects.size()); 
+        }
 
 
     protected:
@@ -348,22 +393,44 @@ class OSG_EXPORT GLBufferObjectManager : public GraphicsObjectManager
     public:
         GLBufferObjectManager(unsigned int contextID);
 
-        void setNumberActiveGLBufferObjects(unsigned int size) { _numActiveGLBufferObjects = size; }
-        unsigned int& getNumberActiveGLBufferObjects() { return _numActiveGLBufferObjects; }
-        unsigned int getNumberActiveGLBufferObjects() const { return _numActiveGLBufferObjects; }
+        void setNumberActiveGLBufferObjects(unsigned int size) { 
+            _numActiveGLBufferObjects = size; 
+        }
+        unsigned int& getNumberActiveGLBufferObjects() { 
+            return _numActiveGLBufferObjects; 
+        }
+        unsigned int getNumberActiveGLBufferObjects() const { 
+            return _numActiveGLBufferObjects; 
+        }
 
-        void setNumberOrphanedGLBufferObjects(unsigned int size) { _numOrphanedGLBufferObjects = size; }
-        unsigned int& getNumberOrphanedGLBufferObjects() { return _numOrphanedGLBufferObjects; }
-        unsigned int getNumberOrphanedGLBufferObjects() const { return _numOrphanedGLBufferObjects; }
+        void setNumberOrphanedGLBufferObjects(unsigned int size) { 
+            _numOrphanedGLBufferObjects = size; 
+        }
+        unsigned int& getNumberOrphanedGLBufferObjects() { 
+            return _numOrphanedGLBufferObjects;
+        }
+        unsigned int getNumberOrphanedGLBufferObjects() const { 
+            return _numOrphanedGLBufferObjects; 
+        }
 
-        void setCurrGLBufferObjectPoolSize(unsigned int size) { _currGLBufferObjectPoolSize = size; }
-        unsigned int& getCurrGLBufferObjectPoolSize() { return _currGLBufferObjectPoolSize; }
-        unsigned int getCurrGLBufferObjectPoolSize() const { return _currGLBufferObjectPoolSize; }
+        void setCurrGLBufferObjectPoolSize(unsigned int size) { 
+            _currGLBufferObjectPoolSize = size; 
+        }
+        unsigned int& getCurrGLBufferObjectPoolSize() { 
+            return _currGLBufferObjectPoolSize; 
+        }
+        unsigned int getCurrGLBufferObjectPoolSize() const { 
+            return _currGLBufferObjectPoolSize; 
+        }
 
         void setMaxGLBufferObjectPoolSize(unsigned int size);
-        unsigned int getMaxGLBufferObjectPoolSize() const { return _maxGLBufferObjectPoolSize; }
+        unsigned int getMaxGLBufferObjectPoolSize() const { 
+            return _maxGLBufferObjectPoolSize; 
+        }
 
-        bool hasSpace(unsigned int size) const { return (_currGLBufferObjectPoolSize+size)<=_maxGLBufferObjectPoolSize; }
+        bool hasSpace(unsigned int size) const { 
+            return (_currGLBufferObjectPoolSize+size)<=_maxGLBufferObjectPoolSize; 
+        }
         bool makeSpace(unsigned int size);
 
         osg::ref_ptr<GLBufferObject> generateGLBufferObject(const osg::BufferObject* bufferObject);
@@ -383,17 +450,33 @@ class OSG_EXPORT GLBufferObjectManager : public GraphicsObjectManager
         void reportStats(std::ostream& out);
         void recomputeStats(std::ostream& out) const;
 
-        unsigned int& getFrameNumber() { return _frameNumber; }
-        unsigned int& getNumberFrames() { return _numFrames; }
+        unsigned int& getFrameNumber() { 
+            return _frameNumber; 
+        }
+        unsigned int& getNumberFrames() { 
+            return _numFrames; 
+        }
 
-        unsigned int& getNumberDeleted() { return _numDeleted; }
-        double& getDeleteTime() { return _deleteTime; }
+        unsigned int& getNumberDeleted() { 
+            return _numDeleted; 
+        }
+        double& getDeleteTime() { 
+            return _deleteTime; 
+        }
 
-        unsigned int& getNumberGenerated() { return _numGenerated; }
-        double& getGenerateTime() { return _generateTime; }
+        unsigned int& getNumberGenerated() { 
+            return _numGenerated; 
+        }
+        double& getGenerateTime() { 
+            return _generateTime; 
+        }
 
-        unsigned int& getNumberApplied() { return _numApplied; }
-        double& getApplyTime() { return _applyTime; }
+        unsigned int& getNumberApplied() { 
+            return _numApplied; 
+        }
+        double& getApplyTime() { 
+            return _applyTime; 
+        }
 
     protected:
 
@@ -431,36 +514,64 @@ class OSG_EXPORT BufferObject : public Object
         /** Copy constructor using CopyOp to manage deep vs shallow copy.*/
         BufferObject(const BufferObject& bo,const CopyOp& copyop=CopyOp::SHALLOW_COPY);
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const BufferObject*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "BufferObject"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const BufferObject*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "BufferObject"; 
+        }
 
-        void setTarget(GLenum target) { _profile._target = target; }
-        GLenum getTarget() const { return _profile._target; }
+        void setTarget(GLenum target) { 
+            _profile._target = target; 
+        }
+        GLenum getTarget() const { 
+            return _profile._target; 
+        }
 
         /** Set what type of usage the buffer object will have. Options are:
           *          GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY,
           *          GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY,
           *          GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY.
           */
-        void setUsage(GLenum usage) { _profile._usage = usage; }
+        void setUsage(GLenum usage) { 
+            _profile._usage = usage; 
+        }
 
         /** Get the type of usage the buffer object has been set up for.*/
-        GLenum getUsage() const { return _profile._usage; }
+        GLenum getUsage() const { 
+            return _profile._usage; 
+        }
 
         /** Enable GL4 buffer storage features (override usage if setted) */
-        void setMappingBitfield(GLbitfield b){ if(_profile._mappingbitfield == b) return; _profile._mappingbitfield = b; }
-        GLbitfield getMappingBitfield() const { return _profile._mappingbitfield; }
+        void setMappingBitfield(GLbitfield b){ 
+            if(_profile._mappingbitfield == b) 
+                return; 
+            _profile._mappingbitfield = b; 
+        }
+        GLbitfield getMappingBitfield() const { 
+            return _profile._mappingbitfield; 
+        }
 
-        BufferObjectProfile& getProfile() { return _profile; }
-        const BufferObjectProfile& getProfile() const { return _profile; }
+        BufferObjectProfile& getProfile() { 
+            return _profile; 
+        }
+        const BufferObjectProfile& getProfile() const { 
+            return _profile; 
+        }
 
 
         /** Set whether the BufferObject should use a GLBufferObject just for copying the BufferData and release it immediately so that it may be reused.*/
-        void setCopyDataAndReleaseGLBufferObject(bool copyAndRelease) { _copyDataAndReleaseGLBufferObject = copyAndRelease; }
+        void setCopyDataAndReleaseGLBufferObject(bool copyAndRelease) { 
+            _copyDataAndReleaseGLBufferObject = copyAndRelease; 
+        }
 
         /** Get whether the BufferObject should use a GLBufferObject just for copying the BufferData and release it immediately.*/
-        bool getCopyDataAndReleaseGLBufferObject() const { return _copyDataAndReleaseGLBufferObject; }
+        bool getCopyDataAndReleaseGLBufferObject() const { 
+            return _copyDataAndReleaseGLBufferObject; 
+        }
 
         void dirty();
 
@@ -477,14 +588,24 @@ class OSG_EXPORT BufferObject : public Object
         void removeBufferData(BufferData* bd);
 
         void setBufferData(unsigned int index, BufferData* bd);
-        BufferData* getBufferData(unsigned int index) { return _bufferDataList[index]; }
-        const BufferData* getBufferData(unsigned int index) const { return _bufferDataList[index]; }
+        BufferData* getBufferData(unsigned int index) { 
+            return _bufferDataList[index]; 
+        }
+        const BufferData* getBufferData(unsigned int index) const { 
+            return _bufferDataList[index]; 
+        }
 
-        unsigned int getNumBufferData() const { return static_cast<unsigned int>(_bufferDataList.size()); }
+        unsigned int getNumBufferData() const { 
+            return static_cast<unsigned int>(_bufferDataList.size()); 
+        }
 
-        void setGLBufferObject(unsigned int contextID, GLBufferObject* glbo) { _glBufferObjects[contextID] = glbo; }
+        void setGLBufferObject(unsigned int contextID, GLBufferObject* glbo) { 
+            _glBufferObjects[contextID] = glbo; 
+        }
 
-        GLBufferObject* getGLBufferObject(unsigned int contextID) const { return _glBufferObjects[contextID].get(); }
+        GLBufferObject* getGLBufferObject(unsigned int contextID) const { 
+            return _glBufferObjects[contextID].get(); 
+        }
 
         GLBufferObject* getOrCreateGLBufferObject(unsigned int contextID) const;
 
@@ -527,31 +648,61 @@ class OSG_EXPORT BufferData : public Object
             _modifiedCallback(bd._modifiedCallback),
             _numClients(0) {}
 
-        virtual bool isSameKindAs(const Object* obj) const { return dynamic_cast<const BufferData*>(obj)!=NULL; }
-        virtual const char* libraryName() const { return "osg"; }
-        virtual const char* className() const { return "BufferData"; }
+        virtual bool isSameKindAs(const Object* obj) const { 
+            return dynamic_cast<const BufferData*>(obj)!=NULL; 
+        }
+        virtual const char* libraryName() const { 
+            return "osg"; 
+        }
+        virtual const char* className() const { 
+            return "BufferData"; 
+        }
 
         virtual const GLvoid*   getDataPointer() const = 0;
         virtual unsigned int    getTotalDataSize() const = 0;
 
-        virtual osg::Array* asArray() { return 0; }
-        virtual const osg::Array* asArray() const { return 0; }
+        virtual osg::Array* asArray() { 
+            return 0; 
+        }
+        virtual const osg::Array* asArray() const { 
+            return 0; 
+        }
 
-        virtual osg::PrimitiveSet* asPrimitiveSet() { return 0; }
-        virtual const osg::PrimitiveSet* asPrimitiveSet() const { return 0; }
+        virtual osg::PrimitiveSet* asPrimitiveSet() { 
+            return 0; 
+        }
+        virtual const osg::PrimitiveSet* asPrimitiveSet() const { 
+            return 0; 
+        }
 
-        virtual osg::Image* asImage() { return 0; }
-        virtual const osg::Image* asImage() const { return 0; }
+        virtual osg::Image* asImage() { 
+            return 0; 
+        }
+        virtual const osg::Image* asImage() const { 
+            return 0; 
+        }
 
         void setBufferObject(BufferObject* bufferObject);
-        BufferObject* getBufferObject() { return _bufferObject.get(); }
-        const BufferObject* getBufferObject() const { return _bufferObject.get(); }
+        BufferObject* getBufferObject() { 
+            return _bufferObject.get(); 
+        }
+        const BufferObject* getBufferObject() const { 
+            return _bufferObject.get(); 
+        }
 
-        void setBufferIndex(unsigned int index) { _bufferIndex = index; }
-        unsigned int getBufferIndex() const { return _bufferIndex; }
+        void setBufferIndex(unsigned int index) { 
+            _bufferIndex = index; 
+        }
+        unsigned int getBufferIndex() const { 
+            return _bufferIndex; 
+        }
 
-        GLBufferObject* getGLBufferObject(unsigned int contextID) const { return _bufferObject.valid() ? _bufferObject->getGLBufferObject(contextID) : 0; }
-        GLBufferObject* getOrCreateGLBufferObject(unsigned int contextID) const { return _bufferObject.valid() ? _bufferObject->getOrCreateGLBufferObject(contextID) : 0; }
+        GLBufferObject* getGLBufferObject(unsigned int contextID) const { 
+            return _bufferObject.valid() ? _bufferObject->getGLBufferObject(contextID) : 0; 
+        }
+        GLBufferObject* getOrCreateGLBufferObject(unsigned int contextID) const { 
+            return _bufferObject.valid() ? _bufferObject->getOrCreateGLBufferObject(contextID) : 0; 
+        }
 
         struct ModifiedCallback : public virtual osg::Object
         {
@@ -565,24 +716,37 @@ class OSG_EXPORT BufferData : public Object
             virtual void modified(BufferData* /*bufferData*/) const {}
         };
 
-        void setModifiedCallback(ModifiedCallback* md) { _modifiedCallback = md; }
-        ModifiedCallback* getModifiedCallback() { return _modifiedCallback.get(); }
-        const ModifiedCallback* getModifiedCallback() const { return _modifiedCallback.get(); }
+        void setModifiedCallback(ModifiedCallback* md) { 
+            _modifiedCallback = md; 
+        }
+        ModifiedCallback* getModifiedCallback() { 
+            return _modifiedCallback.get(); 
+        }
+        const ModifiedCallback* getModifiedCallback() const { 
+            return _modifiedCallback.get(); 
+        }
 
         /** Dirty the primitive, which increments the modified count, to force buffer objects to update.
           * If a ModifiedCallback is attached to this BufferData then the callback is called prior to the bufferObject's dirty is called. */
         inline void dirty()
         {
             ++_modifiedCount;
-            if (_modifiedCallback.valid()) _modifiedCallback->modified(this);
-            if (_bufferObject.valid()) _bufferObject->dirty();
+            if (_modifiedCallback.valid()) 
+                _modifiedCallback->modified(this);
+
+            if (_bufferObject.valid()) 
+                _bufferObject->dirty();
         }
 
         /** Set the modified count value.*/
-        inline void setModifiedCount(unsigned int value) { _modifiedCount=value; }
+        inline void setModifiedCount(unsigned int value) { 
+            _modifiedCount=value; 
+        }
 
         /** Get modified count value.*/
-        inline unsigned int getModifiedCount() const { return _modifiedCount; }
+        inline unsigned int getModifiedCount() const { 
+            return _modifiedCount; 
+        }
 
         /** Resize any per context GLObject buffers to specified size. */
         virtual void resizeGLObjectBuffers(unsigned int maxSize);
@@ -592,7 +756,9 @@ class OSG_EXPORT BufferData : public Object
           * for all graphics contexts. */
         void releaseGLObjects(State* state=0) const;
 
-        unsigned int getNumClients() const { return _numClients; }
+        unsigned int getNumClients() const { 
+            return _numClients; 
+        }
 
         void addClient(osg::Object * /*client*/) { ++_numClients; }
 
@@ -697,7 +863,9 @@ class OSG_EXPORT PixelBufferObject : public BufferObject
         Image* getImage();
         const Image* getImage() const;
 
-        bool isPBOSupported(unsigned int contextID) const { return _glBufferObjects[contextID]->isPBOSupported(); }
+        bool isPBOSupported(unsigned int contextID) const { 
+            return _glBufferObjects[contextID]->isPBOSupported(); 
+        }
 
     protected:
 
@@ -719,10 +887,15 @@ class OSG_EXPORT PixelDataBufferObject : public BufferObject
         META_Object(osg, PixelDataBufferObject);
 
         //! Set new size of the buffer object. This will reallocate the memory on the next compile
-        inline void setDataSize(unsigned int size) { _profile._size = size; dirty(); }
+        inline void setDataSize(unsigned int size) { 
+            _profile._size = size; 
+            dirty(); 
+        }
 
         //! Get data size of the used buffer
-        inline unsigned int getDataSize() const { return _profile._size; }
+        inline unsigned int getDataSize() const { 
+            return _profile._size; 
+        }
 
         //! Compile the buffer (reallocate the memory if buffer is dirty)
         virtual void compileBuffer(State& state) const;
@@ -751,7 +924,9 @@ class OSG_EXPORT PixelDataBufferObject : public BufferObject
             WRITE = 2
         };
 
-        Mode getMode(unsigned int contextID) const { return (Mode)_mode[contextID]; }
+        Mode getMode(unsigned int contextID) const { 
+            return (Mode)_mode[contextID]; 
+        }
 
     protected:
 
