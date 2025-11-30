@@ -108,7 +108,8 @@ void Node::removeParent(osg::Group* parent)
     OpenThreads::ScopedPointerLock<OpenThreads::Mutex> lock(getRefMutex());
 
     ParentList::iterator pitr = std::find(_parents.begin(), _parents.end(), parent);
-    if (pitr!=_parents.end()) _parents.erase(pitr);
+    if (pitr!=_parents.end()) 
+        _parents.erase(pitr);
 }
 
 void Node::accept(NodeVisitor& nv)
@@ -130,7 +131,8 @@ void Node::ascend(NodeVisitor& nv)
 void Node::setStateSet(osg::StateSet* stateset)
 {
     // do nothing if nothing changed.
-    if (_stateset==stateset) return;
+    if (_stateset==stateset) 
+        return;
 
     // track whether we need to account for the need to do a update or event traversal.
     int delta_update = 0;
@@ -140,8 +142,10 @@ void Node::setStateSet(osg::StateSet* stateset)
     if (_stateset.valid())
     {
         _stateset->removeParent(this);
-        if (_stateset->requiresUpdateTraversal()) --delta_update;
-        if (_stateset->requiresEventTraversal()) --delta_event;
+        if (_stateset->requiresUpdateTraversal()) 
+            --delta_update;
+        if (_stateset->requiresEventTraversal()) 
+            --delta_event;
     }
 
     // set the stateset.
@@ -168,7 +172,8 @@ void Node::setStateSet(osg::StateSet* stateset)
 
 osg::StateSet* Node::getOrCreateStateSet()
 {
-    if (!_stateset) setStateSet(new StateSet);
+    if (!_stateset) 
+        setStateSet(new StateSet);
     return _stateset.get();
 }
 
@@ -207,7 +212,8 @@ MatrixList Node::getWorldMatrices(const osg::Node* haltTraversalAtNode) const
 void Node::setUpdateCallback(Callback* nc)
 {
     // if no changes just return.
-    if (_updateCallback==nc) return;
+    if (_updateCallback==nc) 
+        return;
 
     // updated callback has been changed, will need to update
     // both _updateCallback and possibly the numChildrenRequiringAppTraversal
@@ -221,8 +227,10 @@ void Node::setUpdateCallback(Callback* nc)
     if (_numChildrenRequiringUpdateTraversal==0 && !_parents.empty())
     {
         int delta = 0;
-        if (_updateCallback.valid()) --delta;
-        if (nc) ++delta;
+        if (_updateCallback.valid()) 
+            --delta;
+        if (nc) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -247,7 +255,8 @@ void Node::setUpdateCallback(Callback* nc)
 void Node::setNumChildrenRequiringUpdateTraversal(unsigned int num)
 {
     // if no changes just return.
-    if (_numChildrenRequiringUpdateTraversal==num) return;
+    if (_numChildrenRequiringUpdateTraversal==num) 
+        return;
 
     // note, if _updateCallback is set then the
     // parents won't be affected by any changes to
@@ -257,8 +266,10 @@ void Node::setNumChildrenRequiringUpdateTraversal(unsigned int num)
 
         // need to pass on changes to parents.
         int delta = 0;
-        if (_numChildrenRequiringUpdateTraversal>0) --delta;
-        if (num>0) ++delta;
+        if (_numChildrenRequiringUpdateTraversal>0) 
+            --delta;
+        if (num>0) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -285,7 +296,8 @@ void Node::setNumChildrenRequiringUpdateTraversal(unsigned int num)
 void Node::setEventCallback(Callback* nc)
 {
     // if no changes just return.
-    if (_eventCallback==nc) return;
+    if (_eventCallback==nc) 
+        return;
 
     // event callback has been changed, will need to Event
     // both _EventCallback and possibly the numChildrenRequiringAppTraversal
@@ -299,8 +311,10 @@ void Node::setEventCallback(Callback* nc)
     if (_numChildrenRequiringEventTraversal==0 && !_parents.empty())
     {
         int delta = 0;
-        if (_eventCallback.valid()) --delta;
-        if (nc) ++delta;
+        if (_eventCallback.valid()) 
+            --delta;
+        if (nc) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -325,7 +339,8 @@ void Node::setEventCallback(Callback* nc)
 void Node::setNumChildrenRequiringEventTraversal(unsigned int num)
 {
     // if no changes just return.
-    if (_numChildrenRequiringEventTraversal==num) return;
+    if (_numChildrenRequiringEventTraversal==num) 
+        return;
 
     // note, if _EventCallback is set then the
     // parents won't be affected by any changes to
@@ -335,8 +350,10 @@ void Node::setNumChildrenRequiringEventTraversal(unsigned int num)
 
         // need to pass on changes to parents.
         int delta = 0;
-        if (_numChildrenRequiringEventTraversal>0) --delta;
-        if (num>0) ++delta;
+        if (_numChildrenRequiringEventTraversal>0) 
+            --delta;
+        if (num>0) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -362,7 +379,8 @@ void Node::setNumChildrenRequiringEventTraversal(unsigned int num)
 void Node::setCullingActive(bool active)
 {
     // if no changes just return.
-    if (_cullingActive == active) return;
+    if (_cullingActive == active) 
+        return;
 
     // culling active has been changed, will need to update
     // both _cullActive and possibly the parents numChildrenWithCullingDisabled
@@ -375,8 +393,10 @@ void Node::setCullingActive(bool active)
     if (_numChildrenWithCullingDisabled==0 && !_parents.empty())
     {
         int delta = 0;
-        if (!_cullingActive) --delta;
-        if (!active) ++delta;
+        if (!_cullingActive) 
+            --delta;
+        if (!active) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -400,7 +420,8 @@ void Node::setCullingActive(bool active)
 void Node::setNumChildrenWithCullingDisabled(unsigned int num)
 {
     // if no changes just return.
-    if (_numChildrenWithCullingDisabled==num) return;
+    if (_numChildrenWithCullingDisabled==num) 
+        return;
 
     // note, if _cullingActive is false then the
     // parents won't be affected by any changes to
@@ -410,8 +431,10 @@ void Node::setNumChildrenWithCullingDisabled(unsigned int num)
 
         // need to pass on changes to parents.
         int delta = 0;
-        if (_numChildrenWithCullingDisabled>0) --delta;
-        if (num>0) ++delta;
+        if (_numChildrenWithCullingDisabled>0) 
+            --delta;
+        if (num>0) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -437,7 +460,8 @@ void Node::setNumChildrenWithCullingDisabled(unsigned int num)
 void Node::setNumChildrenWithOccluderNodes(unsigned int num)
 {
     // if no changes just return.
-    if (_numChildrenWithOccluderNodes==num) return;
+    if (_numChildrenWithOccluderNodes==num) 
+        return;
 
     // note, if this node is a OccluderNode then the
     // parents won't be affected by any changes to
@@ -447,8 +471,10 @@ void Node::setNumChildrenWithOccluderNodes(unsigned int num)
 
         // need to pass on changes to parents.
         int delta = 0;
-        if (_numChildrenWithOccluderNodes>0) --delta;
-        if (num>0) ++delta;
+        if (_numChildrenWithOccluderNodes>0) 
+            --delta;
+        if (num>0) 
+            ++delta;
         if (delta!=0)
         {
             // the number of callbacks has changed, need to pass this
@@ -500,8 +526,10 @@ static const Node::DescriptionList& getStaticDescriptionList()
 
 const Node::DescriptionList& Node::getDescriptions() const
 {
-    if (_userDataContainer) return _userDataContainer->getDescriptions();
-    else return getStaticDescriptionList();
+    if (_userDataContainer) 
+        return _userDataContainer->getDescriptions();
+    else 
+        return getStaticDescriptionList();
 }
 
 std::string& Node::getDescription(unsigned int i)
@@ -511,8 +539,10 @@ std::string& Node::getDescription(unsigned int i)
 
 const std::string& Node::getDescription(unsigned int i) const
 {
-    if (_userDataContainer) return _userDataContainer->getDescriptions()[i];
-    else return getStaticDescriptionList()[i];
+    if (_userDataContainer) 
+        return _userDataContainer->getDescriptions()[i];
+    else 
+        return getStaticDescriptionList()[i];
 }
 
 unsigned int Node::getNumDescriptions() const
@@ -552,26 +582,38 @@ void Node::setThreadSafeRefUnref(bool threadSafe)
 {
     Object::setThreadSafeRefUnref(threadSafe);
 
-    if (_stateset.valid()) _stateset->setThreadSafeRefUnref(threadSafe);
-    if (_updateCallback.valid()) _updateCallback->setThreadSafeRefUnref(threadSafe);
-    if (_eventCallback.valid()) _eventCallback->setThreadSafeRefUnref(threadSafe);
-    if (_cullCallback.valid()) _cullCallback->setThreadSafeRefUnref(threadSafe);
+    if (_stateset.valid()) 
+        _stateset->setThreadSafeRefUnref(threadSafe);
+    if (_updateCallback.valid()) 
+        _updateCallback->setThreadSafeRefUnref(threadSafe);
+    if (_eventCallback.valid()) 
+        _eventCallback->setThreadSafeRefUnref(threadSafe);
+    if (_cullCallback.valid()) 
+        _cullCallback->setThreadSafeRefUnref(threadSafe);
 }
 
 void Node::resizeGLObjectBuffers(unsigned int maxSize)
 {
-    if (_stateset.valid()) _stateset->resizeGLObjectBuffers(maxSize);
-    if (_updateCallback.valid()) _updateCallback->resizeGLObjectBuffers(maxSize);
-    if (_eventCallback.valid()) _eventCallback->resizeGLObjectBuffers(maxSize);
-    if (_cullCallback.valid()) _cullCallback->resizeGLObjectBuffers(maxSize);
+    if (_stateset.valid()) 
+        _stateset->resizeGLObjectBuffers(maxSize);
+    if (_updateCallback.valid()) 
+        _updateCallback->resizeGLObjectBuffers(maxSize);
+    if (_eventCallback.valid()) 
+        _eventCallback->resizeGLObjectBuffers(maxSize);
+    if (_cullCallback.valid()) 
+        _cullCallback->resizeGLObjectBuffers(maxSize);
 }
 
 void Node::releaseGLObjects(osg::State* state) const
 {
-    if (_stateset.valid()) _stateset->releaseGLObjects(state);
-    if (_updateCallback.valid()) _updateCallback->releaseGLObjects(state);
-    if (_eventCallback.valid()) _eventCallback->releaseGLObjects(state);
-    if (_cullCallback.valid()) _cullCallback->releaseGLObjects(state);
+    if (_stateset.valid()) 
+        _stateset->releaseGLObjects(state);
+    if (_updateCallback.valid()) 
+        _updateCallback->releaseGLObjects(state);
+    if (_eventCallback.valid()) 
+        _eventCallback->releaseGLObjects(state);
+    if (_cullCallback.valid()) 
+        _cullCallback->releaseGLObjects(state);
 }
 
 

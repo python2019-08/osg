@@ -17,6 +17,8 @@
 #include <osg/Node>
 #include <osg/NodeVisitor>
 
+#include <mutex> // abner-added 
+
 namespace osg {
 
 typedef std::vector< ref_ptr<Node> > NodeList;
@@ -96,6 +98,7 @@ class OSG_EXPORT Group : public Node
         */
         inline bool removeChild( unsigned int pos, unsigned int numChildrenToRemove=1 )
         {
+            std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
             if (pos<_children.size()) 
               return removeChildren(pos,numChildrenToRemove);
             else 
@@ -132,19 +135,21 @@ class OSG_EXPORT Group : public Node
         virtual bool setChild( unsigned  int i, Node* node );
 
         /** Return child node at position i. */
-        inline Node* getChild( unsigned  int i ) { 
+        inline Node* getChild( unsigned  int i ) {
+          std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added  
           return _children[i].get(); 
         }
 
         /** Return child node at position i. */
         inline const Node* getChild( unsigned  int i ) const { 
+          std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
           return _children[i].get(); 
         }
 
         /** Return true if node is contained within Group. */
         inline bool containsNode( const Node* node ) const
         {
-
+            std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
             for (NodeList::const_iterator itr=_children.begin();
                  itr!=_children.end();
                  ++itr)
@@ -165,6 +170,7 @@ class OSG_EXPORT Group : public Node
         */
         inline unsigned int getChildIndex( const Node* node ) const
         {
+            std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
             for (unsigned int childNum=0;childNum<_children.size();++childNum)
             {
                 if (_children[childNum]==node) 
@@ -199,6 +205,7 @@ class OSG_EXPORT Group : public Node
 
         NodeList _children;
 
+        mutable std::recursive_mutex  _childrenMutex;// abner-added 
 
 };
 

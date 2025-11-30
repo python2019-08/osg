@@ -564,10 +564,21 @@ public:
         setUsage( _getter!=0, _setter!=0);
     }
 
-    virtual bool set(osg::Object& obj, void* value) { C& object = OBJECT_CAST<C&>(obj); (object.*_setter)( dynamic_cast<P*>(*(reinterpret_cast<osg::Object**>(value))) ); return true; }
-    virtual bool get(const osg::Object& obj, void* value) { const C& object = OBJECT_CAST<const C&>(obj);*(reinterpret_cast<const osg::Object**>(value )) = dynamic_cast<const osg::Object*>((object.*_getter)()); return true; }
+    virtual bool set(osg::Object& obj, void* value) { 
+        C& object = OBJECT_CAST<C&>(obj); 
+        (object.*_setter)( dynamic_cast<P*>(*(reinterpret_cast<osg::Object**>(value))) ); 
+        return true; 
+    }
+    virtual bool get(const osg::Object& obj, void* value) 
+    { 
+        const C& object = OBJECT_CAST<const C&>(obj);
+        *(reinterpret_cast<const osg::Object**>(value )) = dynamic_cast<const osg::Object*>((object.*_getter)()); 
+        return true; 
+    }
 
-    virtual const std::string& getName() const { return _name; }
+    virtual const std::string& getName() const { 
+        return _name; 
+    }
 
     virtual bool read( InputStream& is, osg::Object& obj )
     {
@@ -600,6 +611,99 @@ public:
     {
         const C& object = OBJECT_CAST<const C&>(obj);
         const P* value = (object.*_getter)();
+        bool hasObject = (value!=NULL);
+        if ( os.isBinary() )
+        {
+            os << hasObject;
+            if (hasObject)
+            {
+                os.writeObject( value );
+            }
+        }
+        else if ( _defaultValue!=value )
+        {
+            os << os.PROPERTY(_name.c_str()) << hasObject;
+            if ( hasObject )
+            {
+                os << os.BEGIN_BRACKET << std::endl;
+                os.writeObject( value );
+                os << os.END_BRACKET;
+            }
+            os << std::endl;
+        }
+        return true;
+    }
+
+public:
+    std::string     _name;
+    osg::ref_ptr<P> _defaultValue;
+    Getter          _getter;
+    Setter          _setter;
+};
+
+
+
+template<typename C, typename P> //abner-added ,for osg::ref<P>
+class ObjectSerializer01 : public BaseSerializer
+{
+public:
+    typedef const osg::ref_ptr<P> (C::*Getter)() const;
+    typedef void (C::*Setter)( P* );
+
+    ObjectSerializer01( const char* name, P* def, Getter gf, Setter sf ) :
+        BaseSerializer(READ_WRITE_PROPERTY),
+        _name(name), _defaultValue(def), _getter(gf), _setter(sf)
+    {
+        setUsage( _getter!=0, _setter!=0);
+    }
+
+    virtual bool set(osg::Object& obj, void* value) { 
+        C& object = OBJECT_CAST<C&>(obj); 
+        (object.*_setter)( dynamic_cast<P*>(*(reinterpret_cast<osg::Object**>(value))) ); 
+        return true; 
+    }
+    virtual bool get(const osg::Object& obj, void* value) 
+    { 
+        const C& object = OBJECT_CAST<const C&>(obj);
+        *(reinterpret_cast<const osg::Object**>(value )) = dynamic_cast<const osg::Object*>((object.*_getter)().get()); 
+        return true; 
+    }
+
+    virtual const std::string& getName() const { 
+        return _name; 
+    }
+
+    virtual bool read( InputStream& is, osg::Object& obj )
+    {
+        C& object = OBJECT_CAST<C&>(obj);
+        bool hasObject = false;
+        if ( is.isBinary() )
+        {
+            is >> hasObject;
+            if ( hasObject )
+            {
+                osg::ref_ptr<P> value = is.readObjectOfType<P>();
+                (object.*_setter)( value.get() );
+            }
+        }
+        else if ( is.matchString(_name) )
+        {
+            is >> hasObject;
+            if ( hasObject )
+            {
+                is >> is.BEGIN_BRACKET;
+                osg::ref_ptr<P> value = is.readObjectOfType<P>();
+                (object.*_setter)( value.get() );
+                is >> is.END_BRACKET;
+            }
+        }
+        return true;
+    }
+
+    virtual bool write( OutputStream& os, const osg::Object& obj )
+    {
+        const C& object = OBJECT_CAST<const C&>(obj);
+        const P* value = (object.*_getter)().get();
         bool hasObject = (value!=NULL);
         if ( os.isBinary() )
         {
@@ -1813,6 +1917,10 @@ protected:
 #define ADD_OBJECT_SERIALIZER(PROP, TYPE, DEF) \
     wrapper->addSerializer( new osgDB::ObjectSerializer< MyClass, TYPE >( \
         #PROP, DEF, &MyClass::get##PROP, &MyClass::set##PROP), osgDB::BaseSerializer::RW_OBJECT )
+
+#define ADD_OBJECT_SERIALIZER01(PROP, TYPE, DEF) \
+    wrapper->addSerializer( new osgDB::ObjectSerializer01< MyClass, TYPE >( \
+        #PROP, DEF, &MyClass::get##PROP, &MyClass::set##PROP), osgDB::BaseSerializer::RW_OBJECT )        
 
 #define ADD_OBJECT_SERIALIZER_NO_SET(PROP, TYPE, DEF) \
     wrapper->addSerializer( new osgDB::ObjectSerializer< MyClass, TYPE >( \

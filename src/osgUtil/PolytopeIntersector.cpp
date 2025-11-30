@@ -95,7 +95,8 @@ struct IntersectFunctor
         {
             center += *itr;
             double d = referencePlane.distance(*itr);
-            if (d>maxDistance) maxDistance = d;
+            if (d>maxDistance) 
+                maxDistance = d;
 
         }
 
@@ -110,8 +111,10 @@ struct IntersectFunctor
         intersection.matrix = _settings->_iv->getModelMatrix();
         intersection.localIntersectionPoint = center;
 
-        if (src.size()<PolytopeIntersector::Intersection::MaxNumIntesectionPoints) intersection.numIntersectionPoints = src.size();
-        else intersection.numIntersectionPoints = PolytopeIntersector::Intersection::MaxNumIntesectionPoints;
+        if (src.size()<PolytopeIntersector::Intersection::MaxNumIntesectionPoints) 
+            intersection.numIntersectionPoints = src.size();
+        else 
+            intersection.numIntersectionPoints = PolytopeIntersector::Intersection::MaxNumIntesectionPoints;
 
         for(unsigned int i=0; i<intersection.numIntersectionPoints; ++i)
         {
@@ -132,7 +135,8 @@ struct IntersectFunctor
         const osg::Polytope::PlaneList& planeList = polytope.getPlaneList();
 
         osg::Polytope::ClippingMask resultMask = polytope.getCurrentMask();
-        if (!resultMask) return true;
+        if (!resultMask) 
+            return true;
 
         osg::Polytope::ClippingMask selector_mask = 0x1;
 
@@ -254,7 +258,8 @@ struct IntersectFunctor
 
     void operator()(const osg::Vec3& v0, bool /*treatVertexDataAsTemporary*/)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         if ((_settings->_primitiveMask&PolytopeIntersector::POINT_PRIMITIVES)==0)
         {
@@ -299,7 +304,8 @@ struct IntersectFunctor
     // handle lines
     void operator()(const osg::Vec3& v0, const osg::Vec3& v1, bool /*treatVertexDataAsTemporary*/)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         if ((_settings->_primitiveMask&PolytopeIntersector::LINE_PRIMITIVES)==0)
         {
@@ -321,7 +327,8 @@ struct IntersectFunctor
     // handle triangles
     void operator()(const osg::Vec3& v0, const osg::Vec3& v1, const osg::Vec3& v2, bool /*treatVertexDataAsTemporary*/)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0)
         {
@@ -342,9 +349,14 @@ struct IntersectFunctor
         ++_primitiveIndex;
     }
 
-    void operator()(const osg::Vec3& v0, const osg::Vec3& v1, const osg::Vec3& v2, const osg::Vec3& v3, bool /*treatVertexDataAsTemporary*/)
+    void operator()(const osg::Vec3& v0, 
+        const osg::Vec3& v1, 
+        const osg::Vec3& v2, 
+        const osg::Vec3& v3, 
+        bool /*treatVertexDataAsTemporary*/)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
         if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0)
         {
@@ -369,9 +381,11 @@ struct IntersectFunctor
 
     void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
-        if ((_settings->_primitiveMask&PolytopeIntersector::POINT_PRIMITIVES)==0) return;
+        if ((_settings->_primitiveMask&PolytopeIntersector::POINT_PRIMITIVES)==0) 
+            return;
 
         if (contains((*vertices)[p0]))
         {
@@ -381,11 +395,14 @@ struct IntersectFunctor
         }
     }
 
-    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0, unsigned int p1)
+    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, 
+        unsigned int p0, unsigned int p1)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
-        if ((_settings->_primitiveMask&PolytopeIntersector::LINE_PRIMITIVES)==0) return;
+        if ((_settings->_primitiveMask&PolytopeIntersector::LINE_PRIMITIVES)==0) 
+            return;
 
         if (contains((*vertices)[p0], (*vertices)[p1]))
         {
@@ -395,11 +412,14 @@ struct IntersectFunctor
         }
     }
 
-    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0, unsigned int p1, unsigned int p2)
+    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, 
+        unsigned int p0, unsigned int p1, unsigned int p2)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
-        if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0) return;
+        if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0) 
+            return;
 
         if (contains((*vertices)[p0], (*vertices)[p1], (*vertices)[p2]))
         {
@@ -409,11 +429,14 @@ struct IntersectFunctor
         }
     }
 
-    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3)
+    void intersect(const osg::Vec3Array* vertices, int primitiveIndex, 
+        unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3)
     {
-        if (_settings->_limitOneIntersection && _hit) return;
+        if (_settings->_limitOneIntersection && _hit) 
+            return;
 
-        if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0) return;
+        if ((_settings->_primitiveMask&PolytopeIntersector::TRIANGLE_PRIMITIVES)==0) 
+            return;
 
         if (contains((*vertices)[p0], (*vertices)[p1], (*vertices)[p2], (*vertices)[p3]))
         {
@@ -498,22 +521,32 @@ Intersector* PolytopeIntersector::clone(osgUtil::IntersectionVisitor& iv)
     switch (_coordinateFrame)
     {
         case(WINDOW):
-            if (iv.getWindowMatrix()) matrix.preMult( *iv.getWindowMatrix() );
-            if (iv.getProjectionMatrix()) matrix.preMult( *iv.getProjectionMatrix() );
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getWindowMatrix()) 
+                matrix.preMult( *iv.getWindowMatrix() );
+            if (iv.getProjectionMatrix()) 
+                matrix.preMult( *iv.getProjectionMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(PROJECTION):
-            if (iv.getProjectionMatrix()) matrix.preMult( *iv.getProjectionMatrix() );
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getProjectionMatrix()) 
+                matrix.preMult( *iv.getProjectionMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(VIEW):
-            if (iv.getViewMatrix()) matrix.preMult( *iv.getViewMatrix() );
-            if (iv.getModelMatrix()) matrix.preMult( *iv.getModelMatrix() );
+            if (iv.getViewMatrix()) 
+                matrix.preMult( *iv.getViewMatrix() );
+            if (iv.getModelMatrix()) 
+                matrix.preMult( *iv.getModelMatrix() );
             break;
         case(MODEL):
-            if (iv.getModelMatrix()) matrix = *iv.getModelMatrix();
+            if (iv.getModelMatrix()) 
+                matrix = *iv.getModelMatrix();
             break;
     }
 
@@ -532,7 +565,8 @@ Intersector* PolytopeIntersector::clone(osgUtil::IntersectionVisitor& iv)
 
 bool PolytopeIntersector::enter(const osg::Node& node)
 {
-    if (reachedLimit()) return false;
+    if (reachedLimit()) 
+        return false;
     return !node.isCullingActive() || _polytope.contains( node.getBound() );
 }
 
@@ -546,9 +580,11 @@ void PolytopeIntersector::leave()
 
 void PolytopeIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Drawable* drawable)
 {
-    if (reachedLimit()) return;
+    if (reachedLimit()) 
+        return;
 
-    if ( !_polytope.contains( drawable->getBoundingBox() ) ) return;
+    if ( !_polytope.contains( drawable->getBoundingBox() ) ) 
+        return;
 
     osg::ref_ptr<PolytopeIntersectorUtils::Settings> settings = new PolytopeIntersectorUtils::Settings;
     settings->_polytopeIntersector = this;
@@ -557,23 +593,29 @@ void PolytopeIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Drawa
     settings->_limitOneIntersection = (_intersectionLimit == LIMIT_ONE_PER_DRAWABLE || _intersectionLimit == LIMIT_ONE);
     settings->_primitiveMask = _primitiveMask;
 
-    osg::KdTree* kdTree = iv.getUseKdTreeWhenAvailable() ? dynamic_cast<osg::KdTree*>(drawable->getShape()) : 0;
+    osg::ref_ptr<osg::Shape > shp= drawable->getShape();
+
+    osg::KdTree* kdTree = iv.getUseKdTreeWhenAvailable() ? dynamic_cast<osg::KdTree*>(shp.get()) : 0;
 
     if (getPrecisionHint()==USE_DOUBLE_CALCULATIONS)
     {
         osg::TemplatePrimitiveFunctor<PolytopeIntersectorUtils::IntersectFunctor<osg::Vec3d> > intersector;
         intersector._settings = settings;
 
-        if (kdTree) kdTree->intersect(intersector, kdTree->getNode(0));
-        else drawable->accept(intersector);
+        if (kdTree) 
+            kdTree->intersect(intersector, kdTree->getNode(0));
+        else 
+            drawable->accept(intersector);
     }
     else
     {
         osg::TemplatePrimitiveFunctor<PolytopeIntersectorUtils::IntersectFunctor<osg::Vec3f> > intersector;
         intersector._settings = settings;
 
-        if (kdTree) kdTree->intersect(intersector, kdTree->getNode(0));
-        else drawable->accept(intersector);
+        if (kdTree) 
+            kdTree->intersect(intersector, kdTree->getNode(0));
+        else 
+            drawable->accept(intersector);
     }
 }
 

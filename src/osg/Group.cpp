@@ -22,7 +22,7 @@
 #include <math.h>
 
 #include <algorithm>
-
+#include <mutex> // abner-added 
 using namespace osg;
 
 Group::Group()
@@ -44,6 +44,8 @@ Group::Group(const Group& group,const CopyOp& copyop):
 
 Group::~Group()
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
+
     // remove reference to this from children's parent lists.
     for(NodeList::iterator itr=_children.begin();
         itr!=_children.end();
@@ -57,17 +59,40 @@ Group::~Group()
 
 void Group::traverse(NodeVisitor& nv)
 {
-    for(NodeList::iterator itr=_children.begin();
-        itr!=_children.end();
+
+    ///////////////////////////////////////////////////
+    // ------raw code 
+    // for(NodeList::iterator itr=_children.begin();
+    //     itr!=_children.end();
+    //     ++itr)
+    // {
+    //     (*itr)->accept(nv);
+    // }
+    ///////////////////////////////////////////////////
+    // ------abner modified
+    // 创建子节点快照，避免遍历过程中被修改
+    NodeList childrenSnapshot;
+    {
+        std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);
+        childrenSnapshot = _children;  // 复制列表
+    }
+    
+    // 安全遍历快照
+    for(NodeList::iterator itr = childrenSnapshot.begin();
+        itr != childrenSnapshot.end();
         ++itr)
     {
-        (*itr)->accept(nv);
-    }
+        if (itr->valid()) {
+            (*itr)->accept(nv);
+        }
+    }   
+    /////////////////////////////////////////////////// 
 }
 
 
 bool Group::addChild( Node *child )
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
     return Group::insertChild( _children.size(), child );
 }
 
@@ -89,7 +114,7 @@ bool Group::insertChild( unsigned int index, Node *child )
     if (geometry && geometry->containsDeprecatedData()) 
         geometry->fixDeprecatedData();
 
-
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
     // note ref_ptr<> automatically handles incrementing child's reference count.
     if (index >= _children.size())
     {
@@ -152,21 +177,27 @@ bool Group::insertChild( unsigned int index, Node *child )
 
 unsigned int Group::getNumChildren() const
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
     return static_cast<unsigned int>(_children.size());
 }
 
 
 bool Group::removeChild( Node *child )
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
+
     unsigned int pos = getChildIndex(child);
     if (pos<_children.size()) 
         return removeChildren(pos,1);
-    else return false;
+    else 
+        return false;
 }
 
 
 bool Group::removeChildren(unsigned int pos,unsigned int numChildrenToRemove)
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
+
     if (pos<_children.size() && numChildrenToRemove>0)
     {
         unsigned int endOfRemoveRange = pos+numChildrenToRemove;
@@ -239,6 +270,8 @@ bool Group::replaceChild( Node *origNode, Node *newNode )
     if (newNode==NULL || origNode==newNode) 
         return false;
 
+
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex); // abner-added    
     unsigned int pos = getChildIndex(origNode);
     if (pos<_children.size())
     {
@@ -250,6 +283,8 @@ bool Group::replaceChild( Node *origNode, Node *newNode )
 
 bool Group::setChild( unsigned  int i, Node* newNode )
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
+
     if (i<_children.size() && newNode)
     {
 
@@ -360,6 +395,8 @@ bool Group::setChild( unsigned  int i, Node* newNode )
 
 BoundingSphere Group::computeBound() const
 {
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
+
     BoundingSphere bsphere;
     if (_children.empty())
     {
@@ -421,6 +458,7 @@ void Group::setThreadSafeRefUnref(bool threadSafe)
 {
     Node::setThreadSafeRefUnref(threadSafe);
 
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex); // abner-added    
     for(NodeList::const_iterator itr=_children.begin();
         itr!=_children.end();
         ++itr)
@@ -433,6 +471,7 @@ void Group::resizeGLObjectBuffers(unsigned int maxSize)
 {
     Node::resizeGLObjectBuffers(maxSize);
 
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
     for(NodeList::const_iterator itr=_children.begin();
         itr!=_children.end();
         ++itr)
@@ -445,6 +484,7 @@ void Group::releaseGLObjects(osg::State* state) const
 {
     Node::releaseGLObjects(state);
 
+    std::lock_guard<std::recursive_mutex>  lock(_childrenMutex);// abner-added 
     for(NodeList::const_iterator itr=_children.begin();
         itr!=_children.end();
         ++itr)

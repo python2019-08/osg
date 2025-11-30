@@ -439,8 +439,11 @@ LineSegmentIntersector::LineSegmentIntersector(const osg::Vec3d& start, const os
 {
 }
 
-LineSegmentIntersector::LineSegmentIntersector(CoordinateFrame cf, const osg::Vec3d& start, const osg::Vec3d& end,
-                                               LineSegmentIntersector* parent, osgUtil::Intersector::IntersectionLimit intersectionLimit):
+LineSegmentIntersector::LineSegmentIntersector(CoordinateFrame cf, 
+    const osg::Vec3d& start, 
+    const osg::Vec3d& end,
+    LineSegmentIntersector* parent, 
+    osgUtil::Intersector::IntersectionLimit intersectionLimit):
     Intersector(cf, intersectionLimit),
     _parent(parent),
     _start(start),
@@ -587,7 +590,8 @@ void LineSegmentIntersector::intersect(osgUtil::IntersectionVisitor& iv, osg::Dr
         settings._vertices = dynamic_cast<osg::Vec3Array*>(geometry->getVertexArray());
     }
 
-    osg::KdTree* kdTree = iv.getUseKdTreeWhenAvailable() ? dynamic_cast<osg::KdTree*>(drawable->getShape()) : 0;
+    osg::ref_ptr<osg::Shape> shpRef = drawable->getShape();
+    osg::KdTree* kdTree = iv.getUseKdTreeWhenAvailable() ? dynamic_cast<osg::KdTree*>( shpRef.get() ) : 0;
 
     if (getPrecisionHint()==USE_DOUBLE_CALCULATIONS)
     {

@@ -523,8 +523,11 @@ KdTreeBuilder::KdTreeBuilder(const KdTreeBuilder& rhs):
 
 void KdTreeBuilder::apply(osg::Geometry& geometry)
 {
-    osg::KdTree* previous = dynamic_cast<osg::KdTree*>(geometry.getShape());
-    if (previous) return;
+    // osg::KdTree* previous = dynamic_cast<osg::KdTree*>( prevShape.etShape() );
+    osg::ref_ptr<osg::Shape> prevShape = geometry.getShape();// abner-added
+    osg::KdTree* previous = dynamic_cast<osg::KdTree*>(prevShape.get());
+    if (previous) 
+        return;
 
     osg::ref_ptr<osg::KdTree> kdTree = osg::clone(_kdTreePrototype.get());
 

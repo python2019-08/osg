@@ -49,7 +49,8 @@ Material::~Material()
 
 Material& Material:: operator = (const Material& rhs)
 {
-    if (&rhs==this) return *this;
+    if (&rhs==this) 
+        return *this;
 
     _colorMode= rhs._colorMode;
     _ambientFrontAndBack= rhs._ambientFrontAndBack;

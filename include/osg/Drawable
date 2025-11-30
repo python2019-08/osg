@@ -185,16 +185,37 @@ class OSG_EXPORT Drawable : public Node
          *  geometry generation.
          * @see osg::Shape.
         */
-        virtual void setShape(Shape* shape) { _shape = shape; }
+        virtual void setShape(Shape* shape) { 
+            OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_shapeMutex);// abner-added,线程安全的setShape
+            _shape = shape; 
+        }
 
-        template<class T> void setShape(const ref_ptr<T>& shape) { setShape(shape.get()); }
+        template<class T> void setShape(const ref_ptr<T>& shape) { 
+            // setShape(shape.get()); // raw code
+            
+            // abner-added,start
+            OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_shapeMutex);
+            _shape = shape; 
+            // abner-added,end
+        }
 
-        /** Get the Shape of the Drawable.*/
-        inline Shape* getShape() { return _shape.get(); }
+        // /** Get the Shape of the Drawable.*/
+        // inline Shape* getShape() { return _shape.get(); }// abner: raw code,not thread-safe
 
-        /** Get the const Shape of the const Drawable.*/
-        inline const Shape* getShape() const { return _shape.get(); }
-
+        // /** Get the const Shape of the const Drawable.*/
+        // inline const Shape* getShape() const { return _shape.get(); }// abner: raw code,not thread-safe
+        
+        // abner-added,start : 返回智能指针，保证线程安全
+        ref_ptr<Shape> getShape() {
+            OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_shapeMutex);
+            return _shape;
+        }
+        
+        const ref_ptr<Shape> getShape() const {
+            OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_shapeMutex);
+            return _shape;
+        }
+        // abner-added,end
 
 
         /** Set the drawable so that it can or cannot be used in conjunction with OpenGL
@@ -528,6 +549,7 @@ class OSG_EXPORT Drawable : public Node
         ref_ptr<ComputeBoundingBoxCallback> _computeBoundingBoxCallback;
         mutable BoundingBox                 _boundingBox;
 
+        mutable OpenThreads::Mutex _shapeMutex;
         ref_ptr<Shape>          _shape;
 
         bool                    _supportsDisplayList;

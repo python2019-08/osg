@@ -42,9 +42,11 @@ ShapeDrawable::~ShapeDrawable()
 
 void ShapeDrawable::setShape(Shape* shape)
 {
-    if (_shape==shape) return;
+    if (_shape==shape) 
+        return;
 
-    _shape = shape;
+    // _shape = shape;// raw code
+    Drawable::setShape(shape);
 
     build();
 }

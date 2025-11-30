@@ -1805,7 +1805,7 @@ void ConvertToInventor::processShapeDrawable(const osg::ShapeDrawable *d, Invent
   } shapeVisitor(ivState);
 
   // convert ShapeDrawable
-  const osg::Shape *shape = d->getShape();
+  const osg::ref_ptr<osg::Shape> shape = d->getShape();
   if (shape)
     shape->accept(shapeVisitor);
 }
